@@ -6,11 +6,11 @@ import { User } from "@/model"
 import { z } from "zod"
 
 const signUpSchema = z.object({
-    firstname: z.string().min(2),
-    lastname: z.string().min(2),
-    email: z.string().email(),
-    password: z.string().min(8).max(32),
-    confirmPassword: z.string().min(8).max(32)
+    firstname: z.string().min(2, { message: "Minimum 2 caractères" }),
+    lastname: z.string().min(2, { message: "Minimum 2 caractères" }),
+    email: z.string().email({ message: "Format d'email incorrect"}),
+    password: z.string().min(8, { message: "Minimum 8 caractères"}).max(32, {message: "Maximum 32 caractères"}),
+    confirmPassword: z.string().min(8, { message: "Minimum 8 caractères"}).max(32, {message: "Maximum 32 caractères"})
 })
 
 export const signUpAction = async (prev: unknown, formData: FormData) => {
@@ -22,7 +22,7 @@ export const signUpAction = async (prev: unknown, formData: FormData) => {
         confirmPassword: formData.get('confirmPassword')
     })
 
-    if (!result.success) return { }
+    if (!result.success) return { errors: result.error.flatten().fieldErrors }
 
     const { firstname, lastname, email, password, confirmPassword } = result.data
 

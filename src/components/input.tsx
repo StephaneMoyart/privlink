@@ -1,3 +1,5 @@
+'use client'
+
 import { useState } from "react"
 
 type InputProps = {
@@ -6,7 +8,7 @@ type InputProps = {
     type?: string
 }
 
-export const InputWLabel: React.FC<InputProps> = ({ name, label, type = "text" }) => {
+export const InputWLabel: React.FC<InputProps> = ({ name, label, type = "text", state }) => {
     const [hasValue, setHasValue] = useState(false)
 
     return (
@@ -24,10 +26,12 @@ export const InputWLabel: React.FC<InputProps> = ({ name, label, type = "text" }
                 htmlFor={name}
                 className={`absolute left-4 top-3.5 px-2 bg-white text-zinc-500 text-sm transition-all cursor-text
                     ${hasValue ? 'top-[-10px] text-xs' : 'top-3 text-base'}
-                    peer-focus:top-[-10px] peer-focus:text-xs peer-focus:text-zinc-950`}
+                    peer-focus:top-[-10px] peer-focus:text-xs peer-focus:text-zinc-950
+                `}
             >
                 {label}
             </label>
+            {state?.errors?.[name] && <p className="text-red-500">{state.errors[name]}</p>}
         </div>
     )
 }
