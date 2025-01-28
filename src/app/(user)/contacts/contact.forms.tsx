@@ -3,11 +3,13 @@
 import { useActionState, useEffect, useState } from "react"
 import { useDebounceValue } from "@/hooks/use-debounce-value"
 import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
+import { UserAvatar } from "@/components/user-avatar"
 
 type UserTypes = {
     _id: string
     firstname: string
     lastname: string
+    avatarUrl: string
 }
 
 export const SearchUserForm = () => {
@@ -37,22 +39,28 @@ export const SearchUserForm = () => {
 
     return (
         <form className="flex gap-1" action={action}>
-            <div>
+            <div className="border shadow focus-within:border-zinc-950 transition-all duration-300">
                 {isSearchVisible &&
                     <input
+                        className="w-[350px] h-12 p-4 outline-none"
                         placeholder="ajouter un membre"
                         onChange={e => setQuery(e.target.value)}
                         value={query}
                     />
                 }
-                {queryResult.map(user => (
-                    <div key={user._id}
+                {queryResult.map(({_id, firstname, lastname, avatarUrl}) => (
+                    <div className="flex w-[350px] gap-2 items-center h-12 p-4" key={_id}
                         onClick={() => {
                             setIsSearchVisible(false)
-                            setInvitedUserId(user._id)
+                            setInvitedUserId(_id)
                         }}
                     >
-                        {user.firstname} {user.lastname}
+                        <div className="h-8 w-8 rounded-full overflow-hidden">
+                            <UserAvatar avatarUrl={avatarUrl} height={32} width={32}/>
+                        </div>
+                        <p>
+                            {firstname} {lastname}
+                        </p>
                     </div>
                 ))}
             </div>

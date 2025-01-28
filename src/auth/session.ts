@@ -10,6 +10,14 @@ type SessionPayload = {
     expiresAt: Date
 }
 
+type UserSession = {
+    _id: string
+    firstname: string
+    lastname: string
+    avatarUrl: string
+    contacts: string[]
+}
+
 const secretKey = process.env.JWT_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
 
@@ -50,8 +58,17 @@ export async function getSession() {
     await connectDB()
     const user = await User.findById(userId)
     if (!user) { throw new Error("User not found") }
+    console.log(user);
 
-    return user
+    const session: UserSession = {
+        _id: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        avatarUrl: user.avatarUrl,
+        contacts: user.contacts
+    }
+
+    return session
 }
 
 export async function deleteSession() {

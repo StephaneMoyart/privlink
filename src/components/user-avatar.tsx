@@ -2,6 +2,7 @@ import Image from "next/image"
 import { User } from "lucide-react"
 
 type UserAvatarProps = {
+    avatarUrl: string
     height: number
     width: number
 }

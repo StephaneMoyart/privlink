@@ -22,7 +22,7 @@ export const getUserByQueryAction = async (query: string) => {
 
     const users = await User
         .find({ $and: searchCriteria })
-        .select('firstname lastname _id')
+        .select('firstname lastname avatarUrl _id')
 
     return users.map(user => user.toJSON({flattenObjectIds: true}))
 }
@@ -32,8 +32,8 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
     const session = await getSessionOrRedirect()
     // end shield
 
-    const isContact = session.contacts.some(contact => contact.equals(invitedUserId))
-    if (isContact) return { message: "Ce Link existe déjà."}
+    if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
+    if (session._id.equals(invitedUserId)) return { message: "Opération impossible"}
 
     await connectDB()
 
@@ -50,4 +50,13 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
 
     // todoreturn
     return {}
+}
+
+export const getSessionContacts = async () => {
+    const session = await getSessionOrRedirect()
+
+    await connectDB()
+
+    const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
+    return contacts
 }

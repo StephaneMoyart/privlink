@@ -25,7 +25,7 @@ export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
 
     const result = uploadAvatarSchema.safeParse(formData.get('userAvatar'))
 
-    if (!result.success) console.log('nimp')
+    if (!result.success) return {}
     // todoreturn
     const file = result.data
 

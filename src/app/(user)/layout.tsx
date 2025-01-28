@@ -42,7 +42,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                     <p className="max-md:hidden">Deconnexion</p>
                 </button>
             </div>
-            <div className=" w-full h-full bg-yellow-100 p-2">
+            <div className=" w-full h-full p-4">
                 {children}
             </div>
         </div>
