@@ -16,7 +16,7 @@ export const ChangeAvatarForm = () => {
 
     return (
         <form ref={selectForm} className="flex items-center justify-center absolute top-0 left-0 h-full w-full">
-            <label className="flex items-center justify-center w-full h-full bg-transparent" htmlFor="userAvatar">Modifier</label>
+            <label className="opacity-0 flex items-center justify-center w-full h-full bg-transparent text-xl font-bold transition:all duration-500 hover:opacity-100 hover:bg-black/20 hover:cursor-pointer" htmlFor="userAvatar">Modifier</label>
             <input onChange={handleSubmit} type="file" className="hidden" name="userAvatar" id="userAvatar"/>
         </form>
     )

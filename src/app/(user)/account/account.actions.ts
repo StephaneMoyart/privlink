@@ -40,7 +40,7 @@ export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
     await connectDB()
 
     const user = await User.findByIdAndUpdate(
-        session?._id,
+        session._id,
         { avatarUrl },
         { runValidators: true }
     )
