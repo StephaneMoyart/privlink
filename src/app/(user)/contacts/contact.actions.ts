@@ -6,7 +6,7 @@ import { ContactInvitation, User } from "@/model"
 
 export const getUserByQueryAction = async (query: string) => {
     // shield
-    getSessionOrRedirect()
+    const session = await getSessionOrRedirect()
     // end shield
 
     const keywords = query.split(" ").filter(keyword => keyword.trim().length > 0)
@@ -21,7 +21,7 @@ export const getUserByQueryAction = async (query: string) => {
     await connectDB()
 
     const users = await User
-        .find({ $and: searchCriteria })
+        .find({ $and: [...searchCriteria, { _id: { $ne: session._id }}]})
         .select('firstname lastname avatarUrl _id')
 
     return users.map(user => user.toJSON({flattenObjectIds: true}))

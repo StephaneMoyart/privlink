@@ -27,7 +27,10 @@ export const SearchUserForm = () => {
     }
 
     useEffect(() => {
-        if (!debouncedValue) return
+        if (!debouncedValue) {
+            setQueryResult([])
+            return
+        }
 
         (async () => {
             const result = await getUserByQueryAction(debouncedValue)
@@ -65,18 +68,18 @@ export const SearchUserForm = () => {
                 ))}
             </div>
             {invitedUserId &&
-                <button
-                    className="bg-orange-500 hover:bg-orange-600"
-                    onClick={() => handleGlobalResearchReset()}
-                    type="button"
-                >
-                    Annuler
-                </button>
-            }
-            {!isSearchVisible &&
-                <button className="bg-green-500 hover:bg-green-600" type="submit" disabled={pending}>
-                    Ajouter
-                </button>
+                <>
+                    <button
+                        className="bg-orange-500 hover:bg-orange-600"
+                        onClick={() => handleGlobalResearchReset()}
+                        type="button"
+                    >
+                        Annuler
+                    </button>
+                    <button className="bg-green-500 hover:bg-green-600" type="submit" disabled={pending}>
+                        Ajouter
+                    </button>
+                </>
             }
         </form>
     )
