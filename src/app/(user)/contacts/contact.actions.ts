@@ -37,13 +37,11 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
 
     await connectDB()
 
-    console.log('ici');
-
     const isExisting = await ContactInvitation.findOne({
         invitedUser: invitedUserId,
         invitedByUser: session._id
     })
-    if (isExisting) return { message: "Une invitation est déjà en cours."}
+    if (isExisting) return { message: "Une invitation est déjà en cours." }
 
     await ContactInvitation.create({
         invitedUser: invitedUserId,

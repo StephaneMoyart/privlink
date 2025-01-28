@@ -1,14 +1,12 @@
 import Image from "next/image"
-import { getSession } from "./session"
 import { User } from "lucide-react"
 
-type SessionAvatarProps = {
+type UserAvatarProps = {
     height: number
     width: number
 }
 
-export const SessionAvatar: React.FC<SessionAvatarProps> = async ({ height, width }) => {
-    const { avatarUrl } = await getSession()
+export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width }) => {
 
     return (
         <div className="flex justify-center items-center w-full h-full">
