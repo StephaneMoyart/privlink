@@ -9,8 +9,8 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
         <div className="flex w-full h-screen">
             <div className="flex flex-col items-center justify-between h-screen min-w-50 border-r border-black/20 shadow shadow-black/20">
                 <div className="flex flex-col w-full">
-                    <Link className="flex self-center h-[50px] w-[50px] my-4 rounded-full overflow-hidden opacity-100 hover:opacity-90" href="/account">
-                        <SessionAvatar height={50} width={50}/>
+                    <Link className="flex self-center h-[60px] w-[60px] my-4 rounded-full overflow-hidden opacity-100 hover:opacity-90" href="/account">
+                        <SessionAvatar height={60} width={60}/>
                     </Link>
 
                     <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/dashboard">
@@ -25,7 +25,7 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                         <Ticket />
                         <p className="max-md:hidden">Evenements</p>
                     </Link>
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/links">
+                    <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/contacts">
                         <LinkIcon />
                         <p className="max-md:hidden">Links</p>
                     </Link>
