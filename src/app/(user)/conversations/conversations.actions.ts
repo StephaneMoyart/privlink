@@ -15,7 +15,7 @@ export const getSessionConversations = async () => {
             path: 'members',
             select: '_id firstname lastname avatarUrl',
         })
-        .select('_id members')
+        .select('_id multi members')
         .lean()
 
     return conversations.map(conversation => ({...conversation, members: conversation.members.filter(member => !member._id.equals(session._id))}))

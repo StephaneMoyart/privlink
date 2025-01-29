@@ -7,13 +7,30 @@ const conversationSchema = new Schema ({
             ref: 'User'
         }
     ],
-    private: {
+    messages: [
+        {
+            author: {
+                type: Schema.Types.ObjectId,
+                ref: 'User',
+                required: true
+            },
+            content: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: Date,
+                default: Date.now
+            }
+        }
+    ],
+    multi: {
         type: Boolean,
-        required: true
+        default: false
     },
     createdAt: {
         type: Date,
-        default: () => Date.now()
+        default: Date.now
     }
 })
 
