@@ -5,7 +5,6 @@ import { UserAvatar } from "@/components/user-avatar"
 
 const Page = async () => {
     const contacts = await getSessionContacts()
-    console.log(contacts);
 
     return (
         <div className="flex flex-col gap-4">

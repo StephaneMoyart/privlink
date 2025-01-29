@@ -4,8 +4,6 @@ import { AcceptContactInvitationForm, DeclineContactInvitationForm } from "./inv
 
 const Page = async () => {
     const invitations = await getContactInvitations()
-    console.log(invitations);
-
 
     return (
         <div>

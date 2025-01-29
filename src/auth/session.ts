@@ -58,7 +58,6 @@ export async function getSession() {
     await connectDB()
     const user = await User.findById(userId)
     if (!user) { throw new Error("User not found") }
-    console.log(user);
 
     const session: UserSession = {
         _id: user._id,

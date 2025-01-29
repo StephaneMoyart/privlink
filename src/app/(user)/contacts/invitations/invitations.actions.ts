@@ -2,7 +2,7 @@
 
 import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
 import connectDB from "@/db/db"
-import { ContactInvitation, User } from "@/model"
+import { ContactInvitation, Conversation, User } from "@/model"
 import mongoose from "mongoose"
 import { revalidatePath } from "next/cache"
 
@@ -48,6 +48,16 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
             { session: DB }
         )
 
+        await Conversation.create(
+            [{
+                members: [ session._id, invitedByUserId ],
+                private: true
+            }],
+            { session: DB }
+        )
+
+        await ContactInvitation.findByIdAndDelete(invitationId, { session: DB })
+
         await DB.commitTransaction()
     } catch (error) {
         await DB.abortTransaction()
@@ -56,8 +66,6 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
         DB.endSession()
     }
     // end sync DB
-
-    await ContactInvitation.findByIdAndDelete(invitationId)
 
     revalidatePath('/contacts/invitations')
 
