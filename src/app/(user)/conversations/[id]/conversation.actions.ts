@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 const newMessageSchema = z.object({
-    content: z.string()
+    content: z.string().min(1)
 })
 
 export const newMessageAction = async (conversationId: string, prev:unknown, formData: FormData) => {
@@ -32,8 +32,20 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
 
 export const getSelectedConversationAction = async (conversationId) => {
     // shield
+    await getSessionOrRedirect()
+    // end shield
+
+    const conversation = await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
+
+    return conversation.toJSON({ flattenObjectIds: true})
+}
+
+export const deleteMessageAction = async (conversationId, messageId) => {
+    // shield
     const session = await getSessionOrRedirect()
     // end shield
 
-    return await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
+    await Conversation.findByIdAndUpdate(conversationId, { $pull: { messages: { _id: messageId, author: session._id }}})
+
+    revalidatePath('/conversations')
 }

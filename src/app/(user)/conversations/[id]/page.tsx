@@ -38,7 +38,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                         </div>
                         <div>
                             {isOwned(session._id, message.author._id) &&
-                                <MessageSettings/>
+                                <MessageSettings conversationId={id} messageId={message._id}/>
                             }
                         </div>
                     </div>
