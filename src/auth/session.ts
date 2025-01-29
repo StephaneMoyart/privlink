@@ -1,7 +1,6 @@
 import "server-only"
 import { SignJWT } from "jose"
 import { cookies } from "next/headers"
-import connectDB from "@/db/db"
 import { decrypt } from "./decrypt"
 import { User } from "@/model"
 
@@ -55,7 +54,6 @@ export async function getSession() {
 
     const userId = payload.userId
 
-    await connectDB()
     const user = await User.findById(userId)
     if (!user) { throw new Error("User not found") }
 

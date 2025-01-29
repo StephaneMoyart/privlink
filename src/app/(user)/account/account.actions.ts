@@ -1,6 +1,5 @@
 'use server'
 
-import connectDB from "@/db/db"
 import path from "path"
 import fs from 'fs'
 import { revalidatePath } from "next/cache"
@@ -36,8 +35,6 @@ export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
     const avatarUrl = `/images/${fileName}`
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     fs.writeFileSync(filePath, fileBuffer)
-
-    await connectDB()
 
     const user = await User.findByIdAndUpdate(
         session._id,

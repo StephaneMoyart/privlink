@@ -1,7 +1,6 @@
 'use server'
 
 import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
-import connectDB from "@/db/db"
 import { ContactInvitation, User } from "@/model"
 
 export const getUserByQueryAction = async (query: string) => {
@@ -18,8 +17,6 @@ export const getUserByQueryAction = async (query: string) => {
         ]
     }))
 
-    await connectDB()
-
     const users = await User
         .find({ $and: [...searchCriteria, { _id: { $ne: session._id }}]})
         .select('firstname lastname avatarUrl _id')
@@ -34,8 +31,6 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
 
     if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
     if (session._id.equals(invitedUserId)) return { message: "Opération impossible"}
-
-    await connectDB()
 
     const isExisting = await ContactInvitation.findOne({
         invitedUser: invitedUserId,
@@ -53,9 +48,9 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
 }
 
 export const getSessionContacts = async () => {
+    // shield
     const session = await getSessionOrRedirect()
-
-    await connectDB()
+    // end shield
 
     const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
     return contacts

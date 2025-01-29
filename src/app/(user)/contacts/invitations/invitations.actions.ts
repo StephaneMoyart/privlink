@@ -1,7 +1,6 @@
 'use server'
 
 import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
-import connectDB from "@/db/db"
 import { ContactInvitation, Conversation, User } from "@/model"
 import mongoose from "mongoose"
 import { revalidatePath } from "next/cache"
@@ -10,8 +9,6 @@ export const getContactInvitations = async () => {
     // shield
     const session = await getSessionOrRedirect()
     // end shield
-
-    await connectDB()
 
     const invitations = await ContactInvitation
         .find({ invitedUser : session._id })
@@ -28,8 +25,6 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
     if (session.contacts.includes(invitedByUserId)) {
         return await ContactInvitation.findByIdAndDelete(invitationId)
     }
-
-    await connectDB()
 
     // sync DB, success or abort all
     const DB = await mongoose.startSession()
@@ -76,8 +71,6 @@ export const declineContactInvitationAction = async (invitationId: string) => {
     // shield
     await getSessionOrRedirect()
     // end shield
-
-    await connectDB()
 
     await ContactInvitation.findByIdAndDelete(invitationId)
 

@@ -29,3 +29,11 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
 
     revalidatePath('/conversations')
 }
+
+export const getSelectedConversationAction = async (conversationId) => {
+    // shield
+    const session = await getSessionOrRedirect()
+    // end shield
+
+    return await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
+}
