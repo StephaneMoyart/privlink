@@ -36,6 +36,6 @@ const conversationSchema = new Schema ({
     }
 })
 
-type Conversation = InferSchemaType<typeof conversationSchema>
+export type Conversation = InferSchemaType<typeof conversationSchema>
 
 export const Conversation = models.Conversation || model<Conversation>('Conversation', conversationSchema)

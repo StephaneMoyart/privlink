@@ -25,3 +25,20 @@ body {
   background: var(--background);
   font-family: var(--font-geist-mono);
 }
+
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(24, 24, 27);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}

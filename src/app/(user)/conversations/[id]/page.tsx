@@ -15,8 +15,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     const session = await getSessionOrRedirect()
 
     return (
-        <div className="h-full relative">
-            <div className="flex flex-col gap-4">
+        <div className="h-full flex flex-col justify-between">
+            <div className="flex flex-col h-full overflow-y-scroll mb-4 gap-4">
                 {messages.map(message => (
                     <MessageCard key={message._id} message={message} conversationId={id} sessionId={session._id.toString()}/>
                 ))}

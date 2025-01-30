@@ -39,9 +39,7 @@ export const getSelectedConversationAction = async (conversationId) => {
     await getSessionOrRedirect()
     // end shield
 
-    const conversation = await Conversation
-        .findById(conversationId)
-        .populate('messages.author', 'firstname lastname avatarUrl')
+    const conversation = await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
 
     return conversation.toJSON({ flattenObjectIds: true})
 }
@@ -70,10 +68,14 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
 
     const { content } = result.data
 
-    await Conversation.findOneAndUpdate(
-        { _id: conversationId, 'messages._id': messageId, 'messages.author': session._id },
+    console.log(messageId);
+
+    await Conversation.updateOne(
+        { _id: conversationId, 'messages._id': messageId },
+        // todo : check if author is session
         { $set: { "messages.$.content": content }}
     )
+
 
     revalidatePath('/conversations')
 

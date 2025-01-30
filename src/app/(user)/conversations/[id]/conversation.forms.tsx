@@ -8,7 +8,7 @@ export const NewMessageForm = ({ conversationId }) => {
     const [, action, pending] = useActionState(newMessageAction.bind(null, conversationId), null)
 
     return (
-        <form className="absolute rounded-md bottom-0 flex flex-col w-full shadow" action={action}>
+        <form className="flex flex-col w-full rounded-md shadow" action={action}>
             <input
                 className="px-4 h-12 rounded-t-md border outline-none"
                 type="text"
