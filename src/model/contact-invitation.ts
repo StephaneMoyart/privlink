@@ -1,4 +1,4 @@
-import { model, models, Schema } from "mongoose"
+import { InferSchemaType, model, models, Schema } from "mongoose"
 
 const contactInvitationSchema = new Schema ({
     invitedUser: {
@@ -13,8 +13,10 @@ const contactInvitationSchema = new Schema ({
     },
     createdAt: {
         type: Date,
-        default: () => Date.now()
+        default: Date.now
     }
 })
 
-export const ContactInvitation = models.ContactInvitation || model('ContactInvitation', contactInvitationSchema)
+type ContactInvitation = InferSchemaType<typeof contactInvitationSchema>
+
+export const ContactInvitation = models.ContactInvitation || model<ContactInvitation>('ContactInvitation', contactInvitationSchema)

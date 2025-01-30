@@ -1,16 +1,18 @@
-import { model, models, Schema } from "mongoose"
+import { InferSchemaType, model, models, Schema } from "mongoose"
+
+const { ObjectId } = Schema.Types
 
 const conversationSchema = new Schema ({
     members: [
         {
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
             ref: 'User'
         }
     ],
     messages: [
         {
             author: {
-                type: Schema.Types.ObjectId,
+                type: ObjectId,
                 ref: 'User',
                 required: true
             },
@@ -34,4 +36,6 @@ const conversationSchema = new Schema ({
     }
 })
 
-export const Conversation = models.Conversation || model('Conversation', conversationSchema)
+type Conversation = InferSchemaType<typeof conversationSchema>
+
+export const Conversation = models.Conversation || model<Conversation>('Conversation', conversationSchema)

@@ -1,4 +1,6 @@
-import { Schema, model, models } from 'mongoose'
+import { InferSchemaType, Schema, model, models } from 'mongoose'
+
+const { ObjectId } = Schema.Types
 
 const userSchema = new Schema({
     firstname: {
@@ -28,10 +30,12 @@ const userSchema = new Schema({
     },
     contacts: [
         {
-            type: Schema.Types.ObjectId,
+            type: ObjectId,
             ref: 'User'
         }
     ]
 })
 
-export const User = models.User || model('User', userSchema)
+type User = InferSchemaType<typeof userSchema>
+
+export const User = models.User || model<User>('User', userSchema)
