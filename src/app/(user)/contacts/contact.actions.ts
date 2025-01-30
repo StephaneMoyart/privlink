@@ -53,5 +53,5 @@ export const getSessionContacts = async () => {
     // end shield
 
     const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
-    return contacts
+    return contacts.map(contact => contact.toJSON({ flattenObjectIds: true }))
 }
