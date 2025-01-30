@@ -9,6 +9,10 @@ const newMessageSchema = z.object({
     content: z.string().min(1)
 })
 
+const editMessageSchema = z.object({
+    content: z.string().min(1)
+})
+
 export const newMessageAction = async (conversationId: string, prev:unknown, formData: FormData) => {
     // shield
     const session = await getSessionOrRedirect()
@@ -48,4 +52,32 @@ export const deleteMessageAction = async (conversationId, messageId) => {
     await Conversation.findByIdAndUpdate(conversationId, { $pull: { messages: { _id: messageId, author: session._id }}})
 
     revalidatePath('/conversations')
+}
+
+export const editMessageAction = async ({conversationId, messageId}, prev: unknown, formData: FormData) => {
+    // shield
+    const session = await getSessionOrRedirect()
+    // end shield
+
+    console.log(conversationId, messageId);
+
+
+    const result = editMessageSchema.safeParse({
+        content: formData.get('content')
+    })
+
+    if (!result.success) return {}
+
+    const { content } = result.data
+    console.log(content);
+
+    const log = await Conversation.findOneAndUpdate(
+        { _id: conversationId, 'messages._id': messageId, 'messages.author': session._id },
+        { $set: { "messages.$.content": content }}
+    )
+    console.log(log);
+
+    revalidatePath('/conversations')
+
+    return { success: true}
 }

@@ -3,6 +3,7 @@ import { SignJWT } from "jose"
 import { cookies } from "next/headers"
 import { decrypt } from "./decrypt"
 import { User } from "@/model"
+import connectDB from "@/db/db"
 
 type SessionPayload = {
     userId: string
@@ -53,6 +54,8 @@ export async function getSession() {
     if (!payload || !payload.userId) { throw new Error("Invalid session or missing userId in payload") }
 
     const userId = payload.userId
+
+    await connectDB()
 
     const user = await User.findById(userId)
     if (!user) { throw new Error("User not found") }
