@@ -1,6 +1,7 @@
 import { cn } from "@/lib/cn"
 
 const colorVariants: Record<string, string> = {
+    dark: "bg-zinc-950 hover:bg-zinc-800 ring-zinc-800 hover:ring-zinc-700",
     zinc: "bg-zinc-500 hover:bg-zinc-600 ring-zinc-400 hover:ring-zinc-500",
     blue: "bg-blue-500 hover:bg-blue-600 ring-blue-400 hover:ring-blue-500",
     red: "bg-red-500 hover:bg-red-600 ring-red-400 hover:ring-red-500",
@@ -16,7 +17,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
     icon?: boolean
 }
 
-export const Button: React.FC<ButtonProps> = ({ color = "zinc", icon = false, className, children, ...props }) => {
+export const Button: React.FC<ButtonProps> = ({ color = "dark", icon = false, className, children, ...props }) => {
     return (
         <button
             className={cn(
