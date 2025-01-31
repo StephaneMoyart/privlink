@@ -4,6 +4,7 @@ import { useActionState, useEffect, useState } from "react"
 import { useDebounceValue } from "@/hooks/use-debounce-value"
 import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
+import { Button } from "@/components/classic-button"
 
 type UserTypes = {
     _id: string
@@ -69,16 +70,16 @@ export const SearchUserForm = () => {
             </div>
             {invitedUserId &&
                 <>
-                    <button
-                        className="bg-orange-500 hover:bg-orange-600"
+                    <Button
+                        color="orange"
                         onClick={() => handleGlobalResearchReset()}
                         type="button"
                     >
                         Annuler
-                    </button>
-                    <button className="bg-green-500 hover:bg-green-600" type="submit" disabled={pending}>
+                    </Button>
+                    <Button color="green" disabled={pending}>
                         Ajouter
-                    </button>
+                    </Button>
                 </>
             }
         </form>

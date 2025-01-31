@@ -2,6 +2,7 @@
 
 import { useActionState } from "react"
 import { acceptContactInvitationAction, declineContactInvitationAction } from "./invitations.actions"
+import { Button } from "@/components/classic-button"
 
 type AcceptContactInvitationFormProps = {
     invitedByUserId: string
@@ -17,13 +18,12 @@ export const AcceptContactInvitationForm: React.FC<AcceptContactInvitationFormPr
 
     return (
         <form action={action}>
-            <button
-                className="py-3 px-6 cursor-pointer shadow bg-green-500 rounded-md border border-green-400 hover:border-green-500 hover:bg-green-600"
-                type="submit"
+            <Button
+                color="green"
                 disabled={pending}
             >
                 Accepter
-            </button>
+            </Button>
         </form>
     )
 }
@@ -33,13 +33,12 @@ export const DeclineContactInvitationForm: React.FC<DeclineContactInvitationForm
 
     return (
         <form action={action}>
-            <button
-                className="py-3 px-6 cursor-pointer shadow bg-red-500 rounded-md border border-red-400 hover:border-red-500 hover:bg-red-600"
-                type="submit"
+            <Button
+                color="red"
                 disabled={pending}
             >
                 Refuser
-            </button>
+            </Button>
         </form>
     )
 }

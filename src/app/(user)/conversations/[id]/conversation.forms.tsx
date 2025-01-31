@@ -33,9 +33,9 @@ export const EditMessageForm = ({ content, conversationId, messageId, setIsEditi
     return (
             <form className="flex items-center h-full w-full py-2" action={action}>
                 <input className="h-full w-full border rounded-l-md outline-none px-4" type="text" name="content" defaultValue={content}/>
-                <button disabled={pending} className="h-full px-4 rounded-r-md bg-zinc-950 border-2 border-zinc-800 text-white cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 transition-colors duration-300">
+                <Button disabled={pending} className="h-full rounded-l-none">
                     <SendHorizontal size={20}/>
-                </button>
+                </Button>
             </form>
     )
 }
