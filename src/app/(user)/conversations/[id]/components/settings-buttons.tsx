@@ -4,6 +4,7 @@ import { Ellipsis, Pencil, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
 import { Button } from "@/components/classic-button"
+import { Loader } from "@/components/loader"
 
 export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => {
     const [isVisible, setIsVisible] = useState(false)
@@ -21,7 +22,7 @@ export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => 
                     </Button>
                     <Button icon color="red" disabled={pendingDelete} onClick={() => startDeleteTransition(() => deleteMessageAction(conversationId, messageId))}>
                         {pendingDelete ?
-                            <div className="animate-spin border-t border-b border-black w-4 h-4 rounded-full"/>
+                            <Loader/>
                             :
                             <Trash/>
                         }
