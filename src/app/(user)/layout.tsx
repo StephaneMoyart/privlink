@@ -1,4 +1,4 @@
-import { House, LinkIcon, LogOut, MessageSquare, Ticket } from "lucide-react"
+import { Calendar, House, LinkIcon, LogOut, MessageSquare, Ticket } from "lucide-react"
 import { redirect } from "next/navigation"
 import { deleteSession } from "@/auth/session"
 import { SessionAvatar } from "@/auth/session-avatar"
@@ -20,6 +20,10 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                     <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/conversations">
                         <MessageSquare />
                         <p className="max-md:hidden">Conversations</p>
+                    </Link>
+                    <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/calendar">
+                        <Calendar />
+                        <p className="max-md:hidden">Calendrier</p>
                     </Link>
                     <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/events">
                         <Ticket />
