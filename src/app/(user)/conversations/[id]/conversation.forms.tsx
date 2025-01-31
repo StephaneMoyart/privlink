@@ -3,6 +3,7 @@
 import { useActionState, useEffect } from "react"
 import { editMessageAction, newMessageAction } from "./conversation.actions"
 import { SendHorizontal } from "lucide-react"
+import { Button } from "@/components/classic-button"
 
 export const NewMessageForm = ({ conversationId }) => {
     const [, action, pending] = useActionState(newMessageAction.bind(null, conversationId), null)
@@ -15,9 +16,9 @@ export const NewMessageForm = ({ conversationId }) => {
                 placeholder="Message"
                 name="content"
             />
-            <button disabled={pending} className="h-10 rounded-b-md bg-zinc-950 border-2 border-zinc-800 text-white cursor-pointer hover:bg-zinc-800 hover:border-zinc-700 transition-colors duration-300">
+            <Button disabled={pending} className="h-10 rounded-t-none">
                 Envoyer
-            </button>
+            </Button>
         </form>
     )
 }
