@@ -77,5 +77,4 @@ export const declineContactInvitationAction = async (invitationId: string) => {
     revalidatePath('/contacts/invitations')
 
     // todo
-    return {  }
 }

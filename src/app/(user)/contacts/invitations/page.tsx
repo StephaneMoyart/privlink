@@ -1,6 +1,6 @@
 import { UserAvatar } from "@/components/user-avatar";
 import { getContactInvitations } from "./invitations.actions"
-import { AcceptContactInvitationForm, DeclineContactInvitationForm } from "./invitations.forms";
+import { AcceptOrDeclineInvitation } from "./components/accept-or-decline-invitation";
 
 const Page = async () => {
     const invitations = await getContactInvitations()
@@ -18,10 +18,7 @@ const Page = async () => {
                             <p className="text-xs">vous propose de créer un Link</p>
                         </div>
                     </div>
-                    <div className="flex items-center gap-2 bg-green-200">
-                        <AcceptContactInvitationForm invitedByUserId={invitedByUserId} invitationId={_id}/>
-                        <DeclineContactInvitationForm invitationId={_id}/>
-                    </div>
+                    <AcceptOrDeclineInvitation invitedByUserId={invitedByUserId} invitationId={ _id}/>
                 </div>
             ))}
         </div>
