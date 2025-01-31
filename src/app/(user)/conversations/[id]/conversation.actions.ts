@@ -28,7 +28,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
 
     await Conversation.findByIdAndUpdate(
         conversationId,
-        { $push: { messages: { author: session._id,content }}}
+        { $push: { messages: { author: session._id, content }}}
     )
 
     revalidatePath('/conversations')

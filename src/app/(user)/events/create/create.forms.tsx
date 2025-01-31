@@ -4,6 +4,7 @@ import { Calendar } from "@/components/calendar"
 import { useActionState, useState } from "react"
 import { createEventAction } from "./create.actions"
 import { TimePicker } from "@/components/time-picket"
+import { InputWLabel } from "@/components/input"
 
 export const CreateEventForm = () => {
     const [displayEndDate, setDisplayEndDate] = useState(false)
@@ -20,14 +21,10 @@ export const CreateEventForm = () => {
                 <div className="w-1/2">
                     {state?.success && <p className="text-green-500">Evenement créé avec succès</p>}
                     {!state?.success && <p className="text-red-500">{state?.message}</p>}
-                    <input
-                        name="name"
-                        placeholder="Nom de l'evenement"
-                    />
-                    <textarea
-                        name="description"
-                        placeholder="Description de l'evenement"
-                    />
+                    <div className="flex flex-col gap-2">
+                        <InputWLabel name="title" label="TITRE"/>
+                        <InputWLabel name="description" label="DESCRIPTION DE L'EVENEMENT"/>
+                    </div>
 
                     <div>
                         <input

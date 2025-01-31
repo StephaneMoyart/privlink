@@ -8,7 +8,7 @@ const eventSchema = new Schema({
         ref: 'User',
         required: true
     },
-    name: {
+    title: {
         type: String,
         required: true
     },
