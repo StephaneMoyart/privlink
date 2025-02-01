@@ -17,9 +17,12 @@ const Page = async () => {
             <div className="flex gap-4">
                 {contacts.map(contact => (
                     <div className="flex flex-col items-center gap-4 p-4 shadow shadow-black/20" key={contact._id}>
-                        <div className="w-50 h-50">
-                            <UserAvatar avatarUrl={contact.avatarUrl} width={200} height={200}/>
-                        </div>
+                        <UserAvatar
+                            className="w-50 h-50"
+                            avatarUrl={contact.avatarUrl}
+                            width={200}
+                            height={200}
+                        />
                         <p>{contact.firstname} {contact.lastname}</p>
                     </div>
                 ))}

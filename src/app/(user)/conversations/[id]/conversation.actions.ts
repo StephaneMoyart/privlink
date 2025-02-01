@@ -76,7 +76,6 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
         { $set: { "messages.$.content": content }}
     )
 
-
     revalidatePath('/conversations')
 
     return { success: true}

@@ -75,6 +75,5 @@ export const declineContactInvitationAction = async (invitationId: string) => {
     await ContactInvitation.findByIdAndDelete(invitationId)
 
     revalidatePath('/contacts/invitations')
-
     // todo
 }

@@ -9,7 +9,7 @@ type AcceptOrDeclineInvitationProps = {
     invitationId: string
 }
 
-export const AcceptOrDeclineInvitation = ({ invitedByUserId , invitationId }: AcceptOrDeclineInvitationProps) => {
+export const AcceptOrDeclineInvitation: React.FC<AcceptOrDeclineInvitationProps> = ({ invitedByUserId , invitationId }) => {
     const [acceptPending, acceptTransition] = useTransition()
     const [declinePending, declineTransition] = useTransition()
 

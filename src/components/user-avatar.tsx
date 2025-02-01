@@ -1,26 +1,27 @@
+// This component must take the same className width and height that what is given to the Image
+
 import Image from "next/image"
 import { User } from "lucide-react"
 
-type UserAvatarProps = {
+type UserAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
     avatarUrl: string
     height: number
     width: number
 }
 
-export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width }) => {
-
+export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width, className }) => {
     return (
-        <div className="flex justify-center items-center w-full h-full">
+        <>
             {avatarUrl ?
                 <Image
                     src={avatarUrl}
                     alt="avatar"
                     height={height}
                     width={width}
-                    className="w-full h-full"
+                    className={className}
                 />
-                : <User />
+                : <User className={className}/>
             }
-        </div>
+        </>
     )
 }

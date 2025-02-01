@@ -33,10 +33,7 @@ export const SearchUserForm = () => {
             return
         }
 
-        (async () => {
-            const result = await getUserByQueryAction(debouncedValue)
-            setQueryResult(result)
-        }) ()
+        getUserByQueryAction(debouncedValue).then(setQueryResult)
     }, [debouncedValue, setQueryResult])
 
     const [, action, pending] = useActionState(() => sendContactInvitationAction(invitedUserId), null)
@@ -52,16 +49,19 @@ export const SearchUserForm = () => {
                         value={query}
                     />
                 }
-                {queryResult.map(({_id, firstname, lastname, avatarUrl}) => (
+                {queryResult.map(({ _id, firstname, lastname, avatarUrl}) => (
                     <div className="flex w-[350px] gap-2 items-center h-12 p-4" key={_id}
                         onClick={() => {
                             setIsSearchVisible(false)
                             setInvitedUserId(_id)
                         }}
                     >
-                        <div className="h-8 w-8 rounded-full overflow-hidden">
-                            <UserAvatar avatarUrl={avatarUrl} height={32} width={32}/>
-                        </div>
+                        <UserAvatar
+                            className="h-8 w-8 rounded-full overflow-hidden"
+                            avatarUrl={avatarUrl}
+                            height={32}
+                            width={32}
+                        />
                         <p>
                             {firstname} {lastname}
                         </p>

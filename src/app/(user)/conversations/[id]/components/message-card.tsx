@@ -17,9 +17,12 @@ export const MessageCard = ({message, conversationId, sessionId}) => {
     return (
         <div className="flex gap-2 justify-between" key={message._id}>
             <div className="flex w-full gap-2">
-                <div className="w-15 h-15 rounded-full overflow-hidden">
-                    <UserAvatar width={60} height={60} avatarUrl={avatarUrl}/>
-                </div>
+                <UserAvatar
+                    className="w-15 h-15 rounded-full overflow-hidden"
+                    width={60}
+                    height={60}
+                    avatarUrl={avatarUrl}
+                />
                 {isEditing
                     ?
                     <EditMessageForm content={content} conversationId={conversationId} messageId={ _id} setIsEditing={setIsEditing}/>
