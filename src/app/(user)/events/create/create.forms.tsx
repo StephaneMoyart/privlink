@@ -5,13 +5,10 @@ import { useActionState, useState } from "react"
 import { createEventAction } from "./create.actions"
 import { TimePicker } from "@/components/time-picket"
 import { InputWLabel } from "@/components/input"
+import { Checkbox } from "@/components/checkbox"
 
 export const CreateEventForm = () => {
     const [displayEndDate, setDisplayEndDate] = useState(false)
-
-    const handleCheckedChange = () => {
-        setDisplayEndDate(prev => !prev)
-    }
 
     const [state, action, pending] = useActionState(createEventAction, null)
 
@@ -26,24 +23,13 @@ export const CreateEventForm = () => {
                         <InputWLabel name="description" label="DESCRIPTION DE L'EVENEMENT"/>
                     </div>
 
-                    <div>
-                        <input
-                            type="checkbox"
-                            name="isFullDay"
-                            id="isFullDay"
-                        />
-                        <label htmlFor="isFullDay">Journées entières</label>
-                    </div>
+                    <Checkbox name="isFullDay">
+                        Journées complètes
+                    </Checkbox>
 
-                    <div>
-                        <input
-                            type="checkbox"
-                            onChange={handleCheckedChange}
-                            name="hasEndDate"
-                            id="hasEndDate"
-                        />
-                        <label htmlFor="hasEndDate">Ajouter une date de fin</label>
-                    </div>
+                    <Checkbox name="hasEndDate" signalIsChecked={setDisplayEndDate}>
+                        Ajouter une date de fin
+                    </Checkbox>
 
                     <div className="flex">
                         <div>
