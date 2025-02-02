@@ -3,19 +3,25 @@ import { useState } from "react"
 
 type CheckboxProps = React.InputHTMLAttributes<HTMLInputElement> & {
     signalIsChecked?: (isChecked: boolean) => void
+    labelClassName?: string
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({ signalIsChecked, children, className, ...props }) => {
+export const Checkbox: React.FC<CheckboxProps> = ({ signalIsChecked, children, className, labelClassName, ...props }) => {
     const [isChecked, setIsChecked] = useState(false)
 
     const handleCheck = () => {
         const checkedState = !isChecked
         setIsChecked(checkedState)
-        if (signalIsChecked) signalIsChecked(checkedState)
+        if (typeof signalIsChecked === 'function') signalIsChecked(checkedState)
     }
 
   return (
-    <label className="flex gap-2 items-center max-w-fit">
+    <label
+        className={cn("flex gap-2 items-center max-w-fit text-zinc-500",
+            isChecked && "text-zinc-950",
+            labelClassName
+        )}
+    >
         <input
             className="sr-only"
             type="checkbox"
