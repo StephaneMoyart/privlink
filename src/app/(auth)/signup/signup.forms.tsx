@@ -3,7 +3,7 @@
 import { useActionState } from "react"
 import { signUpAction } from "./signup.actions"
 import { InputWLabel } from "@/components/input"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 
 export const SignUpForm = () => {
     const [state, action, pending] = useActionState(signUpAction, null)
@@ -18,9 +18,9 @@ export const SignUpForm = () => {
             <Button
                 className="h-12"
                 disabled={pending}
-                type="submit"
+                pending={pending}
             >
-                {pending ? "Inscription en cours..." : "Valider"}
+                Valider
             </Button>
         </form>
     )

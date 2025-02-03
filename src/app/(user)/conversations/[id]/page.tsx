@@ -11,7 +11,6 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
     const { messages } = await getSelectedConversationAction(id)
 
-
     const session = await getSessionOrRedirect()
 
     return (

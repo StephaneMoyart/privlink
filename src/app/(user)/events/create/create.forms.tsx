@@ -3,10 +3,10 @@
 import { Calendar } from "@/components/calendar"
 import { useActionState, useState } from "react"
 import { createEventAction } from "./create.actions"
-import { TimePicker } from "@/components/time-picket"
+import { TimePicker } from "@/components/time-picker"
 import { InputWLabel } from "@/components/input"
 import { Checkbox } from "@/components/checkbox"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 
 export const CreateEventForm = () => {
     const [displayEndDate, setDisplayEndDate] = useState(false)
@@ -59,6 +59,7 @@ export const CreateEventForm = () => {
                 </div>
             </div>
             <Button
+                pending={pending}
                 disabled={pending}
             >
                 Valider

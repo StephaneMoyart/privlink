@@ -4,7 +4,7 @@ import { deleteSession } from "@/auth/session"
 import { SessionAvatar } from "@/auth/session-avatar"
 import Link from "next/link"
 
-export default function RootLayout({children}: {children: React.ReactNode}) {
+export default function UserLayout({children}: {children: React.ReactNode}) {
     return (
         <div className="flex w-full h-screen">
             <div className="flex flex-col items-center justify-between h-screen min-w-50 border-r border-black/20 shadow shadow-black/20">
@@ -41,12 +41,12 @@ export default function RootLayout({children}: {children: React.ReactNode}) {
                         await deleteSession()
                         redirect('/signin')
                     }}
-                    className="flex items-center w-full h-12 justify-center gap-4 cursor-pointer hover:bg-orange-300" type="submit">
+                    className="flex items-center w-full h-12 justify-center gap-4 cursor-pointer hover:bg-orange-500" type="submit">
                     <LogOut />
                     <p className="max-md:hidden">Deconnexion</p>
                 </button>
             </div>
-            <div className=" w-full h-full p-4">
+            <div className="w-full h-full p-4 overflow-y-scroll">
                 {children}
             </div>
         </div>

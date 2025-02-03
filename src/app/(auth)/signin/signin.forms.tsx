@@ -3,7 +3,7 @@
 import { InputWLabel } from "@/components/input"
 import { useActionState } from "react"
 import { signInAction } from "./signin.actions"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 
 export const SignInForm = () => {
     const [state, action, pending] = useActionState(signInAction, null)
@@ -16,9 +16,10 @@ export const SignInForm = () => {
             <Button
                 className="h-12"
                 disabled={pending}
+                pending={pending}
                 type="submit"
             >
-                {pending ? "Connexion en cours..." : "Connexion"}
+                Connexion
             </Button>
         </form>
     )

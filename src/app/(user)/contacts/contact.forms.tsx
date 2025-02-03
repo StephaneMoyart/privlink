@@ -4,7 +4,7 @@ import { useActionState, useEffect, useState } from "react"
 import { useDebounceValue } from "@/hooks/use-debounce-value"
 import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 
 type UserTypes = {
     _id: string
@@ -77,7 +77,11 @@ export const SearchUserForm = () => {
                     >
                         Annuler
                     </Button>
-                    <Button color="green" disabled={pending}>
+                    <Button
+                        color="green"
+                        disabled={pending}
+                        pending={pending}
+                    >
                         Ajouter
                     </Button>
                 </>

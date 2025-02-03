@@ -3,7 +3,7 @@
 import { useActionState, useEffect } from "react"
 import { editMessageAction, newMessageAction } from "./conversation.actions"
 import { SendHorizontal } from "lucide-react"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 
 export const NewMessageForm = ({ conversationId }) => {
     const [, action, pending] = useActionState(newMessageAction.bind(null, conversationId), null)
@@ -16,7 +16,11 @@ export const NewMessageForm = ({ conversationId }) => {
                 placeholder="Message"
                 name="content"
             />
-            <Button disabled={pending} className="h-10 rounded-t-none">
+            <Button
+                disabled={pending}
+                pending={pending}
+                className="h-10 rounded-t-none"
+            >
                 Envoyer
             </Button>
         </form>
@@ -33,7 +37,11 @@ export const EditMessageForm = ({ content, conversationId, messageId, setIsEditi
     return (
             <form className="flex items-center h-full w-full py-2" action={action}>
                 <input className="h-full w-full border rounded-l-md outline-none px-4" type="text" name="content" defaultValue={content}/>
-                <Button disabled={pending} className="h-full rounded-l-none">
+                <Button
+                    pending={pending}
+                    disabled={pending}
+                    className="h-full rounded-l-none"
+                >
                     <SendHorizontal size={20}/>
                 </Button>
             </form>

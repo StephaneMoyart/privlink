@@ -1,7 +1,7 @@
 'use client'
 
 import { useTransition } from "react"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 import { acceptContactInvitationAction, declineContactInvitationAction } from "../invitations.actions"
 
 type AcceptOrDeclineInvitationProps = {

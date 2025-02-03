@@ -1,8 +1,9 @@
 'use client'
 
-import { Ellipsis, Pencil, Trash } from "lucide-react"
+import { Ellipsis, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { deleteEventAction } from "../events.actions"
+import { Button } from "@/components/button"
 
 export const EventCardSettings = ({ eventId }) => {
     const [isVisible, setIsVisible] = useState(false)
@@ -15,9 +16,15 @@ export const EventCardSettings = ({ eventId }) => {
                     <div className="px-2">
                         <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
                     </div>
-                    <button onClick={() => setEventDeleteTransition(() => deleteEventAction(eventId))} className="flex justify-center items-center h-12 shadow rounded-md cursor-pointer bg-red-500 border border-red-400 hover:bg-red-600 hover:border-red-500 transition-colors duration-300">
+                    <Button
+                        color="red"
+                        disabled={pending}
+                        pending={pending}
+                        icon
+                        onClick={() => setEventDeleteTransition(() => deleteEventAction(eventId))}
+                    >
                         <Trash/>
-                    </button>
+                    </Button>
                 </div>
                 :
                 <div className="flex justify-center p-2">

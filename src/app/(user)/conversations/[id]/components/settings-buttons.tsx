@@ -3,7 +3,7 @@
 import { Ellipsis, Pencil, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
-import { Button } from "@/components/classic-button"
+import { Button } from "@/components/button"
 import { Loader } from "@/components/loader"
 
 export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => {
@@ -17,15 +17,21 @@ export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => 
                     <div className="px-2">
                         <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
                     </div>
-                    <Button onClick={() => setIsEditing(true)} color="yellow" icon>
+                    <Button
+                        onClick={() => setIsEditing(true)}
+                        color="yellow"
+                        icon
+                    >
                         <Pencil/>
                     </Button>
-                    <Button icon color="red" disabled={pendingDelete} onClick={() => startDeleteTransition(() => deleteMessageAction(conversationId, messageId))}>
-                        {pendingDelete ?
-                            <Loader/>
-                            :
-                            <Trash/>
-                        }
+                    <Button
+                        icon
+                        color="red"
+                        disabled={pendingDelete}
+                        pending={pendingDelete}
+                        onClick={() => startDeleteTransition(() => deleteMessageAction(conversationId, messageId))}
+                    >
+                        <Trash/>
                     </Button>
                 </div>
                 :
