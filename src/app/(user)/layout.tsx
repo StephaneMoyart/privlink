@@ -46,7 +46,7 @@ export default function UserLayout({children}: {children: React.ReactNode}) {
                     <p className="max-md:hidden">Deconnexion</p>
                 </button>
             </div>
-            <div className="w-full h-full p-4 overflow-y-scroll">
+            <div className="w-full h-full p-4 overflow-y-auto">
                 {children}
             </div>
         </div>

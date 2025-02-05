@@ -1,12 +1,12 @@
 'use client'
 
-import { Calendar } from "@/components/calendar"
 import { useActionState, useState } from "react"
 import { createEventAction } from "./create.actions"
 import { TimePicker } from "@/components/time-picker"
-import { InputWLabel } from "@/components/input"
+import { InputWLabel } from "@/components/input-w-label"
 import { Checkbox } from "@/components/checkbox"
 import { Button } from "@/components/button"
+import { DatePicker } from "@/components/date-picker"
 
 export const CreateEventForm = () => {
     const [displayEndDate, setDisplayEndDate] = useState(false)
@@ -35,7 +35,7 @@ export const CreateEventForm = () => {
                         </Checkbox>
 
                         <div className="flex gap-2 w-fit">
-                            <Calendar dateName="startDate"/>
+                            <DatePicker dateName="startDate"/>
                             {!displayTimePicker &&
                                 <TimePicker
                                     hourName="startHours"
@@ -46,7 +46,7 @@ export const CreateEventForm = () => {
 
                         {displayEndDate &&
                             <div className="flex gap-2 w-fit">
-                                <Calendar dateName="endDate"/>
+                                <DatePicker dateName="endDate"/>
                                 {!displayTimePicker &&
                                     <TimePicker
                                         hourName="endHours"

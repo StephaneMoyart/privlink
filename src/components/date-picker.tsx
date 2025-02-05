@@ -5,11 +5,11 @@ import { formatCalendarDate } from "@/lib/format-calendar-date"
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react"
 import { useState } from "react"
 
-type CalendarProps = {
+type DatePickerProps = {
     dateName: string
 }
 
-export const Calendar: React.FC<CalendarProps> = ({ dateName }) => {
+export const DatePicker: React.FC<DatePickerProps> = ({ dateName }) => {
     const [isVisible, setIsVisible] = useState(false)
 
     const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
@@ -20,7 +20,7 @@ export const Calendar: React.FC<CalendarProps> = ({ dateName }) => {
     const [currentMonth, setCurrentMonth] = useState(now.getMonth())
     const [currentYear, setCurrentYear] = useState(now.getFullYear())
 
-    const [date, setDate] = useState<Date>(new Date())
+    const [date, setDate] = useState<Date>(new Date(new Date().setHours(0, 0, 0, 0)))
 
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay()

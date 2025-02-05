@@ -149,6 +149,7 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
                 case startDate < endOfTomorrow && endDate < endOfWeek :
                     return `Demain ${formattedStartTime} - ${endDateDayString} ${formattedEndTime}`
                 case startDate < endOfWeek && endDate < endOfWeek :
+                    if (startDateDay === endDateDay) return `${startDateDayString} ${formattedStartTime} - ${formattedEndTime}`
                     return `${startDateDayString} ${formattedStartTime} - ${endDateDayString} ${formattedEndTime}`
                 case endDateYear === actualYear :
                     return `${formattedStartDate} ${formattedStartTime} - ${formattedEndDate} ${formattedEndTime}`

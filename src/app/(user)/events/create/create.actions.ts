@@ -21,6 +21,8 @@ export const createEventAction = async (previousState: unknown, formData: FormDa
     //end shield
 
     const rawData = Object.fromEntries(formData.entries())
+    console.log(rawData);
+
     const data = joinEventDatesandTimes(rawData)
 
     const result = createEventSchema.safeParse({

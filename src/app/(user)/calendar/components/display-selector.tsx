@@ -3,10 +3,23 @@
 import { Check, ChevronDown } from "lucide-react"
 import { useState } from "react"
 
-const options = ["Jour", "Semaine", "Mois", "Année"]
+const options = [
+    {
+        name: "Jour",
+        value: "day"
+    },
+    {
+        name: "Semaine",
+        value: "week"
+    },
+    {
+        name: "Mois",
+        value: "month"
+    }
+]
 
-export const DisplaySelector = () => {
-    const [selected, setSelected] = useState<string>(options[1])
+export const DisplaySelector = ({ setDisplay }) => {
+    const [selected, setSelected] = useState<string>(options[1].name)
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
     return (
@@ -22,13 +35,14 @@ export const DisplaySelector = () => {
                         <p
                             key={index}
                             onClick={() => {
-                                setSelected(option)
+                                setSelected(option.name)
+                                setDisplay(option.value)
                                 setIsVisible(prev => !prev)
                             }}
                             className="flex gap-2 justify-between items-center hover:bg-black/20 py-2 px-4 cursor-pointer"
                         >
-                            {option}
-                            {selected === option && <span className="inline-block"><Check size={15}/></span>}
+                            {option.name}
+                            {selected === option.name && <span className="inline-block"><Check size={15}/></span>}
                         </p>
                     ))}
                 </div>

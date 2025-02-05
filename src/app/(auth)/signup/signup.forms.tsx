@@ -2,7 +2,7 @@
 
 import { useActionState } from "react"
 import { signUpAction } from "./signup.actions"
-import { InputWLabel } from "@/components/input"
+import { InputWLabel } from "@/components/input-w-label"
 import { Button } from "@/components/button"
 
 export const SignUpForm = () => {

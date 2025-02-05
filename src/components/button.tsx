@@ -46,17 +46,18 @@ export const Button: React.FC<ButtonProps> = ({
             )}
             {...props}
         >
-            {pending ? (
+            {pending
+                ?
                 <span className="relative flex justify-center items-center w-full h-full">
                     <span className={cn("flex justify-center items-center invisible"
                     )}>
                         {children}
                     </span>
-                    {pending && <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"/>}
+                    <Loader className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"/>
                 </span>
-            ) : (
+                :
                 children
-            )}
+            }
         </Comp>
     )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { InputWLabel } from "@/components/input"
+import { InputWLabel } from "@/components/input-w-label"
 import { useActionState } from "react"
 import { signInAction } from "./signin.actions"
 import { Button } from "@/components/button"
