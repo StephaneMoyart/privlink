@@ -4,6 +4,7 @@ import { cookies } from "next/headers"
 import { decrypt } from "./decrypt"
 import { User } from "@/model"
 import connectDB from "@/db/db"
+import { redirect } from "next/navigation"
 
 type SessionPayload = {
     userId: string
@@ -48,7 +49,7 @@ export async function getSession() {
     const cookieStore = await cookies()
     const sessionCookie = cookieStore.get("session")
 
-    if (!sessionCookie) { throw new Error("No session cookie found") }
+    if (!sessionCookie) return redirect('/signin')
 
     const payload = await decrypt(sessionCookie.value)
 

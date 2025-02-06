@@ -1,11 +1,11 @@
 'use server'
 
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
+import { getSession } from "@/auth/session"
 import { ContactInvitation, User } from "@/model"
 
 export const getUserByQueryAction = async (query: string) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     const keywords = query.split(" ").filter(keyword => keyword.trim().length > 0)
@@ -26,7 +26,7 @@ export const getUserByQueryAction = async (query: string) => {
 
 export const sendContactInvitationAction = async (invitedUserId: string) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
@@ -47,19 +47,19 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
     return {}
 }
 
-export const getSessionContacts = async () => {
-    // shield
-    const session = await getSessionOrRedirect()
-    // end shield
+// export const getSessionContacts = async () => {
+//     // shield
+//     const session = await getSessionOrRedirect()
+//     // end shield
 
-    const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
-    return contacts.map(contact => contact.toJSON({ flattenObjectIds: true }))
-}
+//     const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
+//     return contacts.map(contact => contact.toJSON({ flattenObjectIds: true }))
+// }
 
-export const getContactInvitationsCount = async () => {
-    // shield
-    const session = await getSessionOrRedirect()
-    //end shield
+// export const getContactInvitationsCount = async () => {
+//     // shield
+//     const session = await getSessionOrRedirect()
+//     //end shield
 
-    return await ContactInvitation.countDocuments({ invitedUser: session._id })
-}
+//     return await ContactInvitation.countDocuments({ invitedUser: session._id })
+// }

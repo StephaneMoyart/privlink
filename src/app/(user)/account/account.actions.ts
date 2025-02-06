@@ -4,8 +4,8 @@ import path from "path"
 import fs from 'fs'
 import { revalidatePath } from "next/cache"
 import { User } from "@/model"
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
 import { z } from "zod"
+import { getSession } from "@/auth/session"
 
 const uploadAvatarSchema = z.instanceof(File).refine(file => [
         "image/png",
@@ -19,7 +19,7 @@ const uploadAvatarSchema = z.instanceof(File).refine(file => [
 
 export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     const result = uploadAvatarSchema.safeParse(formData.get('userAvatar'))

@@ -1,6 +1,6 @@
 'use server'
 
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
+import { getSession } from "@/auth/session"
 import { Conversation } from "@/model"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
@@ -15,7 +15,7 @@ const editMessageSchema = z.object({
 
 export const newMessageAction = async (conversationId: string, prev:unknown, formData: FormData) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     const result = newMessageSchema.safeParse({
@@ -36,7 +36,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
 
 export const getSelectedConversationAction = async (conversationId) => {
     // shield
-    await getSessionOrRedirect()
+    await getSession()
     // end shield
 
     const conversation = await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
@@ -46,7 +46,7 @@ export const getSelectedConversationAction = async (conversationId) => {
 
 export const deleteMessageAction = async (conversationId, messageId) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     await Conversation.findByIdAndUpdate(conversationId, { $pull: { messages: { _id: messageId, author: session._id }}})
@@ -56,7 +56,7 @@ export const deleteMessageAction = async (conversationId, messageId) => {
 
 export const editMessageAction = async ({conversationId, messageId}, prev: unknown, formData: FormData) => {
     // shield
-    const session = await getSessionOrRedirect()
+    await getSession()
     // end shield
 
     const result = editMessageSchema.safeParse({

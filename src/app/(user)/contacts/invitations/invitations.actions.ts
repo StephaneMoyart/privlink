@@ -1,13 +1,13 @@
 'use server'
 
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
+import { getSession } from "@/auth/session"
 import { ContactInvitation, Conversation, User } from "@/model"
 import mongoose from "mongoose"
 import { revalidatePath } from "next/cache"
 
 export const getContactInvitations = async () => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     const invitations = await ContactInvitation
@@ -19,7 +19,7 @@ export const getContactInvitations = async () => {
 
 export const acceptContactInvitationAction = async (invitedByUserId: string, invitationId: string) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     if (session.contacts.includes(invitedByUserId)) {
@@ -69,7 +69,7 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
 
 export const declineContactInvitationAction = async (invitationId: string) => {
     // shield
-    await getSessionOrRedirect()
+    await getSession()
     // end shield
 
     await ContactInvitation.findByIdAndDelete(invitationId)

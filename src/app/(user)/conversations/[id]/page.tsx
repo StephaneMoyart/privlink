@@ -1,7 +1,7 @@
 import { getSelectedConversationAction } from "./conversation.actions"
 import { NewMessageForm } from "./conversation.forms"
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
 import { MessageCard } from "./components/message-card"
+import { getSession } from "@/auth/session"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -11,7 +11,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
     const { messages } = await getSelectedConversationAction(id)
 
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
 
     return (
         <div className="h-full flex flex-col justify-between">

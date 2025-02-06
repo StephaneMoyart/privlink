@@ -1,9 +1,9 @@
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
 import { SessionAvatar } from "@/auth/session-avatar"
 import { ChangeAvatarForm } from "./account.forms"
+import { getSession } from "@/auth/session"
 
 const Page = async () => {
-    const {firstname, lastname} = await getSessionOrRedirect()
+    const {firstname, lastname} = await getSession()
 
     return (
         <div className="flex justify-center items-center w-full">

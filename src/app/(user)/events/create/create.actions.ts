@@ -1,6 +1,6 @@
 'use server'
 
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
+import { getSession } from "@/auth/session"
 import { joinEventDatesandTimes } from "@/lib/join-event-dates-times"
 import { Event } from "@/model"
 import { z } from "zod"
@@ -17,7 +17,7 @@ export type newEventDataTypes = z.infer<typeof createEventSchema>
 
 export const createEventAction = async (previousState: unknown, formData: FormData) => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     //end shield
 
     const rawData = Object.fromEntries(formData.entries())

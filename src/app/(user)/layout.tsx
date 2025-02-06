@@ -41,7 +41,7 @@ export default function UserLayout({children}: {children: React.ReactNode}) {
                         await deleteSession()
                         redirect('/signin')
                     }}
-                    className="md:flex md:items-center md:w-full md:h-12 justify-center gap-4 cursor-pointer hover:bg-orange-500">
+                    className="md:flex md:items-center md:w-full md:h-12 justify-center gap-4 cursor-pointer hover:bg-orange-300 hover:text-orange-900">
                     <LogOut />
                     <p className="max-md:hidden">Deconnexion</p>
                 </button>

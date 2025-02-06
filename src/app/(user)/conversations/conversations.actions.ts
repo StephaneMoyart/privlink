@@ -1,11 +1,11 @@
 'use server'
 
-import { getSessionOrRedirect } from "@/auth/get-session-or-redirect"
+import { getSession } from "@/auth/session"
 import { Conversation } from "@/model"
 
 export const getSessionConversations = async () => {
     // shield
-    const session = await getSessionOrRedirect()
+    const session = await getSession()
     // end shield
 
     const conversations = await Conversation.find({

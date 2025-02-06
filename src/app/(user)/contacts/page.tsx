@@ -1,11 +1,13 @@
 import Link from "next/link"
 import { SearchUserForm } from "./contact.forms"
-import { getContactInvitationsCount, getSessionContacts } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
+import { ContactInvitation, User } from "@/model"
+import { getSession } from "@/auth/session"
 
 const Page = async () => {
-    const contacts = await getSessionContacts()
-    const invitationsCount = await getContactInvitationsCount()
+    const session = await getSession()
+    const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
+    const invitationsCount = await ContactInvitation.countDocuments({ invitedUser: session._id })
 
     return (
         <div className="flex flex-col gap-4">
