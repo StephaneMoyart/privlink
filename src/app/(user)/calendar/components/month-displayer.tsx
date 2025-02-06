@@ -40,13 +40,17 @@ export const MonthDisplayer = ({ events }) => {
     console.log("ohohoh", thisMonthEvents);
 
     const getEventsForDay = (day: number) => {
-        const dayStart = new Date(currentYear, currentMonth, day + 1).setHours(0, 0, 0, 0)
-        const dayEnd = new Date(currentYear, currentMonth, day + 1).setHours(23, 59, 59, 999)
+        const calendarDay = new Date(currentYear, currentMonth, day + 1)
 
         return events.filter(event => {
-            const eventStart = new Date(event.startDate).getTime()
-            const eventEnd = new Date(event.endDate).getTime()
-            return (eventStart >= dayStart && eventStart <= dayEnd) || (eventEnd >= dayStart && eventEnd <= dayEnd)
+            const eventStart = new Date(event.startDate)
+            const eventEnd = new Date(event.endDate)
+
+            return (
+                eventStart.getDate() === calendarDay.getDate() && eventStart.getMonth() === calendarDay.getMonth()
+                || eventEnd.getDate() === calendarDay.getDate() && eventEnd.getMonth() === calendarDay.getMonth()
+                || eventStart < calendarDay && eventEnd > calendarDay
+            )
         })
     }
 
@@ -88,11 +92,11 @@ export const MonthDisplayer = ({ events }) => {
                             key={`day-${i}`}
                         >
                             <p>{i + 1}</p>
-                            <div className="h-[90px] overflow-y-auto ">
+                            <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
-                                    <div key={event._id} className="truncate">
+                                    <div key={event._id} className="mb-1 truncate">
                                         <Dialog>
-                                            <DialogTrigger>
+                                            <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full">
                                                 {event.title}
                                             </DialogTrigger>
                                             <DialogContent>

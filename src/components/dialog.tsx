@@ -33,9 +33,9 @@ export const DialogTitle = ({ children }) => {
 	)
 }
 
-export const DialogTrigger = ({ children }) => {
+export const DialogTrigger = ({ children, className }) => {
 	return (
-		<Trigger className="bg-blue-300 px-2 py-1 rounded-lg cursor-pointer">
+		<Trigger className={className}>
 			{ children }
 		</Trigger>
 	)
