@@ -34,22 +34,19 @@ export const MonthDisplayer = ({ events }) => {
         return false
     }
 
-    const actualMonth = new Date().getMonth()
-    const thisMonthEvents = events.filter(event => new Date(event.startDate).getMonth() === actualMonth || new Date(event.endDate).getMonth() === actualMonth)
-
-    console.log("ohohoh", thisMonthEvents);
-
     const getEventsForDay = (day: number) => {
         const calendarDay = new Date(currentYear, currentMonth, day + 1)
+        calendarDay.setHours(0, 0, 0, 0)
 
         return events.filter(event => {
             const eventStart = new Date(event.startDate)
             const eventEnd = new Date(event.endDate)
+            eventStart.setHours(0, 0, 0, 0)
 
             return (
-                eventStart.getDate() === calendarDay.getDate() && eventStart.getMonth() === calendarDay.getMonth()
-                || eventEnd.getDate() === calendarDay.getDate() && eventEnd.getMonth() === calendarDay.getMonth()
-                || eventStart < calendarDay && eventEnd > calendarDay
+                eventStart.getTime() === calendarDay.getTime() ||
+                eventEnd.getTime() === calendarDay.getTime() ||
+                (eventStart < calendarDay && eventEnd > calendarDay)
             )
         })
     }
