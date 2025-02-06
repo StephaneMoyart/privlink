@@ -14,7 +14,7 @@ export const AcceptOrDeclineInvitation: React.FC<AcceptOrDeclineInvitationProps>
     const [declinePending, declineTransition] = useTransition()
 
     return (
-        <div className="flex items-center gap-2 bg-green-200">
+        <div className="flex items-center gap-2">
             <Button
                 color="green"
                 onClick={() => acceptTransition(() => acceptContactInvitationAction(invitedByUserId, invitationId))}

@@ -55,3 +55,11 @@ export const getSessionContacts = async () => {
     const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
     return contacts.map(contact => contact.toJSON({ flattenObjectIds: true }))
 }
+
+export const getContactInvitationsCount = async () => {
+    // shield
+    const session = await getSessionOrRedirect()
+    //end shield
+
+    return await ContactInvitation.countDocuments({ invitedUser: session._id })
+}

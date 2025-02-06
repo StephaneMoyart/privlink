@@ -16,8 +16,6 @@ export const MonthDisplayer = ({ events }) => {
     const [currentMonth, setCurrentMonth] = useState(now.getMonth())
     const [currentYear, setCurrentYear] = useState(now.getFullYear())
 
-    const [date, setDate] = useState<Date>(new Date(new Date().setHours(0, 0, 0, 0)))
-
     const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
     const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay()
 
@@ -80,15 +78,10 @@ export const MonthDisplayer = ({ events }) => {
                     const dayEvents = getEventsForDay(i)
                     return (
                         <div
-                            onClick={() => {
-                                setDate(new Date(currentYear, currentMonth, i + 1))
-                            }}
-                            className={cn("text-center bg-white",
-                                checkIfToday(i) && "text-green-500"
-                            )}
+                            className="text-center bg-white"
                             key={`day-${i}`}
                         >
-                            <p>{i + 1}</p>
+                            <p className={cn("", checkIfToday(i) && "text-green-500")}>{i + 1}</p>
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
                                     <div key={event._id} className="mb-1">
