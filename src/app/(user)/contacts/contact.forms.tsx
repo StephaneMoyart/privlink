@@ -39,11 +39,11 @@ export const SearchUserForm = () => {
     const [, action, pending] = useActionState(() => sendContactInvitationAction(invitedUserId), null)
 
     return (
-        <form className="flex gap-1" action={action}>
-            <div className="border shadow focus-within:border-zinc-950 transition-all duration-300">
+        <form className="max-md:w-full flex gap-1" action={action}>
+            <div className="max-md:w-full border shadow focus-within:border-zinc-950 transition-all duration-300">
                 {isSearchVisible &&
                     <input
-                        className="w-[350px] h-12 p-4 outline-none"
+                        className="max-md:w-full w-[350px] h-12 p-4 outline-none"
                         placeholder="ajouter un membre"
                         onChange={e => setQuery(e.target.value)}
                         value={query}

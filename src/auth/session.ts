@@ -38,7 +38,8 @@ export async function createSession(userId: string) {
         name: "session",
         value: session,
         httpOnly: true,
-        secure: true,
+        // for localhost access
+        // secure: true,
         expires: expiresAt,
     })
 }

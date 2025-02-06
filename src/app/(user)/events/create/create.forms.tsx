@@ -16,8 +16,8 @@ export const CreateEventForm = () => {
 
     return (
         <form className="w-full h-full flex flex-col justify-between gap-2" action={action}>
-            <div className="flex">
-                <div className="flex flex-col gap-2 w-1/2">
+            <div className="max-md:flex-col flex">
+                <div className="flex flex-col gap-2 md:w-1/2">
                     {state?.success && <p className="text-green-500">Evenement créé avec succès</p>}
                     {!state?.success && <p className="text-red-500">{state?.message}</p>}
                     <div className="flex flex-col gap-2">
@@ -25,7 +25,7 @@ export const CreateEventForm = () => {
                         <InputWLabel name="description" label="DESCRIPTION DE L'EVENEMENT"/>
                     </div>
 
-                    <div className="grid w-full grid-cols-2 grid-rows-[auto, auto] gap-4">
+                    <div className="grid w-full grid-cols-1 md:grid-cols-2 grid-rows-[auto, auto] gap-4">
                         <Checkbox name="isFullDay" signalIsChecked={setDisplayTimePicker}>
                             Journées complètes
                         </Checkbox>

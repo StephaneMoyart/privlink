@@ -19,7 +19,7 @@ const options = [
 ]
 
 export const DisplaySelector = ({ setDisplay }) => {
-    const [selected, setSelected] = useState<string>(options[1].name)
+    const [selected, setSelected] = useState<string>(options[2].name)
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
     return (

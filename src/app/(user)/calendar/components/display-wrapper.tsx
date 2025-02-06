@@ -7,7 +7,7 @@ import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
 
 export const DisplayWrapper = ({ events }) => {
-    const [display, setDisplay] = useState("week")
+    const [display, setDisplay] = useState("month")
 
     return (
         <div className="flex flex-col gap-2 h-full">

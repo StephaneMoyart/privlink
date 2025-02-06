@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { User } from "lucide-react"
+import { cn } from "@/lib/cn"
 
 type UserAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
     avatarUrl: string
@@ -18,9 +19,9 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width
                     alt="avatar"
                     height={height}
                     width={width}
-                    className={className}
+                    className={cn("shrink-0", className)}
                 />
-                : <User className={className}/>
+                : <User className={cn("shrink-0", className)}/>
             }
         </>
     )

@@ -6,11 +6,11 @@ import Link from "next/link"
 
 export default function UserLayout({children}: {children: React.ReactNode}) {
     return (
-        <div className="flex w-full h-screen">
-            <div className="flex flex-col items-center justify-between h-screen min-w-50 border-r border-black/20 shadow shadow-black/20">
-                <div className="flex flex-col w-full">
-                    <Link href="/account" className="flex justify-center items-center p-4">
-                        <SessionAvatar className="h-15 w-15 rounded-full not-hover:opacity-90" height={60} width={60}/>
+        <div className="max-md:flex-col flex w-full h-screen">
+            <div className="flex md:flex-col items-center justify-between md:h-screen max-md:px-4 min-w-50 border-r border-black/20 shadow shadow-black/20">
+                <div className="flex max-md:gap-2 max-md:items-center md:flex-col md:w-full">
+                    <Link href="/account" className="flex shrink-0 justify-center items-center p-3 md:p-4">
+                        <SessionAvatar className="h-10 w-10 md:h-15 md:w-15 rounded-full not-hover:opacity-90" height={60} width={60}/>
                     </Link>
 
                     <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-black/20" href="/dashboard">
@@ -41,7 +41,7 @@ export default function UserLayout({children}: {children: React.ReactNode}) {
                         await deleteSession()
                         redirect('/signin')
                     }}
-                    className="flex items-center w-full h-12 justify-center gap-4 cursor-pointer hover:bg-orange-500" type="submit">
+                    className="md:flex md:items-center md:w-full md:h-12 justify-center gap-4 cursor-pointer hover:bg-orange-500">
                     <LogOut />
                     <p className="max-md:hidden">Deconnexion</p>
                 </button>

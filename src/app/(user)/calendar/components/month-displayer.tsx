@@ -91,9 +91,9 @@ export const MonthDisplayer = ({ events }) => {
                             <p>{i + 1}</p>
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
-                                    <div key={event._id} className="mb-1 truncate">
+                                    <div key={event._id} className="mb-1">
                                         <Dialog>
-                                            <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full">
+                                            <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
                                                 {event.title}
                                             </DialogTrigger>
                                             <DialogContent>

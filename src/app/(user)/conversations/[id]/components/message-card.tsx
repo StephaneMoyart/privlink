@@ -29,11 +29,11 @@ export const MessageCard = ({message, conversationId, sessionId}) => {
                     :
                     <div className="flex flex-col w-full gap-1">
                         <div className="flex gap-2 items-center">
-                            <p className="font-bold">
+                            <p className="max-md:text-sm font-bold">
                                 <span>{firstname} </span>
                                 <span>{lastname}</span>
                             </p>
-                            <p className="text-[12px] opacity-60">{formatMessageDateAndTime(message.date)}</p>
+                            <p className="max-md:text-[9px] text-xs opacity-60">{formatMessageDateAndTime(message.date)}</p>
                         </div>
                         <p>
                             {content}
