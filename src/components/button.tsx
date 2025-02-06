@@ -7,10 +7,10 @@ const colorVariants: Record<string, string> = {
     zinc: "bg-zinc-500 hover:bg-zinc-600 border-zinc-400 hover:border-zinc-500",
     blue: "bg-blue-500 hover:bg-blue-600 border-blue-400 hover:border-blue-500",
     red: "bg-red-500 hover:bg-red-600 border-red-400 hover:border-red-500",
-    green: "bg-green-500 hover:bg-green-600 border-green-400 hover:border-green-500",
+    green: "bg-green-700 hover:bg-green-800 border-green-600 hover:border-green-700",
     yellow: "bg-yellow-500 hover:bg-yellow-600 border-yellow-400 hover:border-yellow-500",
     purple: "bg-purple-500 hover:bg-purple-600 border-purple-400 hover:border-purple-500",
-    orange: "bg-orange-500 hover:bg-orange-600 border-orange-400 hover:border-orange-500",
+    orange: "bg-orange-700 hover:bg-orange-800 border-orange-600 hover:border-orange-700",
     pink: "bg-pink-500 hover:bg-pink-600 border-pink-400 hover:border-pink-500"
 }
 

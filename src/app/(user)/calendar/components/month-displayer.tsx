@@ -1,8 +1,10 @@
 'use client'
 
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/dialog"
 import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
+import { EventCard } from "../../events/components/event-card"
 
 export const MonthDisplayer = ({ events }) => {
 
@@ -88,9 +90,19 @@ export const MonthDisplayer = ({ events }) => {
                             <p>{i + 1}</p>
                             <div className="h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
-                                    <p key={event._id} className="truncate">
-                                        {event.title}
-                                    </p>
+                                    <div key={event._id} className="truncate">
+                                        <Dialog>
+                                            <DialogTrigger>
+                                                {event.title}
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogTitle>
+                                                    Details de l&apos;évenement
+                                                </DialogTitle>
+                                                <EventCard readOnly event={event}/>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
                                 ))}
                             </div>
                         </div>
