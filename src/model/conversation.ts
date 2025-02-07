@@ -30,6 +30,9 @@ const conversationSchema = new Schema ({
         type: Boolean,
         default: false
     },
+    title: {
+        type: String
+    },
     createdAt: {
         type: Date,
         default: Date.now
