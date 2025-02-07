@@ -5,11 +5,7 @@ import { Conversation } from "@/model"
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
-const newMessageSchema = z.object({
-    content: z.string().min(1)
-})
-
-const editMessageSchema = z.object({
+const messageSchema = z.object({
     content: z.string().min(1)
 })
 
@@ -18,7 +14,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
     const session = await getSession()
     // end shield
 
-    const result = newMessageSchema.safeParse({
+    const result = messageSchema.safeParse({
         content: formData.get('content')
     })
 
@@ -62,7 +58,7 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
     await getSession()
     // end shield
 
-    const result = editMessageSchema.safeParse({
+    const result = messageSchema.safeParse({
         content: formData.get('content')
     })
 
