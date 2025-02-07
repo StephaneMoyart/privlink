@@ -1,7 +1,7 @@
 'use client'
 
-import { Check, ChevronDown } from "lucide-react"
-import { useState } from "react"
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/select"
+import { SetStateAction, useState } from "react"
 
 const options = [
     {
@@ -18,35 +18,30 @@ const options = [
     }
 ]
 
-export const DisplaySelector = ({ setDisplay }) => {
+type DisplaySelectorProps = {
+    setDisplay: React.Dispatch<SetStateAction<string>>
+}
+
+export const DisplaySelector: React.FC<DisplaySelectorProps> = ({ setDisplay }) => {
     const [selected, setSelected] = useState<string>(options[2].name)
-    const [isVisible, setIsVisible] = useState<boolean>(false)
 
     return (
-        <div className="flex flex-col gap-2 shadow min-w-[150px] max-w-fit">
-            <div onClick={() => setIsVisible(prev => !prev)} className="flex gap-2 justify-center font-semibold py-2 px-4 cursor-pointer">
+        <Select value={selected} onValueChange={value => {
+            const selectedOption = options.find(option => option.value === value)
+            if (selectedOption) setSelected(selectedOption.name)
+            setDisplay(value)
+        }}>
+            <SelectTrigger className="flex items-center justify-between p-2 border rounded-md">
                 {selected}
-                <ChevronDown/>
-            </div>
+            </SelectTrigger>
 
-            {isVisible &&
-                <div>
-                    {options.map((option, index) => (
-                        <p
-                            key={index}
-                            onClick={() => {
-                                setSelected(option.name)
-                                setDisplay(option.value)
-                                setIsVisible(prev => !prev)
-                            }}
-                            className="flex gap-2 justify-between items-center hover:bg-black/20 py-2 px-4 cursor-pointer"
-                        >
-                            {option.name}
-                            {selected === option.name && <span className="inline-block"><Check size={15}/></span>}
-                        </p>
-                    ))}
-                </div>
-            }
-        </div>
+            <SelectContent>
+                {options.map((option, index) => (
+                    <SelectItem key={index} value={option.value}>
+                        {option.name}
+                    </SelectItem>
+                ))}
+            </SelectContent>
+        </Select>
     )
 }

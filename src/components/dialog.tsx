@@ -3,15 +3,9 @@ import { Dialog as DialogPrimitive } from "radix-ui";
 
 const { Root, Trigger, Portal, Overlay, Content, Title, Description, Close } = DialogPrimitive
 
-export const Dialog = ({ children }) => {
-	return (
-		<Root>
-			{children}
-		</Root>
-	)
-}
+export const Dialog = Root
 
-export const DialogContent = ({ children }) => {
+export const DialogContent: React.FC<React.ComponentProps<typeof DialogPrimitive.Content>> = ({ children }) => {
 	return (
 		<Portal>
 			<Overlay className="fixed inset-0 bg-black/50"/>
@@ -25,7 +19,7 @@ export const DialogContent = ({ children }) => {
 	)
 }
 
-export const DialogTitle = ({ children }) => {
+export const DialogTitle: React.FC<React.ComponentProps<typeof DialogPrimitive.Title>> = ({ children }) => {
 	return(
 		<Title className="text-xl py-4">
 			{ children }
@@ -33,7 +27,7 @@ export const DialogTitle = ({ children }) => {
 	)
 }
 
-export const DialogTrigger = ({ children, className }) => {
+export const DialogTrigger: React.FC<React.ComponentProps<typeof DialogPrimitive.Trigger>> = ({ children, className }) => {
 	return (
 		<Trigger className={className}>
 			{ children }
@@ -41,7 +35,7 @@ export const DialogTrigger = ({ children, className }) => {
 	)
 }
 
-export const DialogDescription = ({ children }) => {
+export const DialogDescription: React.FC<React.ComponentProps<typeof DialogPrimitive.Description>> = ({ children }) => {
 	return (
 		<Description>
 			{ children }

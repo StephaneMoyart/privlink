@@ -12,9 +12,9 @@ export const DisplayWrapper = ({ events }) => {
     return (
         <div className="flex flex-col gap-2 h-full">
             <DisplaySelector setDisplay={setDisplay}/>
-            { display === "day" && <DayDisplayer display={display}/> }
-            { display === "week" && <WeekDisplayer display={display}/> }
-            { display === "month" && <MonthDisplayer display={display} events={events}/> }
+            { display === "day" && <DayDisplayer /> }
+            { display === "week" && <WeekDisplayer /> }
+            { display === "month" && <MonthDisplayer events={events}/> }
         </div>
     )
 }
