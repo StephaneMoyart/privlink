@@ -1,5 +1,6 @@
 'use client'
 
+import { UserAvatar } from "@/components/user-avatar"
 import { cn } from "@/lib/cn"
 import { useState } from "react"
 
@@ -9,8 +10,8 @@ export const ContactCard = ({ contact, setMembers }) => {
 
     return (
         <div
-            className={cn("",
-                isSelected && "border border-green-300"
+            className={cn("flex items-center gap-2 p-2 rounded-md border-2",
+                isSelected && "border-green-500"
             )}
             onClick={() => {
                 setMembers(prev => {
@@ -20,7 +21,9 @@ export const ContactCard = ({ contact, setMembers }) => {
                 setIsSelected(prev => !prev)
             }}
         >
-            {firstname}
+            <UserAvatar className="h-7.5 w-7.5" avatarUrl={contact.avatarUrl} height={30} width={30}/>
+            <p>{firstname}</p>
+            <p>{lastname}</p>
         </div>
     )
 }

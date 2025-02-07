@@ -14,7 +14,7 @@ export const CreateGroupConversationForm = ({ contacts }) => {
 
 
     return (
-        <form action={action}>
+        <form className="flex flex-col gap-4" action={action}>
             <InputWLabel name={"title"} label={"Nom de la conversation"} />
 
             <p>Selectionnez des links (minimum 2):</p>
@@ -33,7 +33,7 @@ export const CreateGroupConversationForm = ({ contacts }) => {
             >
                 Créer cette conversation
             </Button>
-            {state?.success === false && <p>{state.message}</p>}
+            {state?.success === false && <p className="text-red-500">{state.message}</p>}
         </form>
 
     )
