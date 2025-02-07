@@ -15,6 +15,7 @@ export const getSessionConversations = async () => {
             path: 'members',
             select: '_id firstname lastname avatarUrl',
         })
+        .sort({lastUpdate: - 1})
         .select('_id multi members')
         .lean()
 

@@ -33,6 +33,10 @@ const conversationSchema = new Schema ({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    lastUpdate: {
+        type: Date,
+        default: Date.now
     }
 })
 
