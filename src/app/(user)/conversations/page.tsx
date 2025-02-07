@@ -20,16 +20,26 @@ const Page = async () => {
             <div className="flex flex-col gap-4">
                 {conversations.map(conversation => (
                     <Link className="flex items-center gap-2" href={`/conversations/${conversation._id}`} key={conversation._id}>
-                        <UserAvatar
-                            className="w-15 h-15 rounded-full overflow-hidden"
-                            width={60}
-                            height={60}
-                            avatarUrl={conversation.members[0].avatarUrl}
-                        />
-                        <p>
-                            <span>{conversation.members[0].firstname} </span>
-                            <span>{conversation.members[0].lastname} </span>
-                        </p>
+                        <div className="flex -space-x-5">
+                            {conversation.members.map((member, index) => (
+                                <UserAvatar
+                                    key={member._id}
+                                    className="w-15 h-15 rounded-full overflow-hidden"
+                                    width={60}
+                                    height={60}
+                                    avatarUrl={conversation.members[index].avatarUrl}
+                                />
+                            ))}
+                        </div>
+                        {conversation.title
+                            ?
+                            <p>{conversation.title}</p>
+                            :
+                            <p>
+                                <span>{conversation.members[0].firstname} </span>
+                                <span>{conversation.members[0].lastname} </span>
+                            </p>
+                        }
                     </Link>
                 ))}
             </div>

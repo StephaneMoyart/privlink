@@ -16,7 +16,7 @@ export const getSessionConversations = async () => {
             select: '_id firstname lastname avatarUrl',
         })
         .sort({lastUpdate: - 1})
-        .select('_id multi members')
+        .select('_id multi title members')
         .lean()
 
     return conversations.map(conversation => ({...conversation, members: conversation.members.filter(member => !member._id.equals(session._id))}))

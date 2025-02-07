@@ -8,7 +8,7 @@ import { InputWLabel } from "@/components/input-w-label"
 
 export const CreateGroupConversationForm = ({ contacts }) => {
     const [members, setMembers] = useState([])
-    const [, action, pending] = useActionState(createGroupConversationAction.bind(null, members), null)
+    const [state, action, pending] = useActionState(createGroupConversationAction.bind(null, members), null)
 
     console.log(members);
 
@@ -33,6 +33,8 @@ export const CreateGroupConversationForm = ({ contacts }) => {
             >
                 Créer cette conversation
             </Button>
+            {state?.success === false && <p>{state.message}</p>}
         </form>
+
     )
 }
