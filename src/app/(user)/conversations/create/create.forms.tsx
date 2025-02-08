@@ -2,10 +2,9 @@
 
 import { useActionState, useState } from "react"
 import { createGroupConversationAction } from "./create.actions"
-import { ContactCard } from "./components/contact-card"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
-import { Contact } from "./page"
+import { Contact, ContactSelector } from "@/feats/contact-selector/contact-selector"
 
 type CreateGroupConversationFormProps = {
     contacts: Contact[]
@@ -23,13 +22,7 @@ export const CreateGroupConversationForm: React.FC<CreateGroupConversationFormPr
 
             <p>Selectionnez des links (minimum 2):</p>
 
-            {contacts.map(contact => (
-                <ContactCard
-                    setMembers={setMembers}
-                    key={contact._id}
-                    contact={contact}
-                />
-            ))}
+            <ContactSelector contacts={contacts} setMembers={setMembers}/>
 
             <Button
                 disabled={members.length < 2 || pending}

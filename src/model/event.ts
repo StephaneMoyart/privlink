@@ -22,11 +22,11 @@ const eventSchema = new Schema({
     endDate: {
         type: Date
     },
-    isFullDay : {
+    isFullDay: {
         type: Boolean,
         required: true
     },
-    participants : [
+    participants: [
         {
             type: ObjectId,
             ref: 'User'

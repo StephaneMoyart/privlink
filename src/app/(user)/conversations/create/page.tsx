@@ -3,13 +3,9 @@ import { User } from "@/model"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { CreateGroupConversationForm } from "./create.forms"
+import { Contact } from "@/feats/contact-selector/contact-selector"
 
-export type Contact = {
-    _id: string
-    firstname: string
-    lastname: string
-    avatarUrl: string
-}
+
 
 const Page = async () => {
     const session = await getSession()

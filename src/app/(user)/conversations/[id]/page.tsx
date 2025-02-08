@@ -23,9 +23,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
     //Shield
     const session = await getSession()
-    if (!members.includes(session._id.toString())) redirect('/conversations')
 
+    if (!members.includes(session._id.toString())) redirect('/conversations')
     //shield
+
     const otherMember = members.filter(member => member !== session._id.toString())
 
     const getFullName = async (stringId: string) => {
