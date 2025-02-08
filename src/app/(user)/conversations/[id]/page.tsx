@@ -1,4 +1,4 @@
-import { getSelectedConversationAction } from "./conversation.actions"
+
 import { NewMessageForm } from "./conversation.forms"
 import { MessageCard } from "./components/message-card"
 import { getSession } from "@/auth/session"
@@ -6,8 +6,9 @@ import { OptionsBar } from "@/components/options-bar"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/button"
 import Link from "next/link"
-import { User } from "@/model"
+import { Conversation, User } from "@/model"
 import { QuitConversation } from "./components/quit-conversation"
+import { redirect } from "next/navigation"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -15,10 +16,16 @@ type PageProps = {
 
 const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
-    const { messages, title, members, multi, _id } = await getSelectedConversationAction(id)
 
+    const rawConversation = await Conversation.findById(id).populate('messages.author', 'firstname lastname avatarUrl')
+    const conversation = rawConversation.toJSON({flattenObjectIds: true})
+    const { messages, title, members, multi, _id } = conversation
+
+    //Shield
     const session = await getSession()
+    if (!members.includes(session._id.toString())) redirect('/conversations')
 
+    //shield
     const otherMember = members.filter(member => member !== session._id.toString())
 
     const getFullName = async (stringId: string) => {

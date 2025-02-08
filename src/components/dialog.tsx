@@ -9,7 +9,7 @@ export const DialogContent: React.FC<React.ComponentProps<typeof DialogPrimitive
 	return (
 		<Portal>
 			<Overlay className="fixed inset-0 bg-black/50"/>
-				<Content className="p-8 fixed top-1/2 left-1/2 -translate-[50%] shadow bg-white rounded-md">
+				<Content className="fixed p-8 top-1/2 left-1/2 -translate-[50%] shadow bg-white rounded-md max-w-[90%]">
 					<Close className="absolute top-2 right-2">
 						<X size={20}/>
 					</Close>

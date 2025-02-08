@@ -3,6 +3,7 @@
 import { getSession } from "@/auth/session"
 import { Conversation } from "@/model"
 import { revalidatePath } from "next/cache"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 const messageSchema = z.object({
@@ -31,17 +32,6 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
     )
 
     revalidatePath('/conversations')
-}
-
-export const getSelectedConversationAction = async (conversationId) => {
-    // shield
-    await getSession()
-    // end shield
-
-    const conversation = await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
-    console.log(conversation);
-
-    return conversation.toJSON({ flattenObjectIds: true})
 }
 
 export const deleteMessageAction = async (conversationId, messageId) => {
@@ -90,4 +80,6 @@ export const quitConversationAction = async (conversationId) => {
         { _id: conversationId},
         {$pull: {members: session._id}}
     )
+
+    redirect('/conversations')
 }

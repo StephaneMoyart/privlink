@@ -5,14 +5,12 @@ import { Clock, Text } from "lucide-react";
 import { EventCardSettings } from "./event-card-settings";
 
 export const EventCard = ({ event, readOnly = false }) => {
-    console.log(event);
-
     const { _id, title, description, startDate, endDate, isFullDay } = event
 
     const date = handleEventDateDisplay(startDate, endDate, isFullDay)
 
     if (readOnly) return (
-        <div className="flex flex-col gap-2">
+        <div className="space-y-2">
             <p className="text-xl font-bold">{title}</p>
             <div className="flex items-center gap-2">
                 <Text size={15}/>
@@ -27,7 +25,7 @@ export const EventCard = ({ event, readOnly = false }) => {
 
     return (
         <div className="flex justify-between shadow p-2">
-            <div className="flex flex-col gap-2">
+            <div className="space-y-2">
                 <p className="text-xl font-bold">{title}</p>
                 <div className="flex items-center gap-2">
                     <Text size={15}/>
