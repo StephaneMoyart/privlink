@@ -3,10 +3,11 @@ import { NewMessageForm } from "./conversation.forms"
 import { MessageCard } from "./components/message-card"
 import { getSession } from "@/auth/session"
 import { OptionsBar } from "@/components/options-bar"
-import { ArrowLeft, X } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/button"
 import Link from "next/link"
 import { User } from "@/model"
+import { QuitConversation } from "./components/quit-conversation"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -14,12 +15,11 @@ type PageProps = {
 
 const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
-    const { messages, title, members, multi } = await getSelectedConversationAction(id)
+    const { messages, title, members, multi, _id } = await getSelectedConversationAction(id)
 
     const session = await getSession()
 
     const otherMember = members.filter(member => member !== session._id.toString())
-
 
     const getFullName = async (stringId: string) => {
         const user = await User.findById(stringId).select('firstname lastname')
@@ -41,9 +41,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
                 {multi
                 ?
-                <Button>
-                    Quitter
-                </Button>
+                <QuitConversation conversationId={ _id}/>
                 :
                 <span></span>
                 }

@@ -80,3 +80,14 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
 
     return { success: true}
 }
+
+export const quitConversationAction = async (conversationId) => {
+    //shield
+    const session = await getSession()
+    //end shield
+
+    await Conversation.updateOne(
+        { _id: conversationId},
+        {$pull: {members: session._id}}
+    )
+}
