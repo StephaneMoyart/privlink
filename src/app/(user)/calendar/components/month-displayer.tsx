@@ -5,8 +5,13 @@ import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import { EventCard } from "../../events/components/event-card"
+import { Event } from "@/model"
 
-export const MonthDisplayer = ({ events }) => {
+type MonthDisplayerProps = {
+    events: Event[]
+}
+
+export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {
 
     const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
@@ -38,7 +43,7 @@ export const MonthDisplayer = ({ events }) => {
 
         return events.filter(event => {
             const eventStart = new Date(event.startDate)
-            const eventEnd = new Date(event.endDate)
+            const eventEnd = new Date(event.endDate as Date)
             eventStart.setHours(0, 0, 0, 0)
 
             return (
@@ -84,7 +89,7 @@ export const MonthDisplayer = ({ events }) => {
                             <p className={cn("", checkIfToday(i) && "text-green-500")}>{i + 1}</p>
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
-                                    <div key={event._id} className="mb-1">
+                                    <div key={event._id.toString()} className="mb-1">
                                         <Dialog>
                                             <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
                                                 {event.title}

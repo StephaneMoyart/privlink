@@ -5,6 +5,7 @@ import { decrypt } from "./decrypt"
 import { User } from "@/model"
 import connectDB from "@/db/db"
 import { redirect } from "next/navigation"
+import { Types } from "mongoose"
 
 type SessionPayload = {
     userId: string
@@ -16,7 +17,7 @@ type UserSession = {
     firstname: string
     lastname: string
     avatarUrl: string
-    contacts: string[]
+    contacts: Types.ObjectId[]
 }
 
 const secretKey = process.env.JWT_SECRET

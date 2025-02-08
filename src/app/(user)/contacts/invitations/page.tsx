@@ -13,9 +13,12 @@ const Page = async () => {
             {invitations.map(({ _id, invitedByUser : {_id: invitedByUserId, avatarUrl, firstname, lastname}}) => (
                 <div key={_id} className="flex w-full justify-between p-4">
                     <div className="flex gap-2">
-                        <div className="w-15 h-15 rounded-full overflow-hidden">
-                            <UserAvatar avatarUrl={avatarUrl} width={60} height={60}/>
-                        </div>
+                        <UserAvatar
+                            className="w-15 h-15 rounded-full"
+                            avatarUrl={avatarUrl}
+                            width={60}
+                            height={60}
+                        />
                         <div className="flex flex-col justify-center">
                             <p>{firstname} {lastname}</p>
                             <p className="text-xs">vous propose de créer un Link</p>

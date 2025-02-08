@@ -5,17 +5,18 @@ import { useDebounceValue } from "@/hooks/use-debounce-value"
 import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
 import { Button } from "@/components/button"
+import { User } from "@/model"
 
-type UserTypes = {
-    _id: string
-    firstname: string
-    lastname: string
-    avatarUrl: string
-}
+// type UserTypes = {
+//     _id: string
+//     firstname: string
+//     lastname: string
+//     avatarUrl: string
+// }
 
 export const SearchUserForm = () => {
     const [query, setQuery] = useState<string>('')
-    const [queryResult, setQueryResult] = useState<UserTypes[]>([])
+    const [queryResult, setQueryResult] = useState<User[]>([])
     const [isSearchVisible, setIsSearchVisible] = useState<boolean>(true)
     const [invitedUserId, setInvitedUserId] = useState<string>('')
     const debouncedValue = useDebounceValue(query, 500)
@@ -50,10 +51,10 @@ export const SearchUserForm = () => {
                     />
                 }
                 {queryResult.map(({ _id, firstname, lastname, avatarUrl}) => (
-                    <div className="flex w-[350px] gap-2 items-center h-12 p-4" key={_id}
+                    <div className="flex w-[350px] gap-2 items-center h-12 p-4" key={_id.toString()}
                         onClick={() => {
                             setIsSearchVisible(false)
-                            setInvitedUserId(_id)
+                            setInvitedUserId(_id.toString())
                         }}
                     >
                         <UserAvatar

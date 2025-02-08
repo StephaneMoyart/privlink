@@ -28,6 +28,9 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
     // shield
     const session = await getSession()
     // end shield
+    console.log(session);
+    console.log(invitedUserId);
+
 
     if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
     if (session._id.equals(invitedUserId)) return { message: "Opération impossible"}
@@ -46,20 +49,3 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
     // todoreturn
     return {}
 }
-
-// export const getSessionContacts = async () => {
-//     // shield
-//     const session = await getSessionOrRedirect()
-//     // end shield
-
-//     const contacts = await User.find({ _id: { $in: session.contacts }}, ('firstname lastname avatarUrl'))
-//     return contacts.map(contact => contact.toJSON({ flattenObjectIds: true }))
-// }
-
-// export const getContactInvitationsCount = async () => {
-//     // shield
-//     const session = await getSessionOrRedirect()
-//     //end shield
-
-//     return await ContactInvitation.countDocuments({ invitedUser: session._id })
-// }

@@ -1,12 +1,17 @@
 'use client'
 
-import { useState } from "react"
+import React, { useState } from "react"
 import { DayDisplayer } from "./day-displayer"
 import { DisplaySelector } from "./display-selector"
 import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
+import { Event } from "@/model"
 
-export const DisplayWrapper = ({ events }) => {
+type DisplayWrapperProps = {
+    events: Event[]
+}
+
+export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events }) => {
     const [display, setDisplay] = useState("month")
 
     return (

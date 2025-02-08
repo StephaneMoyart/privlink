@@ -1,4 +1,4 @@
-import { InferSchemaType, Schema, model, models} from 'mongoose'
+import { InferSchemaType, Schema, Types, model, models} from 'mongoose'
 
 const { ObjectId } = Schema.Types
 
@@ -34,6 +34,8 @@ const eventSchema = new Schema({
     ]
 })
 
-type Event = InferSchemaType<typeof eventSchema>
+export type Event = InferSchemaType<typeof eventSchema> & {
+    _id: Types.ObjectId
+}
 
 export const Event = models.Event || model<Event>('Event', eventSchema)
