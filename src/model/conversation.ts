@@ -1,4 +1,4 @@
-import { InferSchemaType, model, models, Schema } from "mongoose"
+import { InferSchemaType, model, models, Schema, Types } from "mongoose"
 
 const { ObjectId } = Schema.Types
 
@@ -43,6 +43,8 @@ const conversationSchema = new Schema ({
     }
 })
 
-export type Conversation = InferSchemaType<typeof conversationSchema>
+export type Conversation = InferSchemaType<typeof conversationSchema> & {
+    _id: Types.ObjectId
+}
 
 export const Conversation = models.Conversation || model<Conversation>('Conversation', conversationSchema)

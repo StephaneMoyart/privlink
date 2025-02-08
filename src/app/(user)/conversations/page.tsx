@@ -19,11 +19,11 @@ const Page = async () => {
             </div>
             <div className="flex flex-col gap-4">
                 {conversations.map(conversation => (
-                    <Link className="flex items-center gap-2" href={`/conversations/${conversation._id}`} key={conversation._id}>
+                    <Link className="flex items-center gap-2" href={`/conversations/${conversation._id}`} key={conversation._id.toString()}>
                         <div className="flex -space-x-5">
                             {conversation.members.map((member, index) => (
                                 <UserAvatar
-                                    key={member._id}
+                                    key={member._id.toString()}
                                     className="w-15 h-15 rounded-full overflow-hidden"
                                     width={60}
                                     height={60}

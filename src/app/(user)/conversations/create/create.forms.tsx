@@ -5,13 +5,17 @@ import { createGroupConversationAction } from "./create.actions"
 import { ContactCard } from "./components/contact-card"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
+import { Contact } from "./page"
 
-export const CreateGroupConversationForm = ({ contacts }) => {
-    const [members, setMembers] = useState([])
+type CreateGroupConversationFormProps = {
+    contacts: Contact[]
+}
+
+export const CreateGroupConversationForm: React.FC<CreateGroupConversationFormProps> = ({ contacts }) => {
+    const [members, setMembers] = useState<string[]>([])
     const [state, action, pending] = useActionState(createGroupConversationAction.bind(null, members), null)
 
     console.log(members);
-
 
     return (
         <form className="flex flex-col gap-4" action={action}>
