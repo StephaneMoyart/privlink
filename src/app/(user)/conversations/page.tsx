@@ -2,6 +2,8 @@ import { UserAvatar } from "@/components/user-avatar";
 import { getSessionConversations } from "./conversations.actions"
 import Link from "next/link";
 import { Button } from "@/components/button";
+import { OptionsBar } from "@/components/options-bar";
+import { MessagesSquare, Plus } from "lucide-react";
 
 const Page = async () => {
     const conversations = await getSessionConversations()
@@ -10,13 +12,13 @@ const Page = async () => {
 
     return (
         <div className="flex flex-col gap-4">
-            <div className="flex items-center p-4 border-b shadow -m-4 mb-0">
+            <OptionsBar>
                 <Button asChild>
                     <Link href={'/conversations/create'}>
-                        Créer une conversation de groupe
+                        <MessagesSquare/> <Plus/>
                     </Link>
                 </Button>
-            </div>
+            </OptionsBar>
             <div className="flex flex-col gap-4">
                 {conversations.map(conversation => (
                     <Link className="flex items-center gap-2" href={`/conversations/${conversation._id}`} key={conversation._id.toString()}>

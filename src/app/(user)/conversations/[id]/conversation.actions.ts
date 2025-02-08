@@ -39,6 +39,7 @@ export const getSelectedConversationAction = async (conversationId) => {
     // end shield
 
     const conversation = await Conversation.findById(conversationId).populate('messages.author', 'firstname lastname avatarUrl')
+    console.log(conversation);
 
     return conversation.toJSON({ flattenObjectIds: true})
 }

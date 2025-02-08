@@ -84,7 +84,7 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
             }
         case !hasEndDate && isFullDay :
             switch(true) {
-                case startDate <= endOfToday :
+                case startDate < endOfToday :
                     return `Aujourd'hui`
                 case startDate < endOfTomorrow :
                     return `Demain`

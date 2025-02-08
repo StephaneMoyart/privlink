@@ -4,6 +4,7 @@
 import Image from "next/image"
 import { getSession } from "./session"
 import { User } from "lucide-react"
+import { cn } from "@/lib/cn"
 
 type SessionAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
     height: number
@@ -23,7 +24,7 @@ export const SessionAvatar: React.FC<SessionAvatarProps> = async ({ height, widt
                     width={width}
                     className={className}
                 />
-                : <User className={className}/>
+                : <User className={cn("bg-gray-200 shrink-0", className)}/>
             }
         </>
     )

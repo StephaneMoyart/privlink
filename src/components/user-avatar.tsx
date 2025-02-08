@@ -21,7 +21,7 @@ export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width
                     width={width}
                     className={cn("shrink-0", className)}
                 />
-                : <User className={cn("shrink-0", className)}/>
+                : <User className={cn("bg-gray-200 shrink-0", className)}/>
             }
         </>
     )
