@@ -4,10 +4,12 @@ import { handleEventDateDisplay } from "@/lib/format-event-card-date";
 import { Clock, Text } from "lucide-react";
 import { EventCardSettings } from "./event-card-settings";
 
-export const EventCard = ({ event, readOnly = false }) => {
-    const { _id, title, description, startDate, endDate, isFullDay } = event
+export const EventCard = ({ event, readOnly = false, sessionId }) => {
+    const { _id, title, description, startDate, endDate, isFullDay, creator } = event
 
     const date = handleEventDateDisplay(startDate, endDate, isFullDay)
+
+    const isCreator = sessionId === creator.toString()
 
     if (readOnly) return (
         <div className="space-y-2">
@@ -37,7 +39,8 @@ export const EventCard = ({ event, readOnly = false }) => {
                 </div>
             </div>
 
-            <EventCardSettings eventId={ _id}/>
+            {isCreator && <EventCardSettings eventId={ _id}/>}
+
         </div>
     )
 }
