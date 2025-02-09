@@ -19,26 +19,42 @@ export const EventCard = ({ event, readOnly = false, sessionId }) => {
 
                 <div className="flex items-center gap-2">
                     <p>Créé par :</p>
-                    <UserAvatar className="w-5 h-5 rounded-full" avatarUrl={creator.avatarUrl} height={20} width={20}/>
-                    <p>{creator.firstname} {creator.lastname}</p>
+                    <UserAvatar className="w-6 h-6 rounded-full" avatarUrl={creator.avatarUrl} height={24} width={24}/>
+                    {isCreator
+                        ?
+                        <p>Moi</p>
+                        :
+                        <p>{creator.firstname} {creator.lastname}</p>
+                    }
                 </div>
 
-                <div className="flex items-center gap-2">
-                    <p>participants :</p>
-                    <div className="flex -space-x-1">
-                        {participants.map(participant => (
-                            <UserAvatar key={participant._id} className="w-6 h-6 rounded-full" avatarUrl={participant.avatarUrl} height={24} width={24}/>
-                        ))}
+                {participants.length > 0
+                    ?
+                    <div className="flex items-center gap-2">
+                        <p>participants :</p>
+                        <div className="flex -space-x-1">
+                            {participants.map(participant => (
+                                <UserAvatar key={participant._id} className="w-6 h-6 rounded-full" avatarUrl={participant.avatarUrl} height={24} width={24}/>
+                            ))}
+                        </div>
+                        <div className="truncate">
+                            {participants.map((participant, index) => (
+                                <span key={index}>
+                                    {(participant._id === sessionId)
+                                        ?
+                                        <span>Moi</span>
+                                        :
+                                        <span>{participant.firstname}</span>
+                                    }
+                                    {index < participants.length - 1 ? ", " : ""}
+                                </span>
+                            ))}
+                        </div>
                     </div>
-                    <div className="truncate">
-                        {participants.map((participant, index) => (
-                            <span key={index}>
-                                {participant.firstname}
-                                {index < participants.length - 1 ? ", " : "."}
-                            </span>
-                        ))}
-                    </div>
-                </div>
+                    :
+                    <p>Pas d&apos;autres participants</p>
+                }
+
 
                 <div className="flex items-center gap-2">
                     <Text size={15}/>
