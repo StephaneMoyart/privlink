@@ -2,9 +2,10 @@
 
 import { getSession } from "@/auth/session"
 import { Conversation } from "@/model"
+import { Types } from "mongoose"
 
 type PopulatedMember = {
-    _id: string
+    _id: Types.ObjectId
     firstname: string
     lastname: string
     avatarUrl: string

@@ -2,9 +2,14 @@ import Link from "next/link"
 import { getEvents } from "./events.actions"
 import { EventCard } from "./components/event-card"
 import { Button } from "@/components/button"
+import { EventInvitation } from "@/model"
+import { getSession } from "@/auth/session"
+import { InvitationCountDisplayer } from "@/feats/invitation-count-displayer/invitation-count-displayer"
 
 const Page = async () => {
+    const session = await getSession()
     const events = await getEvents()
+    const invitationsCount = await EventInvitation.countDocuments({invitedUsers: {$in: [session._id]}})
 
     return (
         <div className="w-full flex p-2 flex-col gap-4">
@@ -16,9 +21,7 @@ const Page = async () => {
 
             <div className="flex gap-4">
                 <p>Mes évenements</p>
-                <Link href={'/events/invitations'}>
-                    Invitations recues
-                </Link>
+                <InvitationCountDisplayer count={invitationsCount} href={'/events/invitations'} />
             </div>
 
             {events.map(event => (
