@@ -9,9 +9,12 @@ export const getEvents = async () => {
     const session = await getSession()
     // end shield
 
-    const events = await Event.find({ creator: session._id })
-
-    return events.map(event => event.toJSON({flattenObjectIds: true}))
+    return (await Event.find({
+        $or: [
+            { creator: session._id },
+            { participants: { $in: [session._id] }}
+        ]
+    })).map(event => event.toJSON({flattenObjectIds: true}))
 }
 
 export const deleteEventAction = async (eventId) => {

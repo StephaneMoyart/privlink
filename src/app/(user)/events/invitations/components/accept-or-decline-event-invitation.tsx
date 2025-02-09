@@ -4,7 +4,12 @@ import { Button } from "@/components/button"
 import { useTransition } from "react"
 import { acceptEventInvitationAction, declineEventInvitationAction } from "./invitations.actions"
 
-export const AcceptOrDeclineEventInvitation = ({ invitationId, eventId }) => {
+type AcceptOrDeclineEventInvitationProps = {
+    invitationId: string
+    eventId: string
+}
+
+export const AcceptOrDeclineEventInvitation: React.FC<AcceptOrDeclineEventInvitationProps> = ({ invitationId, eventId }) => {
     const [acceptPending, acceptTransition] = useTransition()
     const [declinePending, declineTransition] = useTransition()
 
