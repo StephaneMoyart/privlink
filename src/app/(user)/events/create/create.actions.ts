@@ -3,6 +3,7 @@
 import { getSession } from "@/auth/session"
 import { joinEventDatesandTimes } from "@/lib/join-event-dates-times"
 import { Event } from "@/model"
+import { EventInvitation } from "@/model/event-invitation"
 import { z } from "zod"
 
 const createEventSchema = z.object({
@@ -15,7 +16,7 @@ const createEventSchema = z.object({
 
 export type newEventDataTypes = z.infer<typeof createEventSchema>
 
-export const createEventAction = async (previousState: unknown, formData: FormData) => {
+export const createEventAction = async (invitedUsers: string[], previousState: unknown, formData: FormData) => {
     // shield
     const session = await getSession()
     //end shield
@@ -42,13 +43,21 @@ export const createEventAction = async (previousState: unknown, formData: FormDa
 
     const { title, description, startDate, endDate, isFullDay } = result.data
 
-    await Event.create({
+    // synchro
+
+    const event = await Event.create({
         creator: session._id,
         title,
         description,
         startDate,
         endDate,
-        isFullDay,
+        isFullDay
+    })
+
+    await EventInvitation.create({
+        event: event._id,
+        invitedBy: session._id,
+        invitedUsers
     })
 
 }

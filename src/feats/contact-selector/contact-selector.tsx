@@ -21,7 +21,7 @@ type ContactSelectorProps = {
 
 export const ContactSelector: React.FC<ContactSelectorProps> = ({ contacts, setMembers }) => {
     return (
-        <>
+        <div className="space-y-2">
             {contacts.map(contact => (
                 <ContactCard
                     setMembers={setMembers}
@@ -29,6 +29,6 @@ export const ContactSelector: React.FC<ContactSelectorProps> = ({ contacts, setM
                     contact={contact}
                 />
             ))}
-        </>
+        </div>
     )
 }

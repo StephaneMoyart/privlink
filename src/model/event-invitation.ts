@@ -1,6 +1,6 @@
 import { InferSchemaType, model, models, Schema, Types } from "mongoose";
 
-const ObjectId = Schema.Types
+const { ObjectId } = Schema.Types
 
 const eventInvitationSchema = new Schema ({
     event: {
