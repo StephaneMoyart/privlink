@@ -40,13 +40,8 @@ export const EventCard = ({ event, readOnly = false, sessionId }) => {
                         <div className="truncate">
                             {participants.map((participant, index) => (
                                 <span key={index}>
-                                    {(participant._id === sessionId)
-                                        ?
-                                        <span>Moi</span>
-                                        :
-                                        <span>{participant.firstname}</span>
-                                    }
-                                    {index < participants.length - 1 ? ", " : ""}
+                                    {(participant._id === sessionId) ? "Moi" : participant.firstname}
+                                    {index < participants.length - 1 && ", "}
                                 </span>
                             ))}
                         </div>
