@@ -15,7 +15,10 @@ export const getEvents = async () => {
             { creator: session._id },
             { participants: { $in: [session._id] }}
         ]
-    })).map(event => event.toJSON({flattenObjectIds: true}))
+    })
+    .populate('creator', 'firstname lastname avatarUrl')
+    .populate('participants', 'firstname avatarUrl'))
+    .map(event => event.toJSON({flattenObjectIds: true}))
 }
 
 export const deleteEventAction = async (eventId) => {
