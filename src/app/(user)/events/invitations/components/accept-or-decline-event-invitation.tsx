@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/button"
 import { useTransition } from "react"
-import { acceptEventInvitationAction, declineEventInvitationAction } from "./invitations.actions"
+import { acceptEventInvitationAction, declineEventInvitationAction } from "../invitations.actions"
 
 type AcceptOrDeclineEventInvitationProps = {
     invitationId: string

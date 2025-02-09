@@ -1,6 +1,7 @@
 import { getSession } from "@/auth/session"
 import { EventInvitation } from "@/model"
 import { AcceptOrDeclineEventInvitation } from "./components/accept-or-decline-event-invitation"
+import { redirect } from "next/navigation"
 
 const Page = async () => {
     const session = await getSession()
@@ -10,7 +11,7 @@ const Page = async () => {
         .populate('invitedBy', 'firstname lastname'))
         .map(invitation => invitation.toJSON({flattenObjectIds: true}))
 
-    console.log(invitations);
+    if (invitations.length === 0) return redirect('/events')
 
     return (
         <>
