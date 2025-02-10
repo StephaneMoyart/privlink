@@ -27,7 +27,10 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
         conversationId,
         {
             $push: { messages: { author: session._id, content }},
-            $set: { lastUpdate:  Date.now()}
+            $set: {
+                lastUpdate:  Date.now(),
+                lastAuthor: session._id
+            }
         }
     )
 

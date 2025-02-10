@@ -45,7 +45,8 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
 
         await Conversation.create(
             [{
-                members: [ session._id, invitedByUserId ]
+                members: [ session._id, invitedByUserId ],
+                lastAuthor: null
             }],
             { session: DB }
         )

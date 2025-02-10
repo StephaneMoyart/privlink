@@ -13,7 +13,7 @@ type SessionPayload = {
 }
 
 type UserSession = {
-    _id: string
+    _id: Types.ObjectId
     firstname: string
     lastname: string
     avatarUrl: string

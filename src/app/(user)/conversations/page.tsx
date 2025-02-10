@@ -4,10 +4,14 @@ import Link from "next/link";
 import { Button } from "@/components/button";
 import { OptionsBar } from "@/components/options-bar";
 import { MessagesSquare, Plus } from "lucide-react";
+import { getSession } from "@/auth/session";
 
 const Page = async () => {
+    const session = await getSession()
     const conversations = await getSessionConversations()
     console.log(conversations);
+    console.log("lala", session._id);
+
 
 
     return (
@@ -21,7 +25,7 @@ const Page = async () => {
             </OptionsBar>
             <div className="flex flex-col gap-4">
                 {conversations.map(conversation => (
-                    <Link className="flex items-center gap-2" href={`/conversations/${conversation._id}`} key={conversation._id.toString()}>
+                    <Link className="flex items-center gap-4" href={`/conversations/${conversation._id}`} key={conversation._id.toString()}>
                         <div className="flex -space-x-5">
                             {conversation.members.map((member, index) => (
                                 <UserAvatar
@@ -42,6 +46,9 @@ const Page = async () => {
                                 <span>{conversation.members[0].lastname} </span>
                             </p>
                         }
+                        <p className="text-sm text-gray-500">
+                            {conversation.lastAuthor === null ? "Pas encore" : conversation.lastAuthor.toString() === session._id.toString() ? "Envoyé" : "Reçu"}
+                        </p>
                     </Link>
                 ))}
             </div>

@@ -30,7 +30,7 @@ export const getSessionConversations = async () => {
             select: '_id firstname lastname avatarUrl',
         })
         .sort({lastUpdate: - 1})
-        .select('_id multi title members')
+        .select('_id multi title members lastUpdate lastAuthor')
         .lean<PopulatedConversation[]>()
 
     return conversations.map(conversation => ({...conversation, members: conversation.members.filter(member => member._id.toString() !== session._id.toString())}))

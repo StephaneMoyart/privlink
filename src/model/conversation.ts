@@ -40,6 +40,11 @@ const conversationSchema = new Schema ({
     lastUpdate: {
         type: Date,
         default: Date.now
+    },
+    lastAuthor: {
+        type: ObjectId,
+        ref: 'User',
+        default: null
     }
 })
 
