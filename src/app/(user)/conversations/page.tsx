@@ -5,14 +5,11 @@ import { Button } from "@/components/button";
 import { OptionsBar } from "@/components/options-bar";
 import { MessagesSquare, Plus } from "lucide-react";
 import { getSession } from "@/auth/session";
+import { formatMessageDateAndTime } from "@/lib/format-message-date";
 
 const Page = async () => {
     const session = await getSession()
     const conversations = await getSessionConversations()
-    console.log(conversations);
-    console.log("lala", session._id);
-
-
 
     return (
         <div className="flex flex-col gap-4">
@@ -46,8 +43,9 @@ const Page = async () => {
                                 <span>{conversation.members[0].lastname} </span>
                             </p>
                         }
-                        <p className="text-sm text-gray-500">
-                            {conversation.lastAuthor === null ? "Pas encore" : conversation.lastAuthor.toString() === session._id.toString() ? "Envoyé" : "Reçu"}
+                        <p className="text-sm text-gray-500 lowercase">
+                            {conversation.lastAuthor === null ? "Pas encore" : conversation.lastAuthor.toString() === session._id.toString() ? "Envoyé " : "Reçu "}
+                            {conversation.lastAuthor !== null && formatMessageDateAndTime(conversation.lastUpdate)}
                         </p>
                     </Link>
                 ))}
