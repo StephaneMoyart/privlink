@@ -1,4 +1,3 @@
-
 import { NewMessageForm } from "./conversation.forms"
 import { MessageCard } from "./components/message-card"
 import { getSession } from "@/auth/session"
@@ -9,6 +8,7 @@ import Link from "next/link"
 import { Conversation, User } from "@/model"
 import { QuitConversation } from "./components/quit-conversation"
 import { redirect } from "next/navigation"
+import { LastSeenActualizer } from "./components/last-seen-actualizer"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -60,6 +60,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 ))}
             </div>
             <NewMessageForm conversationId={id}/>
+            <LastSeenActualizer conversationId={ _id}/>
         </div>
     )
 }

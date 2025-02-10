@@ -45,7 +45,18 @@ const conversationSchema = new Schema ({
         type: ObjectId,
         ref: 'User',
         default: null
-    }
+    },
+    lastSeen: [
+        {
+            member: {
+                type: ObjectId,
+                ref: 'User'
+            },
+            date: {
+                type: Date
+            }
+        }
+    ]
 })
 
 export type Conversation = InferSchemaType<typeof conversationSchema> & {
