@@ -21,31 +21,31 @@ const Page = async () => {
                 </Button>
             </OptionsBar>
             <div className="flex flex-col gap-4">
-                {conversations.map(conversation => (
-                    <Link className="flex items-center gap-4" href={`/conversations/${conversation._id}`} key={conversation._id.toString()}>
+                {conversations.map(({_id, members, title, lastAuthor, lastUpdate}) => (
+                    <Link className="flex items-center gap-4" href={`/conversations/${ _id}`} key={ _id.toString()}>
                         <div className="flex -space-x-5">
-                            {conversation.members.map((member, index) => (
+                            {members.map((member, index) => (
                                 <UserAvatar
                                     key={member._id.toString()}
                                     className="w-15 h-15 rounded-full overflow-hidden"
                                     width={60}
                                     height={60}
-                                    avatarUrl={conversation.members[index].avatarUrl}
+                                    avatarUrl={members[index].avatarUrl}
                                 />
                             ))}
                         </div>
-                        {conversation.title
+                        {title
                             ?
-                            <p>{conversation.title}</p>
+                            <p>{title}</p>
                             :
                             <p>
-                                <span>{conversation.members[0].firstname} </span>
-                                <span>{conversation.members[0].lastname} </span>
+                                <span>{members[0].firstname} </span>
+                                <span>{members[0].lastname} </span>
                             </p>
                         }
                         <p className="text-sm text-gray-500 lowercase">
-                            {conversation.lastAuthor === null ? "Pas encore" : conversation.lastAuthor.toString() === session._id.toString() ? "Envoyé " : "Reçu "}
-                            {conversation.lastAuthor !== null && formatMessageDateAndTime(conversation.lastUpdate)}
+                            {lastAuthor === null ? "Pas encore" : lastAuthor.toString() === session._id.toString() ? "Envoyé " : "Reçu "}
+                            {lastAuthor !== null && formatMessageDateAndTime(lastUpdate)}
                         </p>
                     </Link>
                 ))}
