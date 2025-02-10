@@ -44,7 +44,7 @@ const Page = async () => {
                             </p>
                         }
                         <p className="text-sm text-gray-500 lowercase">
-                            {lastAuthor === null ? "Pas encore" : lastAuthor.toString() === session._id.toString() ? "Envoyé " : "Reçu "}
+                            {lastAuthor === null ? "aucun message" : lastAuthor.toString() === session._id.toString() ? "envoyé " : "reçu "}
                             {lastAuthor !== null && formatMessageDateAndTime(lastUpdate)}
                         </p>
                     </Link>

@@ -19,6 +19,7 @@ export const AcceptOrDeclineInvitation: React.FC<AcceptOrDeclineInvitationProps>
                 color="green"
                 onClick={() => acceptTransition(() => acceptContactInvitationAction(invitedByUserId, invitationId))}
                 disabled={acceptPending}
+                pending={acceptPending}
             >
                 Accepter
             </Button>
@@ -27,6 +28,7 @@ export const AcceptOrDeclineInvitation: React.FC<AcceptOrDeclineInvitationProps>
                 color="red"
                 onClick={() => declineTransition(() => declineContactInvitationAction(invitationId))}
                 disabled={declinePending}
+                pending={declinePending}
             >
                 Refuser
             </Button>
