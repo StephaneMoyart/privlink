@@ -62,7 +62,7 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
     }
     // end sync DB
 
-    revalidatePath('/contacts/invitations')
+    revalidatePath('')
 
     // todo
     return { }
@@ -75,6 +75,6 @@ export const declineContactInvitationAction = async (invitationId: string) => {
 
     await ContactInvitation.findByIdAndDelete(invitationId)
 
-    revalidatePath('/contacts/invitations')
+    revalidatePath('')
     // todo
 }

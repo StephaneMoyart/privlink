@@ -43,5 +43,5 @@ export const deleteEventAction = async (eventId) => {
     }
     //end sync
 
-    revalidatePath('/events')
+    revalidatePath('')
 }

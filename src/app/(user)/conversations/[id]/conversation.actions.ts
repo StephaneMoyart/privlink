@@ -34,7 +34,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
         }
     )
 
-    revalidatePath('/conversations')
+    revalidatePath('')
 }
 
 export const deleteMessageAction = async (conversationId, messageId) => {
@@ -44,7 +44,7 @@ export const deleteMessageAction = async (conversationId, messageId) => {
 
     await Conversation.findByIdAndUpdate(conversationId, { $pull: { messages: { _id: messageId, author: session._id }}})
 
-    revalidatePath('/conversations')
+    revalidatePath('')
 }
 
 export const editMessageAction = async ({conversationId, messageId}, prev: unknown, formData: FormData) => {
@@ -69,7 +69,7 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
         { $set: { "messages.$.content": content }}
     )
 
-    revalidatePath('/conversations')
+    revalidatePath('')
 
     return { success: true}
 }

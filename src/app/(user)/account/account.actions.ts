@@ -42,7 +42,7 @@ export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
         { runValidators: true }
     )
 
-    revalidatePath('/dashboard')
+    revalidatePath('')
 
     return user.toJSON({flattenObjectIds: true})
 }

@@ -19,7 +19,7 @@ export const acceptEventInvitationAction = async (invitationId: string, eventId:
             event.participants.push(session._id)
             await event.save()
         }
-        revalidatePath('/events/invitations')
+        revalidatePath('')
         return
     }
 
@@ -29,7 +29,7 @@ export const acceptEventInvitationAction = async (invitationId: string, eventId:
     event.participants.push(session._id)
     await event.save()
 
-    revalidatePath('/events/invitations')
+    revalidatePath('')
 }
 
 export const declineEventInvitationAction = async (invitationId: string) => {
@@ -41,12 +41,12 @@ export const declineEventInvitationAction = async (invitationId: string) => {
 
     if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
         await invitation.deleteOne()
-        revalidatePath('/events/invitations')
+        revalidatePath('')
         return
     }
 
     invitation.invitedUsers.pull(session._id)
     await invitation.save()
 
-    revalidatePath('/events/invitations')
+    revalidatePath('')
 }
