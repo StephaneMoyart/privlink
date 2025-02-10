@@ -3,14 +3,14 @@
 import { useEffect } from "react"
 import { updateLastSeenAction } from "../../conversations.actions"
 
-export const LastSeenActualizer = ({ conversationId }) => {
-    const conv = conversationId.toString()
+type LastSeenActualizerProps = {
+    conversationId: string
+}
 
+export const LastSeenActualizer: React.FC<LastSeenActualizerProps> = ({ conversationId }) => {
     useEffect(() => {
-        (async () => updateLastSeenAction(conv)) ()
-    }, [conv])
+        updateLastSeenAction(conversationId)
+    }, [conversationId])
 
-    return (
-        <div className="absolute"/>
-    )
+    return null
 }

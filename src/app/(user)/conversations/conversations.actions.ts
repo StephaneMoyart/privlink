@@ -31,7 +31,7 @@ export const getSessionConversations = async () => {
     return conversations.map(conversation => ({...conversation, members: conversation.members.filter(member => member._id.toString() !== session._id.toString())}))
 }
 
-export const updateLastSeenAction = async (conversationId: Types.ObjectId) => {
+export const updateLastSeenAction = async (conversationId: string) => {
   //sield
   const session = await getSession()
   //end shield
