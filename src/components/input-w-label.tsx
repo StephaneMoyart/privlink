@@ -2,10 +2,16 @@
 
 import { useState } from "react"
 
+type FormState = {
+    errors?: Record<string, string[]>
+    message?: string;
+  } | null
+
 type InputProps = {
     name: string
     label: string
     type?: string
+    state: FormState
 }
 
 export const InputWLabel: React.FC<InputProps> = ({ name, label, type = "text", state }) => {

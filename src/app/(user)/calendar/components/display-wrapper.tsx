@@ -5,10 +5,10 @@ import { DayDisplayer } from "./day-displayer"
 import { DisplaySelector } from "./display-selector"
 import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
-import { Event } from "@/model"
+import { PopulatedFlatEvent } from "../../events/events.actions"
 
 type DisplayWrapperProps = {
-    events: Event[]
+    events: PopulatedFlatEvent[]
 }
 
 export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events }) => {

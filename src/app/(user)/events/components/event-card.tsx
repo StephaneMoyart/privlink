@@ -4,8 +4,15 @@ import { handleEventDateDisplay } from "@/lib/format-event-card-date";
 import { Clock, Text } from "lucide-react";
 import { EventCardSettings } from "./event-card-settings";
 import { UserAvatar } from "@/components/user-avatar";
+import { PopulatedFlatEvent } from "../events.actions";
 
-export const EventCard = ({ event, readOnly = false, sessionId }) => {
+type EventCardProps = {
+    event: PopulatedFlatEvent
+    readOnly?: boolean
+    sessionId?: string
+}
+
+export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, sessionId }) => {
     const { _id, title, description, startDate, endDate, isFullDay, creator, participants } = event
 
     const date = handleEventDateDisplay(startDate, endDate, isFullDay)

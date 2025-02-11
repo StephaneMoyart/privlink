@@ -5,7 +5,11 @@ import { useState, useTransition } from "react"
 import { deleteEventAction } from "../events.actions"
 import { Button } from "@/components/button"
 
-export const EventCardSettings = ({ eventId }) => {
+type EventCardSettingsProps = {
+    eventId: string
+}
+
+export const EventCardSettings: React.FC<EventCardSettingsProps> = ({ eventId }) => {
     const [isVisible, setIsVisible] = useState(false)
     const [pending, setEventDeleteTransition] = useTransition()
 

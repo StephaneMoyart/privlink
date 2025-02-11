@@ -5,10 +5,10 @@ import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import { EventCard } from "../../events/components/event-card"
-import { Event } from "@/model"
+import { PopulatedFlatEvent } from "../../events/events.actions"
 
 type MonthDisplayerProps = {
-    events: Event[]
+    events: PopulatedFlatEvent[]
 }
 
 export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {

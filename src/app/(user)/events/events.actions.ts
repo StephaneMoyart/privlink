@@ -2,8 +2,23 @@
 
 import { getSession } from "@/auth/session"
 import { Event, EventInvitation } from "@/model"
+import { FlattenedEvent } from "@/model/event"
 import mongoose from "mongoose"
 import { revalidatePath } from "next/cache"
+
+export type PopulatedFlatEvent = Omit<FlattenedEvent, 'creator' | 'participants'> & {
+    creator: {
+        _id: string
+        firstname: string
+        lastname: string
+        avatarUrl: string
+    }
+    participants: {
+        _id: string
+        firstname: string
+        avatarUrl: string
+    }[]
+}
 
 export const getEvents = async () => {
     // shield
@@ -16,12 +31,12 @@ export const getEvents = async () => {
             { participants: { $in: [session._id] }}
         ]
     })
-    .populate('creator', 'firstname lastname avatarUrl')
-    .populate('participants', 'firstname avatarUrl'))
+    .populate<Pick<PopulatedFlatEvent, 'creator'>>('creator', 'firstname lastname avatarUrl')
+    .populate<Pick<PopulatedFlatEvent, 'participants'>>('participants', 'firstname avatarUrl'))
     .map(event => event.toJSON({flattenObjectIds: true}))
 }
 
-export const deleteEventAction = async (eventId) => {
+export const deleteEventAction = async (eventId: string) => {
     // shield
     const session = await getSession()
     // end shield
