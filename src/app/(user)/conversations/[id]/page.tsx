@@ -9,6 +9,7 @@ import { Conversation, User } from "@/model"
 import { QuitConversation } from "./components/quit-conversation"
 import { redirect } from "next/navigation"
 import { LastSeenActualizer } from "./components/last-seen-actualizer"
+import { SSEListener } from "@/feats/sse/sse-listener"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -61,6 +62,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
             </div>
             <NewMessageForm conversationId={id}/>
             <LastSeenActualizer conversationId={ _id}/>
+            <SSEListener signal={'newMessage'}/>
         </div>
     )
 }

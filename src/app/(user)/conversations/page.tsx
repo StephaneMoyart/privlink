@@ -1,5 +1,5 @@
 import { UserAvatar } from "@/components/user-avatar";
-import { getSessionConversations, updateLastSeenAction } from "./conversations.actions"
+import { getSessionConversations } from "./conversations.actions"
 import Link from "next/link";
 import { Button } from "@/components/button";
 import { OptionsBar } from "@/components/options-bar";

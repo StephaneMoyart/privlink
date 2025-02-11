@@ -4,7 +4,6 @@ import { Ellipsis, Pencil, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
 import { Button } from "@/components/button"
-import { Loader } from "@/components/loader"
 
 export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => {
     const [isVisible, setIsVisible] = useState(false)
