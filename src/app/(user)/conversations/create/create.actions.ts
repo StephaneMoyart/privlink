@@ -23,13 +23,13 @@ export const createGroupConversationAction = async (members: string[], previousS
 
     const allMembers = [...members, session._id]
 
-    const conversations: Conversation[] = await Conversation.find({
+    const conversations = await Conversation.find({
         multi: true,
         members : { $in: [session._id] }
     })
 
     if (conversations.find(conversation => conversation.members.length === allMembers.length
-        && allMembers.every(member => conversation.members.toString().includes(member)))) return {success: false, message: "une conversation identique existe déjà."}
+        && allMembers.every(member => conversation.members.toString().includes(member.toString())))) return {success: false, message: "une conversation identique existe déjà."}
 
     await Conversation.create({
         multi: true,

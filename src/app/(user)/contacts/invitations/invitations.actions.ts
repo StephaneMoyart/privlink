@@ -2,28 +2,38 @@
 
 import { getSession } from "@/auth/session"
 import { ContactInvitation, Conversation, User } from "@/model"
-import mongoose from "mongoose"
+import { FlattenedContactInvitation } from "@/model/contact-invitation"
+import mongoose, { Types } from "mongoose"
 import { revalidatePath } from "next/cache"
+
+type PopulatedFlatContactInvitation = Omit<FlattenedContactInvitation, 'invitedByUser'> & {
+    invitedByUser: {
+        _id: string
+        firstname: string
+        lastname: string
+        avatarUrl: string
+    }
+}
 
 export const getContactInvitations = async () => {
     // shield
     const session = await getSession()
     // end shield
 
-    const invitations = await ContactInvitation
+    return (await ContactInvitation
         .find({ invitedUser : session._id })
-        .populate('invitedByUser', 'firstname lastname avatarUrl')
-
-    return invitations.map(invitation => invitation.toJSON({flattenObjectIds: true}))
+        .populate<Pick<PopulatedFlatContactInvitation, 'invitedByUser'>>('invitedByUser', 'firstname lastname avatarUrl'))
+        .map(invitation => invitation.toJSON({flattenObjectIds: true}))
 }
 
-export const acceptContactInvitationAction = async (invitedByUserId: string, invitationId: string) => {
+export const acceptContactInvitationAction = async (invitedByUserId: string, invitationId: string): Promise<void> => {
     // shield
     const session = await getSession()
     // end shield
 
-    if (session.contacts.includes(invitedByUserId)) {
-        return await ContactInvitation.findByIdAndDelete(invitationId)
+    if (session.contacts.includes(new Types.ObjectId(invitedByUserId))) {
+        await ContactInvitation.deleteOne({ _id: invitationId})
+        return
     }
 
     // sync DB, success or abort all
@@ -31,14 +41,14 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
     DB.startTransaction()
 
     try {
-        await User.findByIdAndUpdate(
-            invitedByUserId,
+        await User.updateOne(
+            { _id: invitedByUserId },
             { $addToSet: { contacts: session._id } },
             { session: DB }
         )
 
-        await User.findByIdAndUpdate(
-            session._id,
+        await User.updateOne(
+            { _id: session._id } ,
             { $addToSet: { contacts: invitedByUserId } },
             { session: DB }
         )
@@ -51,7 +61,7 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
             { session: DB }
         )
 
-        await ContactInvitation.findByIdAndDelete(invitationId, { session: DB })
+        await ContactInvitation.deleteOne( {_id: invitationId }, { session: DB })
 
         await DB.commitTransaction()
     } catch (error) {
@@ -63,9 +73,6 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
     // end sync DB
 
     revalidatePath('')
-
-    // todo
-    return { }
 }
 
 export const declineContactInvitationAction = async (invitationId: string) => {

@@ -14,11 +14,11 @@ const TimeFormatter = new Intl.DateTimeFormat('fr-FR', {
     minute: '2-digit'
 })
 
-export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
+export const handleEventDateDisplay = (rawStartDate: Date, rawEndDate: Date | null, isFullDay: boolean): string => {
     const hasEndDate = rawEndDate !== null
 
-    const startDate = new Date(rawStartDate)
-    const endDate = hasEndDate ? new Date(rawEndDate) : null
+    const startDate = rawStartDate
+    const endDate = hasEndDate ? rawEndDate : null
     const now = new Date()
 
     const actualYear = now.getFullYear()
@@ -40,7 +40,7 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
     const startDateMonthString = formattedStartDate.split(' ')[1]
     const endDateMonthString = formattedEndDate?.split(' ')[1]
     const startDateDayString = new Intl.DateTimeFormat('fr-FR', { weekday: 'long' }).format(startDate)
-    const endDateDayString = new Intl.DateTimeFormat('fr-FR', { weekday: 'long' }).format(endDate)
+    const endDateDayString = new Intl.DateTimeFormat('fr-FR', { weekday: 'long' }).format(endDate as Date)
 
     const endOfToday = new Date()
     endOfToday.setHours(24, 0, 0, 0)
@@ -55,28 +55,28 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
     const endOfYear = new Date(now.getFullYear(), 11, 31, 23, 59, 59, 999)
 
     switch(true) {
-        case hasEndDate && endDate < now :
+        case hasEndDate && endDate! < now :
             return `Terminé`
-        case startDate < now && endDate > now :
+        case startDate < now && endDate! > now :
             switch(true) {
                 case isFullDay :
                     switch(true) {
-                        case endDate < endOfToday :
+                        case endDate! < endOfToday :
                             return `En cours - Termine Aujourd'hui`
-                        case endDate < endOfTomorrow :
+                        case endDate! < endOfTomorrow :
                             return `En cours - Termine demain`
-                        case endDate < endOfWeek :
+                        case endDate! < endOfWeek :
                             return `En cours - Termine ${endDateDayString}`
                         default :
                             return `En cours -Termine le ${formattedEndDate}`
                     }
                 case !isFullDay :
                     switch(true) {
-                        case endDate < endOfToday :
+                        case endDate! < endOfToday :
                             return `En cours - Termine Aujourd'hui ${formattedEndTime}`
-                        case endDate < endOfTomorrow :
+                        case endDate! < endOfTomorrow :
                             return `En cours - Termine demain ${formattedEndTime}`
-                        case endDate < endOfWeek :
+                        case endDate! < endOfWeek :
                             return `En cours - Termine ${endDateDayString} ${formattedEndTime}`
                         default :
                             return `En cours -Termine le ${formattedEndDate} ${formattedEndTime}`
@@ -110,13 +110,13 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
             }
         case hasEndDate && isFullDay:
             switch(true) {
-                case startDate < endOfToday && endDate < endOfTomorrow :
+                case startDate < endOfToday && endDate! < endOfTomorrow :
                     return `Aujourd'hui - Demain`
-                case startDate < endOfToday && endDate < endOfWeek:
+                case startDate < endOfToday && endDate! < endOfWeek:
                     return `Aujourd'hui - ${endDateDayString}`
-                case startDate < endOfTomorrow && endDate < endOfWeek :
+                case startDate < endOfTomorrow && endDate! < endOfWeek :
                     return `Demain - ${endDateDayString}`
-                case startDate < endOfWeek && endDate < endOfWeek :
+                case startDate < endOfWeek && endDate! < endOfWeek :
                     return `${startDateDayString} - ${endDateDayString}`
                 case endDateYear === actualYear :
                     switch(true) {
@@ -140,15 +140,15 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
             }
         case hasEndDate && !isFullDay:
             switch(true) {
-                case startDate < endOfToday && endDate < endOfToday :
+                case startDate < endOfToday && endDate! < endOfToday :
                     return `Aujourd'hui ${formattedStartTime} - ${formattedEndTime}`
-                case startDate < endOfToday && endDate < endOfTomorrow :
+                case startDate < endOfToday && endDate! < endOfTomorrow :
                     return `Aujourd'hui ${formattedStartTime} - Demain ${formattedEndTime}`
-                case startDate < endOfToday && endDate < endOfWeek:
+                case startDate < endOfToday && endDate! < endOfWeek:
                     return `Aujourd'hui ${formattedStartTime} - ${endDateDayString} ${formattedEndTime}`
-                case startDate < endOfTomorrow && endDate < endOfWeek :
+                case startDate < endOfTomorrow && endDate! < endOfWeek :
                     return `Demain ${formattedStartTime} - ${endDateDayString} ${formattedEndTime}`
-                case startDate < endOfWeek && endDate < endOfWeek :
+                case startDate < endOfWeek && endDate! < endOfWeek :
                     if (startDateDay === endDateDay) return `${startDateDayString} ${formattedStartTime} - ${formattedEndTime}`
                     return `${startDateDayString} ${formattedStartTime} - ${endDateDayString} ${formattedEndTime}`
                 case endDateYear === actualYear :
@@ -156,5 +156,7 @@ export const handleEventDateDisplay = (rawStartDate, rawEndDate, isFullDay) => {
                 case endDateYear as number > actualYear :
                     return `${formattedStartDateWithYear} ${formattedStartTime} - ${formattedEndDateWithYear} ${formattedEndTime}`
             }
+        default:
+            return "Date inconnue"
     }
 }

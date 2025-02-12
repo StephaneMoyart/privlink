@@ -20,7 +20,8 @@ const eventSchema = new Schema({
         required: true
     },
     endDate: {
-        type: Date
+        type: Date,
+        default: null
     },
     isFullDay: {
         type: Boolean,
@@ -34,8 +35,9 @@ const eventSchema = new Schema({
     ]
 })
 
-export type Event = InferSchemaType<typeof eventSchema> & {
+export type Event = Omit<InferSchemaType<typeof eventSchema>, 'endDate'> & {
     _id: Types.ObjectId
+    endDate: Date | null
 }
 
 export type FlattenedEvent = Omit<Event, '_id' | 'creator' | 'participants'> & {

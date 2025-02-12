@@ -11,7 +11,7 @@ type InputProps = {
     name: string
     label: string
     type?: string
-    state: FormState
+    state?: FormState
 }
 
 export const InputWLabel: React.FC<InputProps> = ({ name, label, type = "text", state }) => {

@@ -31,7 +31,7 @@ const Page = async () => {
                         <div className="flex -space-x-5">
                             {members.map((member, index) => (
                                 <UserAvatar
-                                    key={member._id.toString()}
+                                    key={member._id}
                                     className="w-15 h-15 rounded-full overflow-hidden"
                                     width={60}
                                     height={60}

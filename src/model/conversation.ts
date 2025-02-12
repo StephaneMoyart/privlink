@@ -1,4 +1,4 @@
-import { InferSchemaType, model, models, Schema, Types } from "mongoose"
+import { InferSchemaType, Model, model, models, Schema, Types } from "mongoose"
 
 const { ObjectId } = Schema.Types
 
@@ -50,17 +50,36 @@ const conversationSchema = new Schema ({
         {
             member: {
                 type: ObjectId,
-                ref: 'User'
+                ref: 'User',
+                required: true
             },
             date: {
-                type: Date
+                type: Date,
+                required: true
             }
         }
     ]
 })
 
-export type Conversation = InferSchemaType<typeof conversationSchema> & {
+type Conversation = InferSchemaType<typeof conversationSchema> & {
     _id: Types.ObjectId
 }
 
-export const Conversation = models.Conversation || model<Conversation>('Conversation', conversationSchema)
+export type FlattenedConversation = Omit<Conversation, '_id' | 'members' | 'messages' | 'lastAuthor' | 'lastSeen'> & {
+    _id: string,
+    members: string[]
+    messages: {
+        _id: string
+        author: string
+        content: string
+        date: Date
+    }[],
+    lastAuthor: string | null,
+    lastSeen: {
+        _id: string
+        member: string
+        date: Date
+    }[]
+}
+
+export const Conversation: Model<Conversation> = models.Conversation || model<Conversation>('Conversation', conversationSchema)

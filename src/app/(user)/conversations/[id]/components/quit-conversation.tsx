@@ -4,7 +4,11 @@ import { Button } from "@/components/button"
 import { useTransition } from "react"
 import { quitConversationAction } from "../conversation.actions"
 
-export const QuitConversation = ({ conversationId }) => {
+type QuitConversationProps = {
+    conversationId: string
+}
+
+export const QuitConversation: React.FC<QuitConversationProps> = ({ conversationId }) => {
     const [pending, startTransition] = useTransition()
 
     return (

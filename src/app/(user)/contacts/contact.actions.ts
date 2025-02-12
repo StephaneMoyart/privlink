@@ -2,6 +2,9 @@
 
 import { getSession } from "@/auth/session"
 import { ContactInvitation, User } from "@/model"
+import { FlattenedUser } from "@/model/user"
+
+export type SelectedFlatUser = Omit<FlattenedUser, 'email' | 'password' | 'birthDate' | 'contacts'>
 
 export const getUserByQueryAction = async (query: string) => {
     // shield
@@ -17,20 +20,18 @@ export const getUserByQueryAction = async (query: string) => {
         ]
     }))
 
-    const users = await User
+    const users: SelectedFlatUser[] = (await User
         .find({ $and: [...searchCriteria, { _id: { $ne: session._id }}]})
-        .select('firstname lastname avatarUrl _id')
+        .select('firstname lastname avatarUrl _id'))
+        .map(user => user.toJSON({flattenObjectIds: true}))
 
-    return users.map(user => user.toJSON({flattenObjectIds: true}))
+    return users
 }
 
 export const sendContactInvitationAction = async (invitedUserId: string) => {
     // shield
     const session = await getSession()
     // end shield
-    console.log(session);
-    console.log(invitedUserId);
-
 
     if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
     if (session._id.equals(invitedUserId)) return { message: "Opération impossible"}

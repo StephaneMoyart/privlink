@@ -11,6 +11,7 @@ export const acceptEventInvitationAction = async (invitationId: string, eventId:
 
     const invitation = await EventInvitation.findById(invitationId)
     const event = await Event.findById(eventId)
+    if (!event) return
 
     if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
         await invitation.deleteOne()

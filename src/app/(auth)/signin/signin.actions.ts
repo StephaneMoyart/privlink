@@ -30,7 +30,7 @@ export const signInAction = async (previousState: unknown, formData: FormData) =
     const isValid = await bcrypt.compare(password, user.password)
     if (!isValid) return { message: "Email ou mot de passe incorrect" }
 
-    await createSession(user._id)
+    await createSession(user._id.toString())
 
     redirect('/dashboard')
 }

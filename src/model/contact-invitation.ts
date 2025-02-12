@@ -1,4 +1,4 @@
-import { InferSchemaType, model, models, Schema } from "mongoose"
+import { InferSchemaType, Model, model, models, Schema, Types } from "mongoose"
 
 const contactInvitationSchema = new Schema ({
     invitedUser: {
@@ -17,6 +17,15 @@ const contactInvitationSchema = new Schema ({
     }
 })
 
-type ContactInvitation = InferSchemaType<typeof contactInvitationSchema>
+type ContactInvitation = InferSchemaType<typeof contactInvitationSchema> & {
+    _id: Types.ObjectId
+}
 
-export const ContactInvitation = models.ContactInvitation || model<ContactInvitation>('ContactInvitation', contactInvitationSchema)
+export type FlattenedContactInvitation = {
+    _id: string
+    invitedUser: string
+    invitedByUser: string
+    createdAt: NativeDate
+}
+
+export const ContactInvitation: Model<ContactInvitation> = models.ContactInvitation || model<ContactInvitation>('ContactInvitation', contactInvitationSchema)

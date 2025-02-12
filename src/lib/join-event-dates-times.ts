@@ -1,5 +1,5 @@
-const joinDateTime = (date, hours, minutes) => {
-    const d = new Date(date)
+const joinDateTime = (date: FormDataEntryValue, hours: FormDataEntryValue, minutes: FormDataEntryValue) => {
+    const d = new Date(date as string)
     d.setHours(Number(hours))
     d.setMinutes(Number(minutes))
     return d
@@ -12,8 +12,8 @@ export const joinEventDatesandTimes= (rawData: {[k: string]: FormDataEntryValue}
     const hasEndDate = rawHasEndDate === 'on'
 
     if (isFullDay) {
-        const startDate = new Date(rawStartDate)
-        const endDate = hasEndDate ? new Date(rawEndDate) : null
+        const startDate = rawStartDate
+        const endDate = hasEndDate ? rawEndDate : null
 
         return { startDate, endDate, isFullDay }
     }

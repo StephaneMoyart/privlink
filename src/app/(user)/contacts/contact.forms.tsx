@@ -2,21 +2,13 @@
 
 import { useActionState, useEffect, useState } from "react"
 import { useDebounceValue } from "@/hooks/use-debounce-value"
-import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
+import { getUserByQueryAction, SelectedFlatUser, sendContactInvitationAction } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
 import { Button } from "@/components/button"
-import { User } from "@/model"
-
-// type UserTypes = {
-//     _id: string
-//     firstname: string
-//     lastname: string
-//     avatarUrl: string
-// }
 
 export const SearchUserForm = () => {
     const [query, setQuery] = useState<string>('')
-    const [queryResult, setQueryResult] = useState<User[]>([])
+    const [queryResult, setQueryResult] = useState<SelectedFlatUser[]>([])
     const [isSearchVisible, setIsSearchVisible] = useState<boolean>(true)
     const [invitedUserId, setInvitedUserId] = useState<string>('')
     const debouncedValue = useDebounceValue(query, 500)

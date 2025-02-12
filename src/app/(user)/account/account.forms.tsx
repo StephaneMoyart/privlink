@@ -4,14 +4,13 @@ import { useRef } from "react"
 import { changeAvatarAction } from "./account.actions"
 
 export const ChangeAvatarForm = () => {
-    // const [state, action, pending] = useActionState(changeAvatarAction, null)
 
     const selectForm = useRef<HTMLFormElement>(null)
 
     const handleSubmit = async () => {
         let formData= null
         if (selectForm.current) formData = new FormData(selectForm.current)
-        await changeAvatarAction(null, formData as FormData)
+        await changeAvatarAction(formData as FormData)
     }
 
     return (

@@ -1,4 +1,4 @@
-import { InferSchemaType, Schema, Types, model, models } from 'mongoose'
+import { InferSchemaType, Model, Schema, Types, model, models } from 'mongoose'
 
 const { ObjectId } = Schema.Types
 
@@ -40,4 +40,9 @@ export type User = InferSchemaType<typeof userSchema> & {
     _id: Types.ObjectId
 }
 
-export const User = models.User || model<User>('User', userSchema)
+export type FlattenedUser = Omit<User, '_id' | 'contacts'> & {
+    _id: string
+    contacts: string[]
+}
+
+export const User: Model<User> = models.User || model<User>('User', userSchema)

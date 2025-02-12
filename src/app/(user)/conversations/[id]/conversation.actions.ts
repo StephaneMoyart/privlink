@@ -7,6 +7,11 @@ import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"
 
+type EditMessageParams = {
+    conversationId: string
+    messageId: string
+  }
+
 const messageSchema = z.object({
     content: z.string().min(1)
 })
@@ -40,7 +45,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
     revalidatePath('')
 }
 
-export const deleteMessageAction = async (conversationId, messageId) => {
+export const deleteMessageAction = async (conversationId: string, messageId: string) => {
     // shield
     const session = await getSession()
     // end shield
@@ -50,7 +55,7 @@ export const deleteMessageAction = async (conversationId, messageId) => {
     revalidatePath('')
 }
 
-export const editMessageAction = async ({conversationId, messageId}, prev: unknown, formData: FormData) => {
+export const editMessageAction = async ({conversationId, messageId}: EditMessageParams, prev: unknown, formData: FormData) => {
     // shield
     await getSession()
     // end shield
@@ -77,7 +82,7 @@ export const editMessageAction = async ({conversationId, messageId}, prev: unkno
     return { success: true}
 }
 
-export const quitConversationAction = async (conversationId) => {
+export const quitConversationAction = async (conversationId: string) => {
     //shield
     const session = await getSession()
     //end shield

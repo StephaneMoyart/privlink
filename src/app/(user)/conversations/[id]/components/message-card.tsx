@@ -5,8 +5,18 @@ import { MessageSettings } from "./settings-buttons"
 import { useState } from "react"
 import { EditMessageForm } from "../conversation.forms"
 import { formatMessageDateAndTime } from "@/lib/format-message-date"
+import { FlattenedConversation } from "@/model/conversation"
+import { PopulatedAuthor } from "../page"
 
-export const MessageCard = ({message, conversationId, sessionId}) => {
+type MessageCardProps = {
+    message: Omit<FlattenedConversation['messages'][number], 'author'> & {
+        author: PopulatedAuthor
+    }
+    conversationId: string
+    sessionId: string
+}
+
+export const MessageCard: React.FC<MessageCardProps> = ({message, conversationId, sessionId}) => {
     const { _id, author, content } = message
     const { firstname, lastname, avatarUrl, _id: authorId } = author
 

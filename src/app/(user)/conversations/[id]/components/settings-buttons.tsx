@@ -5,7 +5,13 @@ import { useState, useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
 import { Button } from "@/components/button"
 
-export const MessageSettings = ({ conversationId, messageId, setIsEditing }) => {
+type MessageSettingsProps = {
+    conversationId: string
+    messageId: string
+    setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const MessageSettings: React.FC<MessageSettingsProps> = ({ conversationId, messageId, setIsEditing }) => {
     const [isVisible, setIsVisible] = useState(false)
     const [pendingDelete, startDeleteTransition] = useTransition()
 

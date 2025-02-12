@@ -17,7 +17,7 @@ const uploadAvatarSchema = z.instanceof(File).refine(file => [
     .includes(file.type), { message: "Format d'image incorrect" })
     .refine((file) => file.size <= 5 * 1024 * 1024, { message: "La taille d'image ne doit pas dépasser 5MB" })
 
-export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
+export const changeAvatarAction = async (formData: FormData) => {
     // shield
     const session = await getSession()
     // end shield
@@ -36,13 +36,11 @@ export const changeAvatarAction = async (prev: unknown, formData: FormData) => {
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     fs.writeFileSync(filePath, fileBuffer)
 
-    const user = await User.findByIdAndUpdate(
-        session._id,
+    await User.updateOne(
+        { _id: session._id } ,
         { avatarUrl },
         { runValidators: true }
     )
 
     revalidatePath('')
-
-    return user.toJSON({flattenObjectIds: true})
 }

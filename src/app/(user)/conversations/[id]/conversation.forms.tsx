@@ -5,7 +5,18 @@ import { editMessageAction, newMessageAction } from "./conversation.actions"
 import { SendHorizontal } from "lucide-react"
 import { Button } from "@/components/button"
 
-export const NewMessageForm = ({ conversationId }) => {
+type NewMessageFormProps = {
+    conversationId: string
+}
+
+type EditMessageFormProps = {
+    content: string
+    conversationId: string
+    messageId: string
+    setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export const NewMessageForm: React.FC<NewMessageFormProps> = ({ conversationId }) => {
     const [, action, pending] = useActionState(newMessageAction.bind(null, conversationId), null)
 
     return (
@@ -27,7 +38,7 @@ export const NewMessageForm = ({ conversationId }) => {
     )
 }
 
-export const EditMessageForm = ({ content, conversationId, messageId, setIsEditing }) => {
+export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, conversationId, messageId, setIsEditing }) => {
     const [state, action, pending] = useActionState(editMessageAction.bind(null, {conversationId, messageId}), null)
 
     useEffect(() => {

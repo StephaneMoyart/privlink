@@ -10,6 +10,23 @@ import { QuitConversation } from "./components/quit-conversation"
 import { redirect } from "next/navigation"
 import { LastSeenActualizer } from "./components/last-seen-actualizer"
 import { SSEListener } from "@/feats/sse/sse-listener"
+import { FlattenedConversation } from "@/model/conversation"
+
+export type PopulatedAuthor = {
+    _id: string
+    firstname: string
+    lastname: string
+    avatarUrl: string
+}
+
+type Conv = Omit<FlattenedConversation, 'messages'> & {
+    messages: {
+        _id: string,
+        author: PopulatedAuthor
+        content: string
+        date: NativeDate
+    }[]
+}
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -18,8 +35,10 @@ type PageProps = {
 const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
 
-    const rawConversation = await Conversation.findById(id).populate('messages.author', 'firstname lastname avatarUrl')
-    const conversation = rawConversation.toJSON({flattenObjectIds: true})
+    //find a way to not use as unknown
+    const conversation = (await Conversation.findById(id).populate<PopulatedAuthor>('messages.author', '_id firstname lastname avatarUrl'))?.toJSON({flattenObjectIds: true}) as unknown as Conv
+    if (!conversation) return null
+
     const { messages, title, members, multi, _id } = conversation
 
     //Shield
@@ -32,7 +51,9 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
     const getFullName = async (stringId: string) => {
         const user = await User.findById(stringId).select('firstname lastname')
-        return `${user.firstname} ${user.lastname}`
+        if (!user) return "user unknown"
+        const {firstname, lastname} = user
+        return `${firstname} ${lastname}`
     }
 
     return (
@@ -57,12 +78,12 @@ const Page: React.FC<PageProps> = async ({ params }) => {
             </OptionsBar>
             <div className="flex flex-col h-full overflow-y-scroll gap-4">
                 {messages.map(message => (
-                    <MessageCard key={message._id} message={message} conversationId={id} sessionId={session._id.toString()}/>
+                    <MessageCard key={message._id.toString()} message={message} conversationId={id} sessionId={session._id.toString()}/>
                 ))}
             </div>
             <NewMessageForm conversationId={id}/>
             <LastSeenActualizer conversationId={ _id}/>
-            <SSEListener signal={'newMessage'}/>
+            <SSEListener/>
         </div>
     )
 }
