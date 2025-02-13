@@ -1,5 +1,4 @@
-
-import { newMessageEventEmitter } from '@/feats/sse/new-message/event-emitter'
+import { eventEmitter } from '@/feats/sse/new-message/event-emitter'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -11,7 +10,7 @@ export async function GET() {
 
             const onNewMessage = async (message: string) => push(JSON.stringify(message))
 
-            newMessageEventEmitter.on('newMessage', onNewMessage)
+            eventEmitter.on('newMessage', onNewMessage)
         }
     })
 

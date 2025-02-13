@@ -25,6 +25,8 @@ export const createEventAction = async (invitedUsers: string[], previousState: u
     console.log(rawData);
 
     const data = joinEventDatesandTimes(rawData)
+    console.log(data);
+
 
     const result = createEventSchema.safeParse({
         title: formData.get('title'),
@@ -33,6 +35,8 @@ export const createEventAction = async (invitedUsers: string[], previousState: u
         endDate: data.endDate,
         isFullDay: data.isFullDay
     })
+    console.log(result);
+
 
     if (!result.success) {
         const specificError = result.error.errors.find(error => error.message === "La date de fin doit être ultérieure à la date de début")

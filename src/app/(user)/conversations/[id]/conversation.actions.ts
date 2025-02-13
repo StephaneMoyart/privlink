@@ -1,7 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { newMessageEventEmitter } from "@/feats/sse/new-message/event-emitter"
+import { eventEmitter } from "@/feats/sse/new-message/event-emitter"
 import { Conversation } from "@/model"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
@@ -40,7 +40,7 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
         }
     )
 
-    newMessageEventEmitter.emit('newMessage', {message: 'newMessage'})
+    eventEmitter.emit('newMessage', { message: 'refresh' })
 
     revalidatePath('')
 }

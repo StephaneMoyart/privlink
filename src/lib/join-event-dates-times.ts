@@ -11,9 +11,11 @@ export const joinEventDatesandTimes= (rawData: {[k: string]: FormDataEntryValue}
     const isFullDay = rawIsFullDay === 'on'
     const hasEndDate = rawHasEndDate === 'on'
 
+    const parseDate = (date: FormDataEntryValue) => new Date(date as string)
+
     if (isFullDay) {
-        const startDate = rawStartDate
-        const endDate = hasEndDate ? rawEndDate : null
+        const startDate = parseDate(rawStartDate)
+        const endDate = hasEndDate ? parseDate(rawEndDate) : null
 
         return { startDate, endDate, isFullDay }
     }
