@@ -1,8 +1,7 @@
 'use server'
 
-import connectDB from "@/db/db"
+import { query } from "@/db/db"
 import { hashPass } from "@/lib/hasspass"
-import { User } from "@/model"
 import { z } from "zod"
 
 const signUpSchema = z.object({
@@ -30,14 +29,7 @@ export const signUpAction = async (prev: unknown, formData: FormData) => {
 
     const hashedPassword = await hashPass(password)
 
-    await connectDB()
-
-    await User.create({
-        firstname,
-        lastname,
-        email,
-        password: hashedPassword
-    })
+    await query('INSERT INTO person (firstname, lastname, email, password) VALUES ($1, $2, $3, $4)', [firstname, lastname, email, hashedPassword])
 
     return { success: true }
 }

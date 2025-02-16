@@ -1,7 +1,6 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { Conversation } from "@/model"
 import { z } from "zod"
 
 const createGroupConversationSchema = z.object({

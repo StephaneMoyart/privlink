@@ -1,8 +1,7 @@
 'use server'
 
 import { createSession } from "@/auth/session"
-import connectDB from "@/db/db"
-import { User } from "@/model"
+import { query } from "@/db/db"
 import bcrypt from 'bcryptjs'
 import { redirect } from "next/navigation"
 import { z } from "zod"
@@ -22,15 +21,13 @@ export const signInAction = async (previousState: unknown, formData: FormData) =
 
     const { email, password } = result.data
 
-    await connectDB()
+    const user = await query('SELECT * FROM person WHERE email = $1', [email])
+    if (user.length === 0) return { message : "Email ou mot de passe incorrect"}
 
-    const user = await User.findOne({ email })
-    if (!user) return { message : "Email ou mot de passe incorrect"}
-
-    const isValid = await bcrypt.compare(password, user.password)
+    const isValid = await bcrypt.compare(password, user[0].password)
     if (!isValid) return { message: "Email ou mot de passe incorrect" }
 
-    await createSession(user._id.toString())
+    await createSession(user[0].id)
 
     redirect('/dashboard')
 }

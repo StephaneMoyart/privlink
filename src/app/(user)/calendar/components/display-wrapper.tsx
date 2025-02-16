@@ -5,7 +5,7 @@ import { DayDisplayer } from "./day-displayer"
 import { DisplaySelector } from "./display-selector"
 import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
-import { PopulatedFlatEvent } from "../../events/events.actions"
+import { PopulatedFlatEvent } from "@/data/get-events"
 
 type DisplayWrapperProps = {
     events: PopulatedFlatEvent[]

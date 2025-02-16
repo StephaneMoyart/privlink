@@ -1,24 +1,23 @@
 import "server-only"
+
 import { SignJWT } from "jose"
 import { cookies } from "next/headers"
 import { decrypt } from "./decrypt"
-import { User } from "@/model"
-import connectDB from "@/db/db"
 import { redirect } from "next/navigation"
-import { Types } from "mongoose"
+import { query } from "@/db/db"
 
 type SessionPayload = {
     userId: string
     expiresAt: Date
 }
 
-type UserSession = {
-    _id: Types.ObjectId
-    firstname: string
-    lastname: string
-    avatarUrl: string
-    contacts: Types.ObjectId[]
-}
+// type UserSession = {
+//     id: string
+//     firstname: string
+//     lastname: string
+//     avatarUrl: string
+//     contacts: Types.ObjectId[]
+// }
 
 const secretKey = process.env.JWT_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
@@ -58,17 +57,15 @@ export async function getSession() {
 
     const userId = payload.userId
 
-    await connectDB()
+    const user = await query('SELECT * FROM person WHERE id = $1', [userId])
+    if (user.length === 0) { throw new Error("User not found") }
 
-    const user = await User.findById(userId)
-    if (!user) { throw new Error("User not found") }
-
-    const session: UserSession = {
-        _id: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        avatarUrl: user.avatarUrl,
-        contacts: user.contacts
+    const session = {
+        id: user[0].id,
+        firstname: user[0].firstname,
+        lastname: user[0].lastname,
+        avatarUrl: user[0].avatarUrl,
+        // contacts: user[0].contacts
     }
 
     return session

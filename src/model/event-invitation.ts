@@ -1,33 +1,33 @@
-import { InferSchemaType, model, models, Schema, Types } from "mongoose";
+// import { Model, model, models, Schema, Types } from "mongoose";
 
-const { ObjectId } = Schema.Types
+// const { ObjectId } = Schema.Types
 
-const eventInvitationSchema = new Schema ({
-    event: {
-        type: ObjectId,
-        ref: 'Event',
-        required: true
-    },
-    invitedBy: {
-        type: ObjectId,
-        ref: 'User',
-        required: true
-    },
-    invitedUsers: [
-        {
-            type: ObjectId,
-            ref: 'User',
-            required: true
-        }
-    ],
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+// const eventInvitationSchema = new Schema ({
+//     event: {
+//         type: ObjectId,
+//         ref: 'Event',
+//         required: true
+//     },
+//     invitedBy: {
+//         type: ObjectId,
+//         ref: 'User',
+//         required: true
+//     },
+//     invitedUsers: [
+//         {
+//             type: ObjectId,
+//             ref: 'User',
+//             required: true
+//         }
+//     ],
 
-export type EventInvitation = InferSchemaType<typeof eventInvitationSchema> & {
-    _id: Types.ObjectId
-}
+// }, { timestamps: true })
 
-export const EventInvitation = models.EventInvitation || model<EventInvitation>('EventInvitation', eventInvitationSchema)
+// export type EventInvitationT = {
+//     _id: Types.ObjectId
+//     event: Types.ObjectId
+//     invitedBy: Types.ObjectId
+//     invitedUsers: Types.Array<Types.ObjectId>
+// }
+
+// export const EventInvitation: Model<EventInvitationT> = models.EventInvitation || model<EventInvitationT>('EventInvitation', eventInvitationSchema)

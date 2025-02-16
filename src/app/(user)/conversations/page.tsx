@@ -1,5 +1,4 @@
 import { UserAvatar } from "@/components/user-avatar";
-import { getSessionConversations } from "./conversations.actions"
 import Link from "next/link";
 import { Button } from "@/components/button";
 import { OptionsBar } from "@/components/options-bar";
@@ -7,10 +6,13 @@ import { MessagesSquare, Plus } from "lucide-react";
 import { getSession } from "@/auth/session";
 import { formatMessageDateAndTime } from "@/lib/format-message-date";
 import { Badge } from "@/components/badge";
+import { getSessionConversations } from "./conversations.data";
 
 const Page = async () => {
     const session = await getSession()
     const conversations = await getSessionConversations()
+    console.log('loglog', conversations);
+
 
     return (
         <div className="flex flex-col gap-4">
@@ -22,7 +24,7 @@ const Page = async () => {
                 </Button>
             </OptionsBar>
             <div className="flex flex-col gap-4">
-                {conversations.map(({_id, members, title, lastAuthor, lastUpdate}) => (
+                {conversations.map(({_id, members, title, lastAuthor, updatedAt}) => (
                     <Link
                         className="flex items-center gap-4"
                         href={`/conversations/${ _id}`}
@@ -52,8 +54,8 @@ const Page = async () => {
                             Nouv
                         </Badge>
                         <p className="text-sm text-gray-500 lowercase">
-                            {lastAuthor === null ? "aucun message" : lastAuthor.toString() === session._id.toString() ? "envoyé " : "reçu "}
-                            {lastAuthor !== null && formatMessageDateAndTime(lastUpdate)}
+                            {lastAuthor === null ? "aucun message" : lastAuthor === session.id ? "envoyé " : "reçu "}
+                            {lastAuthor !== null && formatMessageDateAndTime(updatedAt)}
                         </p>
                     </Link>
                 ))}

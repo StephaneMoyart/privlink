@@ -1,49 +1,49 @@
-import { InferSchemaType, Model, Schema, Types, model, models} from 'mongoose'
+// import { Model, Schema, Types, model, models} from 'mongoose'
 
-const { ObjectId } = Schema.Types
+// const { ObjectId } = Schema.Types
 
-const eventSchema = new Schema({
-    creator: {
-        type: ObjectId,
-        ref: 'User',
-        required: true
-    },
-    title: {
-        type: String,
-        required: true
-    },
-    description: {
-        type: String
-    },
-    startDate: {
-        type: Date,
-        required: true
-    },
-    endDate: {
-        type: Date,
-        default: null
-    },
-    isFullDay: {
-        type: Boolean,
-        required: true
-    },
-    participants: [
-        {
-            type: ObjectId,
-            ref: 'User'
-        }
-    ]
-})
+// const eventSchema = new Schema({
+//     creator: {
+//         type: ObjectId,
+//         ref: 'User',
+//         required: true
+//     },
+//     title: {
+//         type: String,
+//         required: true
+//     },
+//     description: {
+//         type: String
+//     },
+//     startDate: {
+//         type: Date,
+//         required: true
+//     },
+//     endDate: {
+//         type: Date,
+//         default: null
+//     },
+//     isFullDay: {
+//         type: Boolean,
+//         required: true
+//     },
+//     participants: [
+//         {
+//             type: ObjectId,
+//             ref: 'User'
+//         }
+//     ]
+// })
 
-export type Event = Omit<InferSchemaType<typeof eventSchema>, 'endDate'> & {
-    _id: Types.ObjectId
-    endDate: Date | null
-}
+// export type EventT = {
+//     _id: Types.ObjectId
+//     creator: Types.ObjectId
+//     title: string
+//     description?: string
+//     startDate: Date
+//     endDate: Date | null
+//     isFullDay: boolean
+//     participants: Types.Array<Types.ObjectId>
+// }
 
-export type FlattenedEvent = Omit<Event, '_id' | 'creator' | 'participants'> & {
-    _id: string
-    creator: string
-    participants: string[]
-}
-
-export const Event: Model<Event> = models.Event || model<Event>('Event', eventSchema)
+// export const Event: Model<EventT> = models.Event || model<EventT>('Event', eventSchema)

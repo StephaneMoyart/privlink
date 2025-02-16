@@ -10,23 +10,24 @@ import { QuitConversation } from "./components/quit-conversation"
 import { redirect } from "next/navigation"
 import { LastSeenActualizer } from "./components/last-seen-actualizer"
 import { SSEListener } from "@/feats/sse/sse-listener"
-import { FlattenedConversation } from "@/model/conversation"
+import { UserT } from "@/model/user"
+import { ConversationT, FlatConversationT } from "@/model/conversation"
 
-export type PopulatedAuthor = {
-    _id: string
-    firstname: string
-    lastname: string
-    avatarUrl: string
-}
+// export type PopulatedAuthor = {
+//     _id: string
+//     firstname: string
+//     lastname: string
+//     avatarUrl: string
+// }
 
-type Conv = Omit<FlattenedConversation, 'messages'> & {
-    messages: {
-        _id: string,
-        author: PopulatedAuthor
-        content: string
-        date: NativeDate
-    }[]
-}
+// type Conv = Omit<CustomConversationT, 'messages'> & {
+//     messages: {
+//         _id: string,
+//         author: PopulatedAuthor
+//         content: string
+//         date: NativeDate
+//     }[]
+// }
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -36,7 +37,10 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     const { id } = await params
 
     //find a way to not use as unknown
-    const conversation = (await Conversation.findById(id).populate<PopulatedAuthor>('messages.author', '_id firstname lastname avatarUrl'))?.toJSON({flattenObjectIds: true}) as unknown as Conv
+    const conversation = (await Conversation
+        .findById(id)
+        .populate<{ messages: { author: Pick<UserT, '_id' | 'firstname' | 'lastname' | 'avatarUrl'>}[]}>('messages.author', '_id firstname lastname avatarUrl'))?.toJSON({ flattenObjectIds: true})
+
     if (!conversation) return null
 
     const { messages, title, members, multi, _id } = conversation
@@ -44,7 +48,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     //Shield
     const session = await getSession()
 
-    if (!members.includes(session._id.toString())) redirect('/conversations')
+    if (!members.includes(session._id)) redirect('/conversations')
     //shield
 
     const otherMember = members.filter(member => member !== session._id.toString())

@@ -9,9 +9,8 @@ export const acceptEventInvitationAction = async (invitationId: string, eventId:
     const session = await getSession()
     //end shield
 
-    const invitation = await EventInvitation.findById(invitationId)
-    const event = await Event.findById(eventId)
-    if (!event) return
+    const invitation = await EventInvitation.findById(invitationId); if (!invitation) return
+    const event = await Event.findById(eventId); if (!event) return
 
     if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
         await invitation.deleteOne()
@@ -38,7 +37,7 @@ export const declineEventInvitationAction = async (invitationId: string) => {
     const session = await getSession()
     //end shield
 
-    const invitation = await EventInvitation.findById(invitationId)
+    const invitation = await EventInvitation.findById(invitationId); if (!invitation) return
 
     if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
         await invitation.deleteOne()

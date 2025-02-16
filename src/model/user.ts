@@ -1,48 +1,50 @@
-import { InferSchemaType, Model, Schema, Types, model, models } from 'mongoose'
+// import { Model, Schema, Types, model, models } from 'mongoose'
 
-const { ObjectId } = Schema.Types
+// const { ObjectId } = Schema.Types
 
-const userSchema = new Schema({
-    firstname: {
-        type: String,
-        required: true
-    },
-    lastname: {
-        type: String,
-        required: true
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true
-    },
-    password: {
-        type: String,
-        required: true
-    },
-    avatarUrl: {
-        type: String,
-        default: null
-    },
-    birthDate: {
-        type: Date,
-        default: null
-    },
-    contacts: [
-        {
-            type: ObjectId,
-            ref: 'User'
-        }
-    ]
-})
+// const userSchema = new Schema({
+//     firstname: {
+//         type: String,
+//         required: true
+//     },
+//     lastname: {
+//         type: String,
+//         required: true
+//     },
+//     email: {
+//         type: String,
+//         required: true,
+//         unique: true
+//     },
+//     password: {
+//         type: String,
+//         required: true
+//     },
+//     avatarUrl: {
+//         type: String,
+//         default: null
+//     },
+//     birthDate: {
+//         type: Date,
+//         default: null
+//     },
+//     contacts: [
+//         {
+//             type: ObjectId,
+//             ref: 'User'
+//         }
+//     ]
+// })
 
-export type User = InferSchemaType<typeof userSchema> & {
-    _id: Types.ObjectId
-}
+// export type UserT = {
+//     _id: Types.ObjectId
+//     firstname: string
+//     lastname: string
+//     email: string
+//     password: string
+//     avatarUrl: string
+//     birthDate: Date
+//     contacts: Types.Array<Types.ObjectId>
+// }
 
-export type FlattenedUser = Omit<User, '_id' | 'contacts'> & {
-    _id: string
-    contacts: string[]
-}
-
-export const User: Model<User> = models.User || model<User>('User', userSchema)
+// export const User: Model<UserT> = models.User || model<UserT>('User', userSchema)

@@ -1,5 +1,4 @@
 import { getSession } from "@/auth/session"
-import { User } from "@/model"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { CreateGroupConversationForm } from "./create.forms"

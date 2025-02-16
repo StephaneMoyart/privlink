@@ -1,31 +1,25 @@
-import { InferSchemaType, Model, model, models, Schema, Types } from "mongoose"
+// import { Model, model, models, Schema, Types } from "mongoose"
 
-const contactInvitationSchema = new Schema ({
-    invitedUser: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    invitedByUser: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
-})
+// const { ObjectId } = Schema.Types
 
-type ContactInvitation = InferSchemaType<typeof contactInvitationSchema> & {
-    _id: Types.ObjectId
-}
+// const contactInvitationSchema = new Schema ({
+//     invitedUser: {
+//         type: ObjectId,
+//         ref: 'User',
+//         required: true
+//     },
+//     invitedByUser: {
+//         type: ObjectId,
+//         ref: 'User',
+//         required: true
+//     }
+// }, { timestamps: true })
 
-export type FlattenedContactInvitation = {
-    _id: string
-    invitedUser: string
-    invitedByUser: string
-    createdAt: NativeDate
-}
+// export type ContactInvitationT = {
+//     _id: Types.ObjectId
+//     invitedUser: Types.ObjectId
+//     invitedByUser: Types.ObjectId
+//     createdAt: Date
+// }
 
-export const ContactInvitation: Model<ContactInvitation> = models.ContactInvitation || model<ContactInvitation>('ContactInvitation', contactInvitationSchema)
+// export const ContactInvitation: Model<ContactInvitationT> = models.ContactInvitation || model<ContactInvitationT>('ContactInvitation', contactInvitationSchema)

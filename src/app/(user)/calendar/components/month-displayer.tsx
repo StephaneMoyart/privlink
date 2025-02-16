@@ -4,8 +4,8 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
-import { EventCard } from "../../events/components/event-card"
-import { PopulatedFlatEvent } from "../../events/events.actions"
+import { EventCard } from "@/feats/event-card/event-card"
+import { PopulatedFlatEvent } from "@/data/get-events"
 
 type MonthDisplayerProps = {
     events: PopulatedFlatEvent[]

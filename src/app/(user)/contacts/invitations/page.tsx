@@ -10,8 +10,8 @@ const Page = async () => {
 
     return (
         <div>
-            {invitations.map(({ _id, invitedByUser : {_id: invitedByUserId, avatarUrl, firstname, lastname}}) => (
-                <div key={_id} className="flex w-full justify-between p-4">
+            {invitations.map(({ id, invitedByUser : { id: invitedByUserId, avatarUrl, firstname, lastname }}) => (
+                <div key={id} className="flex w-full justify-between p-4">
                     <div className="flex gap-2">
                         <UserAvatar
                             className="w-15 h-15 rounded-full"
@@ -24,7 +24,7 @@ const Page = async () => {
                             <p className="text-xs">vous propose de créer un Link</p>
                         </div>
                     </div>
-                    <AcceptOrDeclineInvitation invitedByUserId={invitedByUserId} invitationId={ _id}/>
+                    <AcceptOrDeclineInvitation invitedByUserId={invitedByUserId} invitationId={id}/>
                 </div>
             ))}
         </div>

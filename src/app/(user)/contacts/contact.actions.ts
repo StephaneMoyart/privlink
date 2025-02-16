@@ -1,31 +1,19 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { ContactInvitation, User } from "@/model"
-import { FlattenedUser } from "@/model/user"
+import { query } from "@/db/db"
 
-export type SelectedFlatUser = Omit<FlattenedUser, 'email' | 'password' | 'birthDate' | 'contacts'>
-
-export const getUserByQueryAction = async (query: string) => {
+export const getUserByQueryAction = async (q: string) => {
     // shield
-    const session = await getSession()
+    await getSession()
     // end shield
 
-    const keywords = query.split(" ").filter(keyword => keyword.trim().length > 0)
+    const keywords = q.split(" ").filter(keyword => keyword.trim().length > 0)
 
-    const searchCriteria = keywords.map(keyword => ({
-        $or: [
-            { firstname: { $regex: keyword, $options: "i" } },
-            { lastname: { $regex: keyword, $options: "i" } }
-        ]
-    }))
+    const conditions = keywords.map((_, index) => { return `(firstname ILIKE $${index + 1} OR lastname ILIKE $${index + 1})`}).join(' OR ')
+    const params = keywords.map(keyword => `%${keyword}%`)
 
-    const users: SelectedFlatUser[] = (await User
-        .find({ $and: [...searchCriteria, { _id: { $ne: session._id }}]})
-        .select('firstname lastname avatarUrl _id'))
-        .map(user => user.toJSON({flattenObjectIds: true}))
-
-    return users
+    return await query(`SELECT id, firstname, lastname, avatar FROM person WHERE ${conditions}`, params)
 }
 
 export const sendContactInvitationAction = async (invitedUserId: string) => {
@@ -33,19 +21,18 @@ export const sendContactInvitationAction = async (invitedUserId: string) => {
     const session = await getSession()
     // end shield
 
-    if (session.contacts.some((contact) => contact.equals(invitedUserId))) return { message: "Ce Link existe déjà."}
-    if (session._id.equals(invitedUserId)) return { message: "Opération impossible"}
+    if (session.id === invitedUserId) return { message: "Opération impossible"}
 
-    const isExisting = await ContactInvitation.findOne({
-        invitedUser: invitedUserId,
-        invitedByUser: session._id
-    })
-    if (isExisting) return { message: "Une invitation est déjà en cours." }
+    const isExisting = await query(
+        'SELECT * FROM contact_invitation WHERE invited_by_id = $1 AND invited_person_id = $2',
+        [session.id, invitedUserId]
+    )
+    if (isExisting.length > 0) return { message: "Une invitation est déjà en cours." }
 
-    await ContactInvitation.create({
-        invitedUser: invitedUserId,
-        invitedByUser: session._id,
-    })
+    await query(
+        'INSERT INTO contact_invitation (invited_by_id, invited_person_id) VALUES ($1, $2)',
+        [session.id, invitedUserId]
+    )
 
     // todoreturn
     return {}

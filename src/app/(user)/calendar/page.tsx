@@ -1,4 +1,4 @@
-import { getEvents } from "../events/events.actions"
+import { getEvents } from "@/data/get-events"
 import { DisplayWrapper } from "./components/display-wrapper"
 
 const Page = async () => {

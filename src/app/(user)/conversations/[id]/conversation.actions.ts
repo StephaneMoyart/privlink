@@ -2,7 +2,6 @@
 
 import { getSession } from "@/auth/session"
 import { eventEmitter } from "@/feats/sse/new-message/event-emitter"
-import { Conversation } from "@/model"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"

@@ -1,16 +1,18 @@
-import mongoose from "mongoose"
+import pg, { QueryResult } from 'pg';
 
-const connectDB = async (): Promise<boolean> => {
-    if (mongoose.connections[0].readyState) return true
+const { Pool } = pg
 
-    try {
-        await mongoose.connect(process.env.DATABASE_URL || "")
-        console.log('^^mongoDB connected^^')
-        return true
-    } catch (error) {
-        console.log(error)
-        return false
-    }
-}
+const pool = new Pool({ connectionString: process.env.DATABASE_URL})
 
-export default connectDB
+export const query = async <T = any>(text: string, params?: any[]): Promise<T[]> => {
+  const client = await pool.connect();
+  try {
+    const res: QueryResult<T> = await client.query<T>(text, params);
+    return res.rows; // rows est bien `T[]`
+  } catch (err) {
+    console.error('Erreur de requête:', err);
+    throw err;
+  } finally {
+    client.release();
+  }
+};

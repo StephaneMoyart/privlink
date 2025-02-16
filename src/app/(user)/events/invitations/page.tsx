@@ -2,14 +2,22 @@ import { getSession } from "@/auth/session"
 import { EventInvitation } from "@/model"
 import { AcceptOrDeclineEventInvitation } from "./components/accept-or-decline-event-invitation"
 import { redirect } from "next/navigation"
+import { EventT } from "@/model/event"
+import { UserT } from "@/model/user"
+import { EventInvitationT } from "@/model/event-invitation"
+
+type PopulatedEventInvitation = Omit<EventInvitationT, 'event' | 'invitedBy'> & {
+    event: Pick<EventT, '_id' | 'title'>
+    invitedBy: Pick<UserT, '_id' | 'firstname' | 'lastname'>
+}
 
 const Page = async () => {
     const session = await getSession()
     const invitations = (await EventInvitation
         .find({invitedUsers: {$in: [session._id]}})
-        .populate('event', 'title')
-        .populate('invitedBy', 'firstname lastname'))
-        .map(invitation => invitation.toJSON({flattenObjectIds: true}))
+        .populate<Pick<PopulatedEventInvitation, 'event'>>('event', 'title')
+        .populate<Pick<PopulatedEventInvitation, 'invitedBy'>>('invitedBy', 'firstname lastname'))
+        .map(invitation=> invitation.toJSON({ flattenObjectIds: true }))
 
     if (invitations.length === 0) return redirect('/events')
 

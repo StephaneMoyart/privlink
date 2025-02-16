@@ -1,19 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { ContactInvitation, Conversation, User } from "@/model"
-import { FlattenedContactInvitation } from "@/model/contact-invitation"
-import mongoose, { Types } from "mongoose"
 import { revalidatePath } from "next/cache"
-
-type PopulatedFlatContactInvitation = Omit<FlattenedContactInvitation, 'invitedByUser'> & {
-    invitedByUser: {
-        _id: string
-        firstname: string
-        lastname: string
-        avatarUrl: string
-    }
-}
 
 export const getContactInvitations = async () => {
     // shield
@@ -22,7 +10,7 @@ export const getContactInvitations = async () => {
 
     return (await ContactInvitation
         .find({ invitedUser : session._id })
-        .populate<Pick<PopulatedFlatContactInvitation, 'invitedByUser'>>('invitedByUser', 'firstname lastname avatarUrl'))
+        .populate<{ invitedByUser : Pick<UserT, '_id' | 'firstname' | 'lastname' | 'avatarUrl'> }>('invitedByUser', 'firstname lastname avatarUrl'))
         .map(invitation => invitation.toJSON({flattenObjectIds: true}))
 }
 

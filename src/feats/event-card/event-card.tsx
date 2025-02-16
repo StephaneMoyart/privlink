@@ -2,9 +2,9 @@
 
 import { handleEventDateDisplay } from "@/lib/format-event-card-date";
 import { Clock, Text } from "lucide-react";
-import { EventCardSettings } from "./event-card-settings";
 import { UserAvatar } from "@/components/user-avatar";
-import { PopulatedFlatEvent } from "../events.actions";
+import { EventCardSettings } from "./event-card-settings";
+import { PopulatedFlatEvent } from "@/data/get-events";
 
 type EventCardProps = {
     event: PopulatedFlatEvent
@@ -13,8 +13,8 @@ type EventCardProps = {
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, sessionId }) => {
-    const { _id, title, description, startDate, endDate, isFullDay, creator, participants } = event
 
+    const { _id, title, description, startDate, endDate, isFullDay, creator, participants } = event
     const date = handleEventDateDisplay(startDate, endDate, isFullDay)
 
     const isCreator = sessionId === creator._id
@@ -56,7 +56,6 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
                     :
                     <p>Pas d&apos;autres participants</p>
                 }
-
 
                 <div className="flex items-center gap-2">
                     <Text size={15}/>

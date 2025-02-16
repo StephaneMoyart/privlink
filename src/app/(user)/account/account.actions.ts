@@ -3,7 +3,6 @@
 import path from "path"
 import fs from 'fs'
 import { revalidatePath } from "next/cache"
-import { User } from "@/model"
 import { z } from "zod"
 import { getSession } from "@/auth/session"
 

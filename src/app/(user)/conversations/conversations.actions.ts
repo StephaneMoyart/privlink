@@ -1,19 +1,17 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { Conversation } from "@/model"
-import { FlattenedConversation } from "@/model/conversation"
 
-type PopulatedMember = {
-    _id: string
-    firstname: string
-    lastname: string
-    avatarUrl: string
-}
+// type PopulatedMember = {
+//     _id: string
+//     firstname: string
+//     lastname: string
+//     avatarUrl: string
+// }
 
-type SelectedPopulatedFlatConversation = Omit <FlattenedConversation, 'members'> & {
-  members: PopulatedMember[]
-}
+// type SelectedPopulatedFlatConversation = Omit <FlattenedConversation, 'members'> & {
+//   members: PopulatedMember[]
+// }
 
 export const getSessionConversations = async () => {
     // shield

@@ -2,8 +2,8 @@
 
 import { Ellipsis, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
-import { deleteEventAction } from "../events.actions"
 import { Button } from "@/components/button"
+import { deleteEventAction } from "@/app/(user)/events/events.actions"
 
 type EventCardSettingsProps = {
     eventId: string
