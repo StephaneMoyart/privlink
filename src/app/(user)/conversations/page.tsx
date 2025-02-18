@@ -24,20 +24,20 @@ const Page = async () => {
                 </Button>
             </OptionsBar>
             <div className="flex flex-col gap-4">
-                {conversations.map(({_id, members, title, lastAuthor, updatedAt}) => (
+                {conversations.map(({ id, members, title, last_author, updated_at }) => (
                     <Link
                         className="flex items-center gap-4"
-                        href={`/conversations/${ _id}`}
-                        key={ _id.toString()}
+                        href={`/conversations/${id}`}
+                        key={id}
                     >
                         <div className="flex -space-x-5">
-                            {members.map((member, index) => (
+                            {members.map((member) => (
                                 <UserAvatar
-                                    key={member._id}
+                                    key={member.id}
                                     className="w-15 h-15 rounded-full overflow-hidden"
                                     width={60}
                                     height={60}
-                                    avatarUrl={members[index].avatarUrl}
+                                    avatarUrl={member.avatar}
                                 />
                             ))}
                         </div>
@@ -54,8 +54,8 @@ const Page = async () => {
                             Nouv
                         </Badge>
                         <p className="text-sm text-gray-500 lowercase">
-                            {lastAuthor === null ? "aucun message" : lastAuthor === session.id ? "envoyé " : "reçu "}
-                            {lastAuthor !== null && formatMessageDateAndTime(updatedAt)}
+                            {last_author === null ? "aucun message" : last_author === session.id ? "envoyé " : "reçu "}
+                            {last_author !== null && formatMessageDateAndTime(updated_at)}
                         </p>
                     </Link>
                 ))}

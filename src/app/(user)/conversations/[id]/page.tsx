@@ -5,13 +5,11 @@ import { OptionsBar } from "@/components/options-bar"
 import { ArrowLeft } from "lucide-react"
 import { Button } from "@/components/button"
 import Link from "next/link"
-import { Conversation, User } from "@/model"
 import { QuitConversation } from "./components/quit-conversation"
 import { redirect } from "next/navigation"
 import { LastSeenActualizer } from "./components/last-seen-actualizer"
 import { SSEListener } from "@/feats/sse/sse-listener"
-import { UserT } from "@/model/user"
-import { ConversationT, FlatConversationT } from "@/model/conversation"
+import { getSelectedConversation } from "./conversation.data"
 
 // export type PopulatedAuthor = {
 //     _id: string
@@ -34,31 +32,32 @@ type PageProps = {
 }
 
 const Page: React.FC<PageProps> = async ({ params }) => {
-    const { id } = await params
+    const { id: pId } = await params
 
-    //find a way to not use as unknown
-    const conversation = (await Conversation
-        .findById(id)
-        .populate<{ messages: { author: Pick<UserT, '_id' | 'firstname' | 'lastname' | 'avatarUrl'>}[]}>('messages.author', '_id firstname lastname avatarUrl'))?.toJSON({ flattenObjectIds: true})
+    const conversation = await getSelectedConversation(pId)
+    console.log(conversation);
 
     if (!conversation) return null
 
-    const { messages, title, members, multi, _id } = conversation
+    const { messages, title, members, multi, id } = conversation[0]
+    console.log(messages);
+    console.log(members);
+
 
     //Shield
     const session = await getSession()
 
-    if (!members.includes(session._id)) redirect('/conversations')
-    //shield
+    // if (!members.includes(session.id)) redirect('/conversations')
+    // //shield
 
-    const otherMember = members.filter(member => member !== session._id.toString())
+    const otherMember = members.filter(member => member !== session.id)
 
-    const getFullName = async (stringId: string) => {
-        const user = await User.findById(stringId).select('firstname lastname')
-        if (!user) return "user unknown"
-        const {firstname, lastname} = user
-        return `${firstname} ${lastname}`
-    }
+    // const getFullName = async (stringId: string) => {
+    //     const user = await User.findById(stringId).select('firstname lastname')
+    //     if (!user) return "user unknown"
+    //     const {firstname, lastname} = user
+    //     return `${firstname} ${lastname}`
+    // }
 
     return (
         <div className="h-full flex flex-col  gap-4 justify-between">
@@ -70,23 +69,23 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 </Button>
 
                 <p className="text-lg font-semibold">
-                    { title ? title : getFullName(otherMember[0]) }
+                    { title ? title : `${members[0].firstname} ${members[0].lastname}` }
                 </p>
 
                 {multi
                 ?
-                <QuitConversation conversationId={ _id}/>
+                <QuitConversation conversationId={id}/>
                 :
                 <span></span>
                 }
             </OptionsBar>
             <div className="flex flex-col h-full overflow-y-scroll gap-4">
                 {messages.map(message => (
-                    <MessageCard key={message._id.toString()} message={message} conversationId={id} sessionId={session._id.toString()}/>
+                    <MessageCard key={message.id} message={message} conversationId={id} sessionId={session.id}/>
                 ))}
             </div>
             <NewMessageForm conversationId={id}/>
-            <LastSeenActualizer conversationId={ _id}/>
+            <LastSeenActualizer conversationId={id}/>
             <SSEListener/>
         </div>
     )

@@ -2,7 +2,7 @@ import pg, { QueryResult } from 'pg';
 
 const { Pool } = pg
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL})
+export const pool = new Pool({ connectionString: process.env.DATABASE_URL})
 
 export const query = async <T = any>(text: string, params?: any[]): Promise<T[]> => {
   const client = await pool.connect();

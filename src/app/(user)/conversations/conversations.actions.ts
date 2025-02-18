@@ -13,20 +13,7 @@ import { getSession } from "@/auth/session"
 //   members: PopulatedMember[]
 // }
 
-export const getSessionConversations = async () => {
-    // shield
-    const session = await getSession()
-    // end shield
 
-    return (await Conversation.find({
-        members: { $in : [session._id]}
-        })
-        .populate<Pick<SelectedPopulatedFlatConversation, 'members'>>('members', '_id firstname lastname avatarUrl')
-        .sort({lastUpdate: - 1})
-        .select('_id multi title members lastUpdate lastAuthor'))
-        .map(conversation => conversation.toJSON({ flattenObjectIds: true }))
-        .map(conversation => ({...conversation, members: conversation.members.filter(member => member._id !== session._id.toString())}))
-}
 
 export const updateLastSeenAction = async (conversationId: string) => {
   //sield

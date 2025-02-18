@@ -5,6 +5,7 @@ import fs from 'fs'
 import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { getSession } from "@/auth/session"
+import { query } from "@/db/db"
 
 const uploadAvatarSchema = z.instanceof(File).refine(file => [
         "image/png",
@@ -35,11 +36,7 @@ export const changeAvatarAction = async (formData: FormData) => {
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     fs.writeFileSync(filePath, fileBuffer)
 
-    await User.updateOne(
-        { _id: session._id } ,
-        { avatarUrl },
-        { runValidators: true }
-    )
+    await query('UPDATE person p SET avatar = $1 WHERE p.id = $2', [avatarUrl, session.id])
 
     revalidatePath('')
 }

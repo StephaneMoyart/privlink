@@ -11,13 +11,13 @@ type SessionPayload = {
     expiresAt: Date
 }
 
-// type UserSession = {
-//     id: string
-//     firstname: string
-//     lastname: string
-//     avatarUrl: string
-//     contacts: Types.ObjectId[]
-// }
+type Session = {
+    id: string
+    firstname: string
+    lastname: string
+    avatar: string
+    // contacts: Types.ObjectId[]
+}
 
 const secretKey = process.env.JWT_SECRET
 const encodedKey = new TextEncoder().encode(secretKey)
@@ -57,19 +57,14 @@ export async function getSession() {
 
     const userId = payload.userId
 
-    const user = await query('SELECT * FROM person WHERE id = $1', [userId])
+    const user: Session[] = await query('SELECT p.id, p.firstname, p.lastname, p.avatar FROM person p WHERE id = $1 LIMIT 1', [userId])
     if (user.length === 0) { throw new Error("User not found") }
 
-    const session = {
-        id: user[0].id,
-        firstname: user[0].firstname,
-        lastname: user[0].lastname,
-        avatarUrl: user[0].avatarUrl,
-        // contacts: user[0].contacts
+    return {
+        ...user[0]
     }
-
-    return session
 }
+
 
 export async function deleteSession() {
     const cookieStore = await cookies()

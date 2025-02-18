@@ -5,17 +5,19 @@ import { redirect } from "next/navigation";
 
 const Page = async () => {
     const invitations = await getContactInvitations()
+    console.log(invitations);
+
 
     if (invitations.length === 0) redirect('/contacts')
 
     return (
         <div>
-            {invitations.map(({ id, invitedByUser : { id: invitedByUserId, avatarUrl, firstname, lastname }}) => (
+            {invitations.map(({ id, invited_by_id, firstname, lastname, avatar}) => (
                 <div key={id} className="flex w-full justify-between p-4">
                     <div className="flex gap-2">
                         <UserAvatar
                             className="w-15 h-15 rounded-full"
-                            avatarUrl={avatarUrl}
+                            avatarUrl={avatar}
                             width={60}
                             height={60}
                         />
@@ -24,7 +26,7 @@ const Page = async () => {
                             <p className="text-xs">vous propose de créer un Link</p>
                         </div>
                     </div>
-                    <AcceptOrDeclineInvitation invitedByUserId={invitedByUserId} invitationId={id}/>
+                    <AcceptOrDeclineInvitation invitedByUserId={invited_by_id} invitationId={id}/>
                 </div>
             ))}
         </div>

@@ -12,13 +12,13 @@ type SessionAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
 }
 
 export const SessionAvatar: React.FC<SessionAvatarProps> = async ({ height, width, className }) => {
-    const { avatarUrl } = await getSession()
+    const { avatar } = await getSession()
 
     return (
         <>
-            {avatarUrl ?
+            {avatar ?
                 <Image
-                    src={avatarUrl}
+                    src={avatar}
                     alt="avatar"
                     height={height}
                     width={width}

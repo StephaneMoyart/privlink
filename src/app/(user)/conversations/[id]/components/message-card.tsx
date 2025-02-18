@@ -5,20 +5,20 @@ import { MessageSettings } from "./settings-buttons"
 import { useState } from "react"
 import { EditMessageForm } from "../conversation.forms"
 import { formatMessageDateAndTime } from "@/lib/format-message-date"
-import { FlattenedConversation } from "@/model/conversation"
-import { PopulatedAuthor } from "../page"
 
-type MessageCardProps = {
-    message: Omit<FlattenedConversation['messages'][number], 'author'> & {
-        author: PopulatedAuthor
-    }
-    conversationId: string
-    sessionId: string
-}
+// type MessageCardProps = {
+//     message: Omit<FlattenedConversation['messages'][number], 'author'> & {
+//         author: PopulatedAuthor
+//     }
+//     conversationId: string
+//     sessionId: string
+// }
 
 export const MessageCard: React.FC<MessageCardProps> = ({message, conversationId, sessionId}) => {
-    const { _id, author, content } = message
-    const { firstname, lastname, avatarUrl, _id: authorId } = author
+    const { id, author, content, created_at } = message
+    console.log('tttt', message.created_at);
+
+    const { firstname, lastname, avatarUrl, id: authorId } = author
 
     const [isEditing, setIsEditing] = useState(false)
 
@@ -35,7 +35,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({message, conversationId
                 />
                 {isEditing
                     ?
-                    <EditMessageForm content={content} conversationId={conversationId} messageId={ _id} setIsEditing={setIsEditing}/>
+                    <EditMessageForm content={content} conversationId={conversationId} messageId={id} setIsEditing={setIsEditing}/>
                     :
                     <div className="flex flex-col w-full gap-1">
                         <div className="flex gap-2 items-center">
@@ -43,7 +43,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({message, conversationId
                                 <span>{firstname} </span>
                                 <span>{lastname}</span>
                             </p>
-                            <p className="max-md:text-[9px] text-xs opacity-60">{formatMessageDateAndTime(message.date)}</p>
+                            <p className="max-md:text-[9px] text-xs opacity-60">{formatMessageDateAndTime(message.createdAt)}</p>
                         </div>
                         <p>
                             {content}

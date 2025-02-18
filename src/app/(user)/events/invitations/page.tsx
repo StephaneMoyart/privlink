@@ -1,10 +1,6 @@
 import { getSession } from "@/auth/session"
-import { EventInvitation } from "@/model"
 import { AcceptOrDeclineEventInvitation } from "./components/accept-or-decline-event-invitation"
 import { redirect } from "next/navigation"
-import { EventT } from "@/model/event"
-import { UserT } from "@/model/user"
-import { EventInvitationT } from "@/model/event-invitation"
 
 type PopulatedEventInvitation = Omit<EventInvitationT, 'event' | 'invitedBy'> & {
     event: Pick<EventT, '_id' | 'title'>

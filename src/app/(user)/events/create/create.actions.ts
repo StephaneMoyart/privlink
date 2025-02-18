@@ -2,8 +2,6 @@
 
 import { getSession } from "@/auth/session"
 import { joinEventDatesandTimes } from "@/lib/join-event-dates-times"
-import { Event } from "@/model"
-import { EventInvitation } from "@/model/event-invitation"
 import { z } from "zod"
 
 const createEventSchema = z.object({

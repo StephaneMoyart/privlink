@@ -1,8 +1,6 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { Event, EventInvitation } from "@/model"
-import mongoose from "mongoose"
 import { revalidatePath } from "next/cache"
 
 export const deleteEventAction = async (eventId: string) => {

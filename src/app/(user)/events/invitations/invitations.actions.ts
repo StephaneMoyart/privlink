@@ -1,7 +1,6 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { Event, EventInvitation } from "@/model"
 import { revalidatePath } from "next/cache"
 
 export const acceptEventInvitationAction = async (invitationId: string, eventId: string) => {

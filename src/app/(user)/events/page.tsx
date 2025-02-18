@@ -1,6 +1,5 @@
 import Link from "next/link"
 import { Button } from "@/components/button"
-import { EventInvitation } from "@/model"
 import { getSession } from "@/auth/session"
 import { InvitationCountDisplayer } from "@/feats/invitation-count-displayer/invitation-count-displayer"
 import { EventCard } from "@/feats/event-card/event-card"
@@ -9,8 +8,11 @@ import { getEvents } from "@/data/get-events"
 const Page = async () => {
     const session = await getSession()
     const events = await getEvents()
+    console.log(events);
 
-    const invitationsCount = await EventInvitation.countDocuments({invitedUsers: {$in: [session._id]}})
+
+    // const invitationsCount = await EventInvitation.countDocuments({invitedUsers: {$in: [session.id]}})
+    const invitationsCount = 1
 
     return (
         <div className="w-full flex p-2 flex-col gap-4">
@@ -26,7 +28,7 @@ const Page = async () => {
             </div>
 
             {events.map(event => (
-                <EventCard key={event._id} event={event} sessionId={session._id.toString()}/>
+                <EventCard key={event.id} event={event} sessionId={session.id}/>
             ))}
         </div>
     )

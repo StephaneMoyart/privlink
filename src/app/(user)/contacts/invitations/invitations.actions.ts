@@ -1,6 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { pool, query } from "@/db/db"
 import { revalidatePath } from "next/cache"
 
 export const getContactInvitations = async () => {
@@ -8,10 +9,10 @@ export const getContactInvitations = async () => {
     const session = await getSession()
     // end shield
 
-    return (await ContactInvitation
-        .find({ invitedUser : session._id })
-        .populate<{ invitedByUser : Pick<UserT, '_id' | 'firstname' | 'lastname' | 'avatarUrl'> }>('invitedByUser', 'firstname lastname avatarUrl'))
-        .map(invitation => invitation.toJSON({flattenObjectIds: true}))
+    return await query(
+        'SELECT p.id AS invited_by_id, p.firstname, p.lastname, p.avatar, ci.id AS id FROM person p JOIN contact_invitation ci ON p.id = ci.invited_by_id WHERE invited_person_id = $1',
+        [session.id]
+    )
 }
 
 export const acceptContactInvitationAction = async (invitedByUserId: string, invitationId: string): Promise<void> => {
@@ -19,46 +20,25 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
     const session = await getSession()
     // end shield
 
-    if (session.contacts.includes(new Types.ObjectId(invitedByUserId))) {
-        await ContactInvitation.deleteOne({ _id: invitationId})
-        return
-    }
-
-    // sync DB, success or abort all
-    const DB = await mongoose.startSession()
-    DB.startTransaction()
-
+    // if (session.contacts.includes(new Types.ObjectId(invitedByUserId))) {
+    //     await ContactInvitation.deleteOne({ _id: invitationId})
+    //     return
+    // }
+    const client = await pool.connect()
     try {
-        await User.updateOne(
-            { _id: invitedByUserId },
-            { $addToSet: { contacts: session._id } },
-            { session: DB }
-        )
-
-        await User.updateOne(
-            { _id: session._id } ,
-            { $addToSet: { contacts: invitedByUserId } },
-            { session: DB }
-        )
-
-        await Conversation.create(
-            [{
-                members: [ session._id, invitedByUserId ],
-                lastAuthor: null
-            }],
-            { session: DB }
-        )
-
-        await ContactInvitation.deleteOne( {_id: invitationId }, { session: DB })
-
-        await DB.commitTransaction()
-    } catch (error) {
-        await DB.abortTransaction()
-        throw error;
+        await client.query('BEGIN')
+        await client.query('INSERT INTO contact (person1_id, person2_id) VALUES ($1, $2)', [session.id, invitedByUserId])
+        const createdConversation = await client.query('INSERT INTO conversation DEFAULT VALUES RETURNING id')
+        await client.query('INSERT INTO conversation_member (conversation_id, member_id) VALUES ($1, $2), ($1, $3)', [createdConversation.rows[0].id, session.id, invitedByUserId])
+        await client.query('INSERT INTO conversation_last_seen (conversation_id, member_id) VALUES ($1, $2), ($1, $3)', [createdConversation.rows[0].id, session.id, invitedByUserId])
+        await client.query('DELETE FROM contact_invitation ci WHERE ci.id = $1', [invitationId])
+        await client.query ('COMMIT')
+    } catch (err) {
+        await client.query('ROLLBACK')
+        throw err
     } finally {
-        DB.endSession()
+        client.release()
     }
-    // end sync DB
 
     revalidatePath('')
 }
@@ -68,7 +48,7 @@ export const declineContactInvitationAction = async (invitationId: string) => {
     await getSession()
     // end shield
 
-    await ContactInvitation.findByIdAndDelete(invitationId)
+    await query('DELETE FROM contact_invitation ci WHERE ci.id = $1', [invitationId])
 
     revalidatePath('')
     // todo
