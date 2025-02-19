@@ -1,29 +1,28 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { pool } from "@/db/db"
 import { revalidatePath } from "next/cache"
 
 export const deleteEventAction = async (eventId: string) => {
     // shield
-    const session = await getSession()
+    await getSession()
     // end shield
 
-    //sync
-    const DB = await mongoose.startSession()
-    DB.startTransaction()
+    const client = await pool.connect()
 
     try {
-        await Event.deleteOne({ _id: eventId, creator: session._id }, {session: DB})
-        await EventInvitation.deleteOne({ event: eventId }, {session: DB})
-
-        await DB.commitTransaction()
-    } catch(error) {
-        await DB.abortTransaction()
-        throw error
+        await client.query('BEGIN')
+        await client.query('DELETE FROM event_invitation WHERE event_id = $1', [eventId])
+        await client.query('DELETE FROM event_participant WHERE event_id = $1', [eventId])
+        await client.query('DELETE FROM event WHERE id = $1', [eventId])
+        await client.query('COMMIT')
+    } catch(err) {
+        await client.query('ROLLBACK')
+       throw err
     } finally {
-        await DB.endSession()
+        client.release()
     }
-    //end sync
 
     revalidatePath('')
 }

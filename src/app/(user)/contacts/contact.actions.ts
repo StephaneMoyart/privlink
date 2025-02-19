@@ -1,6 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { UserBase } from "@/data/get-events"
 import { query } from "@/db/db"
 
 export const getUserByQueryAction = async (q: string) => {
@@ -13,7 +14,8 @@ export const getUserByQueryAction = async (q: string) => {
     const conditions = keywords.map((_, index) => { return `(firstname ILIKE $${index + 1} OR lastname ILIKE $${index + 1})`}).join(' OR ')
     const params = keywords.map(keyword => `%${keyword}%`)
 
-    return await query(`SELECT id, firstname, lastname, avatar FROM person WHERE ${conditions}`, params)
+    const users: UserBase[] = await query(`SELECT id, firstname, lastname, avatar FROM person WHERE ${conditions}`, params)
+    return users
 }
 
 export const sendContactInvitationAction = async (invitedUserId: string) => {

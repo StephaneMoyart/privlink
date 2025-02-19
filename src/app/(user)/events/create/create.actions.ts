@@ -1,6 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { pool } from "@/db/db"
 import { joinEventDatesandTimes } from "@/lib/join-event-dates-times"
 import { z } from "zod"
 
@@ -20,11 +21,8 @@ export const createEventAction = async (invitedUsers: string[], previousState: u
     //end shield
 
     const rawData = Object.fromEntries(formData.entries())
-    console.log(rawData);
 
     const data = joinEventDatesandTimes(rawData)
-    console.log(data);
-
 
     const result = createEventSchema.safeParse({
         title: formData.get('title'),
@@ -33,8 +31,6 @@ export const createEventAction = async (invitedUsers: string[], previousState: u
         endDate: data.endDate,
         isFullDay: data.isFullDay
     })
-    console.log(result);
-
 
     if (!result.success) {
         const specificError = result.error.errors.find(error => error.message === "La date de fin doit être ultérieure à la date de début")
@@ -45,21 +41,24 @@ export const createEventAction = async (invitedUsers: string[], previousState: u
 
     const { title, description, startDate, endDate, isFullDay } = result.data
 
-    // synchro
+    const client = await pool.connect()
 
-    const event = await Event.create({
-        creator: session._id,
-        title,
-        description,
-        startDate,
-        endDate,
-        isFullDay
-    })
+    try {
+        await client.query('BEGIN')
 
-    await EventInvitation.create({
-        event: event._id,
-        invitedBy: session._id,
-        invitedUsers
-    })
+        const event = await client.query('INSERT INTO event (creator, title, description, start_date, end_date, is_full_day) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id',
+            [session.id, title, description, startDate, endDate, isFullDay]
+        )
+        const eventId = event.rows[0].id
+        console.log(eventId);
 
+        await Promise.all(invitedUsers.map(user => client.query('INSERT INTO event_invitation (event_id, invited_by_id, invited_person_id) VALUES ($1, $2, $3)', [eventId, session.id, user])))
+
+        await client.query('COMMIT')
+    } catch(err) {
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
 }

@@ -4,16 +4,9 @@ import { getContacts } from "@/data/get-contacts"
 import { getInvitationsCount } from "@/data/get-invitation-count"
 import { InvitationCountDisplayer } from "@/feats/invitation-count-displayer/invitation-count-displayer"
 
-// export type Contact = Pick<UserT, 'firstname' | 'lastname' | 'avatarUrl'> & {
-//     _id: string
-// }
-
 const Page = async () => {
     const contacts = await getContacts()
     const count = await getInvitationsCount()
-    console.log(count);
-
-
 
     return (
         <div className="flex flex-col gap-4">
@@ -26,7 +19,7 @@ const Page = async () => {
                     <div className="flex flex-col items-center gap-4 p-4 shadow shadow-black/20" key={ id}>
                         <UserAvatar
                             className="w-40 h-40 md:h-50 md:w-50"
-                            avatarUrl={avatar}
+                            avatar={avatar}
                             width={200}
                             height={200}
                         />

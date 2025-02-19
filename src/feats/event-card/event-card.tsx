@@ -4,20 +4,20 @@ import { handleEventDateDisplay } from "@/lib/format-event-card-date";
 import { Clock, Text } from "lucide-react";
 import { UserAvatar } from "@/components/user-avatar";
 import { EventCardSettings } from "./event-card-settings";
-import { PopulatedFlatEvent } from "@/data/get-events";
+import { EventT } from "@/data/get-events";
 
 type EventCardProps = {
-    event: PopulatedFlatEvent
+    event: EventT
     readOnly?: boolean
-    sessionId?: string
+    sessionId: string
 }
 
 export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, sessionId }) => {
 
-    const { _id, title, description, startDate, endDate, isFullDay, creator, participants } = event
-    const date = handleEventDateDisplay(startDate, endDate, isFullDay)
+    const { id, title, description, start_date, end_date, is_full_day, creator, participants, invited_users: invitedUsers } = event
+    const date = handleEventDateDisplay(start_date, end_date, is_full_day)
 
-    const isCreator = sessionId === creator._id
+    const isCreator = sessionId === creator.id
 
     return (
         <div className="flex justify-between shadow p-2">
@@ -26,7 +26,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
 
                 <div className="flex items-center gap-2">
                     <p>Créé par :</p>
-                    <UserAvatar className="w-6 h-6 rounded-full" avatarUrl={creator.avatarUrl} height={24} width={24}/>
+                    <UserAvatar className="w-6 h-6 rounded-full" avatar={creator.avatar} height={24} width={24}/>
                     {isCreator
                         ?
                         <p>Moi</p>
@@ -38,16 +38,16 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
                 {participants.length > 0
                     ?
                     <div className="flex items-center gap-2">
-                        <p>participants :</p>
+                        <p>Participants :</p>
                         <div className="flex -space-x-1">
                             {participants.map(participant => (
-                                <UserAvatar key={participant._id} className="w-6 h-6 rounded-full" avatarUrl={participant.avatarUrl} height={24} width={24}/>
+                                <UserAvatar key={participant.id} className="w-6 h-6 rounded-full" avatar={participant.avatar} height={24} width={24}/>
                             ))}
                         </div>
                         <div className="truncate">
                             {participants.map((participant, index) => (
                                 <span key={index}>
-                                    {(participant._id === sessionId) ? "Moi" : participant.firstname}
+                                    {(participant.id === sessionId) ? "Moi" : participant.firstname}
                                     {index < participants.length - 1 && ", "}
                                 </span>
                             ))}
@@ -55,6 +55,25 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
                     </div>
                     :
                     <p>Pas d&apos;autres participants</p>
+                }
+
+                {invitedUsers.length > 0 &&
+                    <div className="flex items-center gap-2">
+                        <p>En attente :</p>
+                        <div className="flex -space-x-1">
+                            {invitedUsers.map(user => (
+                                <UserAvatar key={user.id} className="w-6 h-6 rounded-full" avatar={user.avatar} height={24} width={24}/>
+                            ))}
+                        </div>
+                        <div className="truncate">
+                            {invitedUsers.map((user, index) => (
+                                <span key={index}>
+                                    {(user.id === sessionId) ? "Moi" : user.firstname}
+                                    {index < invitedUsers.length - 1 && ", "}
+                                </span>
+                            ))}
+                        </div>
+                    </div>
                 }
 
                 <div className="flex items-center gap-2">
@@ -68,7 +87,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
                 </div>
             </div>
 
-            {!readOnly && isCreator && <EventCardSettings eventId={ _id}/>}
+            {!readOnly && isCreator && <EventCardSettings eventId={id}/>}
 
         </div>
     )

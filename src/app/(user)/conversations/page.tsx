@@ -11,8 +11,6 @@ import { getSessionConversations } from "./conversations.data";
 const Page = async () => {
     const session = await getSession()
     const conversations = await getSessionConversations()
-    console.log('loglog', conversations);
-
 
     return (
         <div className="flex flex-col gap-4">
@@ -37,7 +35,7 @@ const Page = async () => {
                                     className="w-15 h-15 rounded-full overflow-hidden"
                                     width={60}
                                     height={60}
-                                    avatarUrl={member.avatar}
+                                    avatar={member.avatar}
                                 />
                             ))}
                         </div>

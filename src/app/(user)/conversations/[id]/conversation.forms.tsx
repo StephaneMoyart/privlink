@@ -11,7 +11,6 @@ type NewMessageFormProps = {
 
 type EditMessageFormProps = {
     content: string
-    conversationId: string
     messageId: string
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -38,8 +37,8 @@ export const NewMessageForm: React.FC<NewMessageFormProps> = ({ conversationId }
     )
 }
 
-export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, conversationId, messageId, setIsEditing }) => {
-    const [state, action, pending] = useActionState(editMessageAction.bind(null, {conversationId, messageId}), null)
+export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, messageId, setIsEditing }) => {
+    const [state, action, pending] = useActionState(editMessageAction.bind(null, messageId), null)
 
     useEffect(() => {
         if (state?.success) setIsEditing(false)

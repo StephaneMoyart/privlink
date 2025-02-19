@@ -1,6 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { pool } from "@/db/db"
 import { z } from "zod"
 
 const createGroupConversationSchema = z.object({
@@ -11,6 +12,7 @@ export const createGroupConversationAction = async (members: string[], previousS
     //shield
     const session = await getSession()
     //end shield
+    console.log(members);
 
     const result = createGroupConversationSchema.safeParse({
         title: formData.get('title')
@@ -20,19 +22,25 @@ export const createGroupConversationAction = async (members: string[], previousS
 
     const { title } = result.data
 
-    const allMembers = [...members, session._id]
+    const allMembers = [...members, session.id]
 
-    const conversations = await Conversation.find({
-        multi: true,
-        members : { $in: [session._id] }
-    })
+    const client = await pool.connect()
 
-    if (conversations.find(conversation => conversation.members.length === allMembers.length
-        && allMembers.every(member => conversation.members.toString().includes(member.toString())))) return {success: false, message: "une conversation identique existe déjà."}
 
-    await Conversation.create({
-        multi: true,
-        title: title,
-        members : allMembers
-    })
+    //add same conv check
+    try {
+        await client.query('BEGIN')
+
+        const createdConversation = await client.query('INSERT INTO conversation (multi, title) VALUES ($1, $2) RETURNING id',[true, title])
+        const conversationId = createdConversation.rows[0].id
+        console.log(conversationId);
+        await Promise.all(allMembers.map(member => client.query('INSERT INTO conversation_member (conversation_id, member_id) VALUES ($1, $2)', [conversationId, member])))
+
+        await client.query('COMMIT')
+    } catch (err) {
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
 }

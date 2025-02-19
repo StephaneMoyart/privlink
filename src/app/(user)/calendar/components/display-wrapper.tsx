@@ -5,13 +5,14 @@ import { DayDisplayer } from "./day-displayer"
 import { DisplaySelector } from "./display-selector"
 import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
-import { PopulatedFlatEvent } from "@/data/get-events"
+import { EventT } from "@/data/get-events"
 
 type DisplayWrapperProps = {
-    events: PopulatedFlatEvent[]
+    events: EventT[]
+    sessionId: string
 }
 
-export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events }) => {
+export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events, sessionId }) => {
     const [display, setDisplay] = useState("month")
 
     return (
@@ -19,7 +20,7 @@ export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events }) => {
             <DisplaySelector setDisplay={setDisplay}/>
             { display === "day" && <DayDisplayer /> }
             { display === "week" && <WeekDisplayer /> }
-            { display === "month" && <MonthDisplayer events={events}/> }
+            { display === "month" && <MonthDisplayer events={events} sessionId={sessionId}/> }
         </div>
     )
 }

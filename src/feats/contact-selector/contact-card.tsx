@@ -1,9 +1,9 @@
 'use client'
 
 import { UserAvatar } from "@/components/user-avatar"
+import { Contact } from "@/data/get-contacts"
 import { cn } from "@/lib/cn"
 import { useState } from "react"
-import { Contact } from "./contact-selector"
 
 type ContactCardProps = {
     contact: Contact
@@ -11,7 +11,7 @@ type ContactCardProps = {
 }
 
 export const ContactCard: React.FC<ContactCardProps> = ({ contact, setMembers }) => {
-    const {firstname, lastname, _id, avatarUrl} = contact
+    const {firstname, lastname, id, avatar} = contact
     const [isSelected, setIsSelected] = useState(false)
 
     return (
@@ -21,13 +21,13 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact, setMembers })
             )}
             onClick={() => {
                 setMembers(prev => {
-                    if (prev.includes( _id)) return prev.filter( _id => _id !== contact._id)
-                    return [...prev, contact._id]
+                    if (prev.includes(id)) return prev.filter( id => id !== contact.id)
+                    return [...prev, contact.id]
                 })
                 setIsSelected(prev => !prev)
             }}
         >
-            <UserAvatar className="h-7.5 w-7.5" avatarUrl={avatarUrl} height={30} width={30}/>
+            <UserAvatar className="h-7.5 w-7.5" avatar={avatar} height={30} width={30}/>
             <p>{firstname}</p>
             <p>{lastname}</p>
         </div>

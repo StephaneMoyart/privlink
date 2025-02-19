@@ -4,7 +4,8 @@ import { useActionState, useState } from "react"
 import { createGroupConversationAction } from "./create.actions"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
-import { Contact, ContactSelector } from "@/feats/contact-selector/contact-selector"
+import { Contact } from "@/data/get-contacts"
+import { ContactSelector } from "@/feats/contact-selector/contact-selector"
 
 type CreateGroupConversationFormProps = {
     contacts: Contact[]
@@ -12,9 +13,9 @@ type CreateGroupConversationFormProps = {
 
 export const CreateGroupConversationForm: React.FC<CreateGroupConversationFormProps> = ({ contacts }) => {
     const [members, setMembers] = useState<string[]>([])
-    const [state, action, pending] = useActionState(createGroupConversationAction.bind(null, members), null)
-
     console.log(members);
+
+    const [, action, pending] = useActionState(createGroupConversationAction.bind(null, members), null)
 
     return (
         <form className="flex flex-col gap-4" action={action}>
@@ -30,7 +31,6 @@ export const CreateGroupConversationForm: React.FC<CreateGroupConversationFormPr
             >
                 Créer cette conversation
             </Button>
-            {state?.success === false && <p className="text-red-500">{state.message}</p>}
         </form>
 
     )

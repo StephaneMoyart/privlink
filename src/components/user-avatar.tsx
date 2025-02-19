@@ -5,17 +5,17 @@ import { User } from "lucide-react"
 import { cn } from "@/lib/cn"
 
 type UserAvatarProps = React.HTMLAttributes<HTMLDivElement> & {
-    avatarUrl: string
+    avatar?: string
     height: number
     width: number
 }
 
-export const UserAvatar: React.FC<UserAvatarProps> = ({ avatarUrl, height, width, className }) => {
+export const UserAvatar: React.FC<UserAvatarProps> = ({ avatar, height, width, className }) => {
     return (
         <>
-            {avatarUrl ?
+            {avatar ?
                 <Image
-                    src={avatarUrl}
+                    src={avatar}
                     alt="avatar"
                     height={height}
                     width={width}

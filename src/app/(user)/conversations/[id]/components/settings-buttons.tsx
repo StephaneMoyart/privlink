@@ -11,7 +11,7 @@ type MessageSettingsProps = {
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export const MessageSettings: React.FC<MessageSettingsProps> = ({ conversationId, messageId, setIsEditing }) => {
+export const MessageSettings: React.FC<MessageSettingsProps> = ({ messageId, setIsEditing }) => {
     const [isVisible, setIsVisible] = useState(false)
     const [pendingDelete, startDeleteTransition] = useTransition()
 
@@ -34,7 +34,7 @@ export const MessageSettings: React.FC<MessageSettingsProps> = ({ conversationId
                         color="red"
                         disabled={pendingDelete}
                         pending={pendingDelete}
-                        onClick={() => startDeleteTransition(() => deleteMessageAction(conversationId, messageId))}
+                        onClick={() => startDeleteTransition(() => deleteMessageAction(messageId))}
                     >
                         <Trash/>
                     </Button>

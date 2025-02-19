@@ -5,13 +5,14 @@ import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import { EventCard } from "@/feats/event-card/event-card"
-import { PopulatedFlatEvent } from "@/data/get-events"
+import { EventT } from "@/data/get-events"
 
 type MonthDisplayerProps = {
-    events: PopulatedFlatEvent[]
+    events: EventT[]
+    sessionId: string
 }
 
-export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {
+export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionId }) => {
 
     const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
@@ -42,8 +43,8 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {
         calendarDay.setHours(0, 0, 0, 0)
 
         return events.filter(event => {
-            const eventStart = new Date(event.startDate)
-            const eventEnd = new Date(event.endDate as Date)
+            const eventStart = new Date(event.start_date)
+            const eventEnd = new Date(event.end_date as Date)
             eventStart.setHours(0, 0, 0, 0)
 
             return (
@@ -89,7 +90,7 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {
                             <p className={cn("", checkIfToday(i) && "text-green-500")}>{i + 1}</p>
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
-                                    <div key={event._id.toString()} className="mb-1">
+                                    <div key={event.id} className="mb-1">
                                         <Dialog>
                                             <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
                                                 {event.title}
@@ -98,7 +99,7 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events }) => {
                                                 <DialogTitle>
                                                     Details de l&apos;évenement
                                                 </DialogTitle>
-                                                <EventCard readOnly event={event}/>
+                                                <EventCard readOnly event={event} sessionId={sessionId}/>
                                             </DialogContent>
                                         </Dialog>
                                     </div>

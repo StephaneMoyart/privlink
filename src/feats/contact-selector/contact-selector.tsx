@@ -6,13 +6,7 @@
 
 import React from "react"
 import { ContactCard } from "./contact-card"
-
-export type Contact = {
-    _id: string
-    firstname: string
-    lastname: string
-    avatarUrl: string
-}
+import { Contact } from "@/data/get-contacts"
 
 type ContactSelectorProps = {
     contacts: Contact[]
@@ -25,7 +19,7 @@ export const ContactSelector: React.FC<ContactSelectorProps> = ({ contacts, setM
             {contacts.map(contact => (
                 <ContactCard
                     setMembers={setMembers}
-                    key={contact._id}
+                    key={contact.id}
                     contact={contact}
                 />
             ))}

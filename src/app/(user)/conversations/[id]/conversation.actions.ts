@@ -1,15 +1,11 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { pool, query } from "@/db/db"
 import { eventEmitter } from "@/feats/sse/new-message/event-emitter"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
 import { z } from "zod"
-
-type EditMessageParams = {
-    conversationId: string
-    messageId: string
-  }
 
 const messageSchema = z.object({
     content: z.string().min(1)
@@ -28,53 +24,52 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
 
     const { content } = result.data
 
-    await Conversation.findByIdAndUpdate(
-        conversationId,
-        {
-            $push: { messages: { author: session._id, content }},
-            $set: {
-                lastUpdate:  Date.now(),
-                lastAuthor: session._id
-            }
-        }
-    )
+    const client = await pool.connect()
+
+    try {
+        await client.query('BEGIN')
+
+        await client.query('INSERT INTO conversation_message (conversation_id, author_id, content) VALUES ($1, $2, $3)', [conversationId, session.id, content])
+        await client.query('UPDATE conversation SET updated_at = DEFAULT, last_author = $1 WHERE id = $2' , [session.id, conversationId])
+        await client.query('INSERT INTO conversation_last_seen (conversation_id, member_id) VALUES ($1, $2) ON CONFLICT (conversation_id, member_id) DO UPDATE SET date = DEFAULT', [conversationId, session.id])
+
+        await client.query('COMMIT')
+    } catch(err) {
+        await client.query('ROLLBACK')
+        throw err
+    } finally {
+        client.release()
+    }
 
     eventEmitter.emit('newMessage', { message: 'refresh' })
 
     revalidatePath('')
 }
 
-export const deleteMessageAction = async (conversationId: string, messageId: string) => {
+export const deleteMessageAction = async (messageId: string) => {
     // shield
     const session = await getSession()
     // end shield
 
-    await Conversation.findByIdAndUpdate(conversationId, { $pull: { messages: { _id: messageId, author: session._id }}})
+    await query('DELETE FROM conversation_message WHERE id = $1 AND author_id = $2', [messageId, session.id])
 
     revalidatePath('')
 }
 
-export const editMessageAction = async ({conversationId, messageId}: EditMessageParams, prev: unknown, formData: FormData) => {
+export const editMessageAction = async (messageId: string, prev: unknown, formData: FormData) => {
     // shield
-    await getSession()
+    const session = await getSession()
     // end shield
 
     const result = messageSchema.safeParse({
         content: formData.get('content')
     })
 
-    // todo
     if (!result.success) return {}
 
     const { content } = result.data
 
-    console.log(messageId);
-
-    await Conversation.updateOne(
-        { _id: conversationId, 'messages._id': messageId },
-        // todo : check if author is session
-        { $set: { "messages.$.content": content }}
-    )
+    await query('UPDATE conversation_message SET content = $1 WHERE id = $2 AND author_id = $3', [content, messageId, session.id])
 
     revalidatePath('')
 
@@ -86,10 +81,7 @@ export const quitConversationAction = async (conversationId: string) => {
     const session = await getSession()
     //end shield
 
-    await Conversation.updateOne(
-        { _id: conversationId},
-        {$pull: {members: session._id}}
-    )
+    await query('DELETE FROM conversation_member WHERE conversation_id = $1 AND member_id = $2', [conversationId, session.id])
 
     redirect('/conversations')
 }

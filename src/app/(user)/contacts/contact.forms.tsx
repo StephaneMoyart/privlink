@@ -5,10 +5,11 @@ import { useDebounceValue } from "@/hooks/use-debounce-value"
 import { getUserByQueryAction, sendContactInvitationAction } from "./contact.actions"
 import { UserAvatar } from "@/components/user-avatar"
 import { Button } from "@/components/button"
+import { UserBase } from "@/data/get-events"
 
 export const SearchUserForm = () => {
     const [query, setQuery] = useState<string>('')
-    const [queryResult, setQueryResult] = useState<Contact[]>([])
+    const [queryResult, setQueryResult] = useState<UserBase[]>([])
     const [isSearchVisible, setIsSearchVisible] = useState<boolean>(true)
     const [invitedUserId, setInvitedUserId] = useState<string>('')
     const debouncedValue = useDebounceValue(query, 500)
@@ -52,7 +53,7 @@ export const SearchUserForm = () => {
                     >
                         <UserAvatar
                             className="h-8 w-8 rounded-full overflow-hidden"
-                            avatarUrl={avatar}
+                            avatar={avatar}
                             height={32}
                             width={32}
                         />

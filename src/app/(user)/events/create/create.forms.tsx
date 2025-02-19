@@ -7,7 +7,8 @@ import { InputWLabel } from "@/components/input-w-label"
 import { Checkbox } from "@/components/checkbox"
 import { Button } from "@/components/button"
 import { DatePicker } from "@/components/date-picker"
-import { Contact, ContactSelector } from "@/feats/contact-selector/contact-selector"
+import { ContactSelector } from "@/feats/contact-selector/contact-selector"
+import { Contact } from "@/data/get-contacts"
 
 type CreateEventFormProps = {
     contacts: Contact[]

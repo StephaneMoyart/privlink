@@ -4,15 +4,14 @@ import { getSession } from "@/auth/session"
 import { InvitationCountDisplayer } from "@/feats/invitation-count-displayer/invitation-count-displayer"
 import { EventCard } from "@/feats/event-card/event-card"
 import { getEvents } from "@/data/get-events"
+import { countEventsInvitations } from "@/data/count-events-invitations"
 
 const Page = async () => {
     const session = await getSession()
     const events = await getEvents()
     console.log(events);
 
-
-    // const invitationsCount = await EventInvitation.countDocuments({invitedUsers: {$in: [session.id]}})
-    const invitationsCount = 1
+    const invitationsCount = await countEventsInvitations()
 
     return (
         <div className="w-full flex p-2 flex-col gap-4">

@@ -1,14 +1,10 @@
-import { getSession } from "@/auth/session"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { CreateGroupConversationForm } from "./create.forms"
-import { Contact } from "@/feats/contact-selector/contact-selector"
-
-
+import { getContacts } from "@/data/get-contacts"
 
 const Page = async () => {
-    const session = await getSession()
-    const contacts: Contact[] = (await User.find({ _id: { $in: session.contacts }}, ('_id firstname lastname avatarUrl'))).map(contact => contact.toJSON({ flattenObjectIds: true}))
+    const contacts = await getContacts()
 
     return (
         <div className="flex flex-col gap-6 ">
