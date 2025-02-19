@@ -17,7 +17,6 @@ const Page = async () => {
 
     const getCount = (id: string) => {
         const result = newMessagesCounts.filter(count => count.conversation_id === id)
-
         return result.length > 0 ? result[0].last_seen_number : 0
     }
 
