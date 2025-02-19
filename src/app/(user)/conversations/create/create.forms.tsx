@@ -4,11 +4,11 @@ import { useActionState, useState } from "react"
 import { createGroupConversationAction } from "./create.actions"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
-import { Contact } from "@/data/get-contacts"
 import { ContactSelector } from "@/feats/contact-selector/contact-selector"
+import { UserBase } from "@/data/get-events"
 
 type CreateGroupConversationFormProps = {
-    contacts: Contact[]
+    contacts: UserBase[]
 }
 
 export const CreateGroupConversationForm: React.FC<CreateGroupConversationFormProps> = ({ contacts }) => {

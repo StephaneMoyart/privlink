@@ -8,10 +8,10 @@ import { Checkbox } from "@/components/checkbox"
 import { Button } from "@/components/button"
 import { DatePicker } from "@/components/date-picker"
 import { ContactSelector } from "@/feats/contact-selector/contact-selector"
-import { Contact } from "@/data/get-contacts"
+import { UserBase } from "@/data/get-events"
 
 type CreateEventFormProps = {
-    contacts: Contact[]
+    contacts: UserBase[]
 }
 
 export const CreateEventForm: React.FC<CreateEventFormProps>  = ({ contacts }) => {

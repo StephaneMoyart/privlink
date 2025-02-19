@@ -1,51 +1,26 @@
 'use server'
 
 import { getSession } from "@/auth/session"
+import { query } from "@/db/db"
 import { revalidatePath } from "next/cache"
 
-export const acceptEventInvitationAction = async (invitationId: string, eventId: string) => {
+export const acceptEventInvitationAction = async (eventId: string) => {
     //shield
     const session = await getSession()
     //end shield
 
-    const invitation = await EventInvitation.findById(invitationId); if (!invitation) return
-    const event = await Event.findById(eventId); if (!event) return
-
-    if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
-        await invitation.deleteOne()
-
-        if(!event.participants.includes(session._id)) {
-            event.participants.push(session._id)
-            await event.save()
-        }
-        revalidatePath('')
-        return
-    }
-
-    invitation.invitedUsers.pull(session._id)
-    await invitation.save()
-
-    event.participants.push(session._id)
-    await event.save()
+    await query('INSERT INTO event_participant (event_id, participant_id) VALUES ($1, $2)', [eventId, session.id])
+    await query('DELETE FROM event_invitation WHERE invited_person_id = $1 AND event_id = $2', [session.id, eventId])
 
     revalidatePath('')
 }
 
-export const declineEventInvitationAction = async (invitationId: string) => {
+export const declineEventInvitationAction = async (eventId: string) => {
     //shield
     const session = await getSession()
     //end shield
 
-    const invitation = await EventInvitation.findById(invitationId); if (!invitation) return
-
-    if (invitation.invitedUsers.length === 1 && invitation.invitedUsers[0].equals(session._id)) {
-        await invitation.deleteOne()
-        revalidatePath('')
-        return
-    }
-
-    invitation.invitedUsers.pull(session._id)
-    await invitation.save()
+   await query('DELETE FROM event_invitation WHERE invited_person_id = $1 AND event_id = $2', [session.id, eventId])
 
     revalidatePath('')
 }

@@ -1,12 +1,12 @@
 'use client'
 
 import { UserAvatar } from "@/components/user-avatar"
-import { Contact } from "@/data/get-contacts"
+import { UserBase } from "@/data/get-events"
 import { cn } from "@/lib/cn"
 import { useState } from "react"
 
 type ContactCardProps = {
-    contact: Contact
+    contact: UserBase
     setMembers: React.Dispatch<React.SetStateAction<string[]>>
 }
 

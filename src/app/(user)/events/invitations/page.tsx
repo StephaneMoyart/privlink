@@ -1,28 +1,18 @@
-import { getSession } from "@/auth/session"
 import { AcceptOrDeclineEventInvitation } from "./components/accept-or-decline-event-invitation"
 import { redirect } from "next/navigation"
-
-type PopulatedEventInvitation = Omit<EventInvitationT, 'event' | 'invitedBy'> & {
-    event: Pick<EventT, '_id' | 'title'>
-    invitedBy: Pick<UserT, '_id' | 'firstname' | 'lastname'>
-}
+import { getEventsInvitations } from "./invitations.data"
 
 const Page = async () => {
-    const session = await getSession()
-    const invitations = (await EventInvitation
-        .find({invitedUsers: {$in: [session._id]}})
-        .populate<Pick<PopulatedEventInvitation, 'event'>>('event', 'title')
-        .populate<Pick<PopulatedEventInvitation, 'invitedBy'>>('invitedBy', 'firstname lastname'))
-        .map(invitation=> invitation.toJSON({ flattenObjectIds: true }))
+    const invitations = await getEventsInvitations()
 
     if (invitations.length === 0) return redirect('/events')
 
     return (
         <>
             {invitations.map(invitation => (
-                <div key={invitation._id} className="flex justify-between">
-                    <p>{invitation.invitedBy.firstname} {invitation.invitedBy.lastname} vous invite à rejoindre l&apos;évenement {invitation.event.title}</p>
-                    <AcceptOrDeclineEventInvitation invitationId={invitation._id} eventId={invitation.event._id}/>
+                <div key={invitation.event.id} className="flex justify-between">
+                    <p>{invitation.invited_by.firstname} {invitation.invited_by.lastname} vous invite à rejoindre l&apos;évenement {invitation.event.title}</p>
+                    <AcceptOrDeclineEventInvitation eventId={invitation.event.id}/>
                 </div>
             ))}
         </>

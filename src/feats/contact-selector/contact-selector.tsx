@@ -6,10 +6,10 @@
 
 import React from "react"
 import { ContactCard } from "./contact-card"
-import { Contact } from "@/data/get-contacts"
+import { UserBase } from "@/data/get-events"
 
 type ContactSelectorProps = {
-    contacts: Contact[]
+    contacts: UserBase[]
     setMembers: React.Dispatch<React.SetStateAction<string[]>>
 }
 

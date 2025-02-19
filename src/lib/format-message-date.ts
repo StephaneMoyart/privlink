@@ -14,7 +14,7 @@ const TimeFormatter = new Intl.DateTimeFormat('fr-FR', {
     minute: '2-digit'
 })
 
-export const formatMessageDateAndTime = (rawDate: string | NativeDate) => {
+export const formatMessageDateAndTime = (rawDate: string | Date) => {
     const d = new Date(rawDate)
 
 

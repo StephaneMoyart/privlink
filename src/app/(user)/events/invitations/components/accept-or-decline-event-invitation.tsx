@@ -5,11 +5,10 @@ import { useTransition } from "react"
 import { acceptEventInvitationAction, declineEventInvitationAction } from "../invitations.actions"
 
 type AcceptOrDeclineEventInvitationProps = {
-    invitationId: string
     eventId: string
 }
 
-export const AcceptOrDeclineEventInvitation: React.FC<AcceptOrDeclineEventInvitationProps> = ({ invitationId, eventId }) => {
+export const AcceptOrDeclineEventInvitation: React.FC<AcceptOrDeclineEventInvitationProps> = ({ eventId }) => {
     const [acceptPending, acceptTransition] = useTransition()
     const [declinePending, declineTransition] = useTransition()
 
@@ -17,7 +16,7 @@ export const AcceptOrDeclineEventInvitation: React.FC<AcceptOrDeclineEventInvita
         <div className="flex items-center gap-2">
             <Button
                 color="green"
-                onClick={() => acceptTransition(() => acceptEventInvitationAction(invitationId, eventId))}
+                onClick={() => acceptTransition(() => acceptEventInvitationAction(eventId))}
                 disabled={acceptPending}
             >
                 Accepter
@@ -25,7 +24,7 @@ export const AcceptOrDeclineEventInvitation: React.FC<AcceptOrDeclineEventInvita
 
             <Button
                 color="red"
-                onClick={() => declineTransition(() => declineEventInvitationAction(invitationId))}
+                onClick={() => declineTransition(() => declineEventInvitationAction(eventId))}
                 disabled={declinePending}
             >
                 Refuser
