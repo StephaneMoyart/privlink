@@ -11,11 +11,14 @@ import { countNewMessages, getSessionConversations } from "./conversations.data"
 const Page = async () => {
     const session = await getSession()
     const conversations = await getSessionConversations()
+    console.log(conversations);
+
     const newMessagesCounts = await countNewMessages()
 
     const getCount = (id: string) => {
         const result = newMessagesCounts.filter(count => count.conversation_id === id)
-        return result[0].last_seen_number
+
+        return result.length > 0 ? result[0].last_seen_number : 0
     }
 
     return (
