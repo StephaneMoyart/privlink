@@ -6,11 +6,17 @@ import { MessagesSquare, Plus } from "lucide-react";
 import { getSession } from "@/auth/session";
 import { formatMessageDateAndTime } from "@/lib/format-message-date";
 import { Badge } from "@/components/badge";
-import { getSessionConversations } from "./conversations.data";
+import { countNewMessages, getSessionConversations } from "./conversations.data";
 
 const Page = async () => {
     const session = await getSession()
     const conversations = await getSessionConversations()
+    const newMessagesCounts = await countNewMessages()
+
+    const getCount = (id: string) => {
+        const result = newMessagesCounts.filter(count => count.conversation_id === id)
+        return result[0].last_seen_number
+    }
 
     return (
         <div className="flex flex-col gap-4">
@@ -48,9 +54,12 @@ const Page = async () => {
                                 <span>{members[0].lastname} </span>
                             </p>
                         }
-                        <Badge color="green" size="xsmall">
-                            Nouv
-                        </Badge>
+
+                        { getCount(id) > 0 &&
+                            <Badge color="green" size="xsmall">
+                                {getCount(id)} Nouv
+                            </Badge>
+                        }
                         <p className="text-sm text-gray-500 lowercase">
                             {last_author === null ? "aucun message" : last_author === session.id ? "envoyé " : "reçu "}
                             {last_author !== null && formatMessageDateAndTime(updated_at)}

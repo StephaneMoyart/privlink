@@ -18,7 +18,7 @@ const colorVariants: Record<string, string> = {
 }
 
 const sizeVariants: Record<string, string> = {
-    xsmall: "text-xs py-0.5 px-1",
+    xsmall: "text-xs py-0.5 px-1.5",
     small: "text-sm py-1 px-2",
     medium: "",
     large: "text-lg py-2 px-4"
