@@ -1,7 +1,7 @@
 'use client'
 
 import { Ellipsis, Pencil, Trash } from "lucide-react"
-import { useState, useTransition } from "react"
+import { useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
 import { Button } from "@/components/button"
 import { Dropdown, DropdownContent, DropdownTrigger } from "@/components/dropdown"

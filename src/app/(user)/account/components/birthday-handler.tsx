@@ -6,12 +6,11 @@ import { Pencil } from "lucide-react"
 import { useActionState, useState } from "react"
 import { editBirthdayAction } from "../account.actions"
 
-export const BirthdayHandler = () => {
+export const BirthdayHandler = ({ birthday }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [selectedDay, setSelectedDay ] = useState<string>("")
     const [selectedMonth, setSelectedMonth ] = useState<string>("")
     const [selectedYear, setSelectedYear ] = useState<string>("")
-    const birthdayDate = false
 
     const [, action, pending] = useActionState(editBirthdayAction, null)
 
@@ -35,9 +34,9 @@ export const BirthdayHandler = () => {
                 </div>
                 :
                 <>
-                    {birthdayDate
+                    {birthday
                         ?
-                        birthdayDate
+                        birthday
                         :
                         <p className="italic opacity-50">Date de naissance non renseignée</p>
                     }

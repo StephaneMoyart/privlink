@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { getSession } from "@/auth/session"
 import { query } from "@/db/db"
 

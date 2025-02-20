@@ -16,7 +16,6 @@ type Session = {
     firstname: string
     lastname: string
     avatar: string
-    // contacts: Types.ObjectId[]
 }
 
 const secretKey = process.env.JWT_SECRET
