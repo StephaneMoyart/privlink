@@ -4,6 +4,7 @@ import { Ellipsis, Pencil, Trash } from "lucide-react"
 import { useState, useTransition } from "react"
 import { deleteMessageAction } from "../conversation.actions"
 import { Button } from "@/components/button"
+import { Dropdown, DropdownContent, DropdownTrigger } from "@/components/dropdown"
 
 type MessageSettingsProps = {
     conversationId: string
@@ -12,16 +13,16 @@ type MessageSettingsProps = {
 }
 
 export const MessageSettings: React.FC<MessageSettingsProps> = ({ messageId, setIsEditing }) => {
-    const [isVisible, setIsVisible] = useState(false)
     const [pendingDelete, startDeleteTransition] = useTransition()
 
     return (
-        <div className="relative w-18">
-            { isVisible ?
-                <div className="absolute top-0 right-0.5 flex flex-col gap-2 shadow rounded-md p-2 z-10 bg-white">
-                    <div className="px-2">
-                        <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
-                    </div>
+        <div className="relative w-18 p-2">
+            <Dropdown>
+                <DropdownTrigger>
+                    <Ellipsis size={35} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
+                </DropdownTrigger>
+
+                <DropdownContent>
                     <Button
                         onClick={() => setIsEditing(true)}
                         color="yellow"
@@ -38,12 +39,9 @@ export const MessageSettings: React.FC<MessageSettingsProps> = ({ messageId, set
                     >
                         <Trash/>
                     </Button>
-                </div>
-                :
-                <div className="flex justify-center p-2">
-                    <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
-                </div>
-            }
+                </DropdownContent>
+            </Dropdown>
+
         </div>
     )
 }

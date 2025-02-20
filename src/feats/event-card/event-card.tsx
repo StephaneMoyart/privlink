@@ -87,7 +87,7 @@ export const EventCard: React.FC<EventCardProps> = ({ event, readOnly = false, s
                 </div>
             </div>
 
-            {!readOnly && isCreator && <EventCardSettings eventId={id}/>}
+            {!readOnly && <EventCardSettings eventId={id} isCreator={isCreator}/>}
 
         </div>
     )

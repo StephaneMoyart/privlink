@@ -1,7 +1,7 @@
 'use server'
 
 import { getSession } from "@/auth/session"
-import { pool } from "@/db/db"
+import { pool, query } from "@/db/db"
 import { revalidatePath } from "next/cache"
 
 export const deleteEventAction = async (eventId: string) => {
@@ -23,6 +23,18 @@ export const deleteEventAction = async (eventId: string) => {
     } finally {
         client.release()
     }
+
+    revalidatePath('')
+}
+
+export const quitEventAction = async (eventId: string) => {
+    //Shield
+    const session = await getSession()
+    //end shield
+
+    await query('DELETE FROM event_participant WHERE event_id = $1 and participant_id = $2',
+        [eventId, session.id]
+    )
 
     revalidatePath('')
 }

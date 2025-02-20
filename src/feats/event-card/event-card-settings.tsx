@@ -1,40 +1,52 @@
 'use client'
 
-import { Ellipsis, Trash } from "lucide-react"
-import { useState, useTransition } from "react"
+import { Ellipsis, LogOut, Trash } from "lucide-react"
+import { useTransition } from "react"
 import { Button } from "@/components/button"
-import { deleteEventAction } from "@/app/(user)/events/events.actions"
+import { deleteEventAction, quitEventAction } from "@/app/(user)/events/events.actions"
+import { Dropdown, DropdownContent, DropdownTrigger } from "@/components/dropdown"
 
 type EventCardSettingsProps = {
     eventId: string
+    isCreator: boolean
 }
 
-export const EventCardSettings: React.FC<EventCardSettingsProps> = ({ eventId }) => {
-    const [isVisible, setIsVisible] = useState(false)
+export const EventCardSettings: React.FC<EventCardSettingsProps> = ({ eventId, isCreator }) => {
     const [pending, setEventDeleteTransition] = useTransition()
+    const [quitPending, setEventQuittingTransition] = useTransition()
 
     return (
-        <div className="relative w-18">
-            { isVisible ?
-                <div className="absolute top-0 right-0 flex flex-col gap-2 shadow rounded-md p-2 z-10 bg-white">
-                    <div className="px-2">
-                        <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
-                    </div>
-                    <Button
-                        color="red"
-                        disabled={pending}
-                        pending={pending}
-                        icon
-                        onClick={() => setEventDeleteTransition(() => deleteEventAction(eventId))}
-                    >
-                        <Trash/>
-                    </Button>
-                </div>
-                :
-                <div className="flex justify-center p-2">
-                    <Ellipsis size={35} onClick={() => setIsVisible(prev => !prev)} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
-                </div>
-            }
+        <div className="w-18">
+            <Dropdown>
+                <DropdownTrigger>
+                    <Ellipsis size={35} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>
+                </DropdownTrigger>
+
+                <DropdownContent>
+                    {isCreator
+                        ?
+                        <Button
+                            color="red"
+                            disabled={pending}
+                            pending={pending}
+                            icon
+                            onClick={() => setEventDeleteTransition(() => deleteEventAction(eventId))}
+                        >
+                            <Trash/>
+                        </Button>
+                        :
+                        <Button
+                            color="red"
+                            disabled={quitPending}
+                            pending={quitPending}
+                            icon
+                            onClick={() => setEventQuittingTransition(() => quitEventAction(eventId))}
+                        >
+                            <LogOut/>
+                        </Button>
+                    }
+                </DropdownContent>
+            </Dropdown>
         </div>
     )
 }
