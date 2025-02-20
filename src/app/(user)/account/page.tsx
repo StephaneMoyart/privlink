@@ -1,6 +1,7 @@
 import { SessionAvatar } from "@/auth/session-avatar"
 import { ChangeAvatarForm } from "./account.forms"
 import { getSession } from "@/auth/session"
+import { BirthdayHandler } from "./components/birthday-handler"
 
 const Page = async () => {
     const {firstname, lastname} = await getSession()
@@ -18,6 +19,7 @@ const Page = async () => {
                 </div>
                 <p>{firstname}</p>
                 <p>{lastname}</p>
+                <BirthdayHandler/>
             </div>
         </div>
     )

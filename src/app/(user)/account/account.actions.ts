@@ -6,6 +6,13 @@ import { revalidatePath } from "next/cache"
 import { z } from "zod"
 import { getSession } from "@/auth/session"
 import { query } from "@/db/db"
+import { months } from "@/lib/consts"
+
+const editBirthDaySchema = z.object({
+    day: z.string().max(2),
+    month: z.string().max(9),
+    year: z.string().max(4)
+})
 
 const uploadAvatarSchema = z.instanceof(File).refine(file => [
         "image/png",
@@ -39,4 +46,28 @@ export const changeAvatarAction = async (formData: FormData) => {
     await query('UPDATE person p SET avatar = $1 WHERE p.id = $2', [avatarUrl, session.id])
 
     revalidatePath('')
+}
+
+export const editBirthdayAction = async (prevState: unknown, formData: FormData) => {
+    //Shield
+    const session = await getSession()
+    //end shield
+
+    const result = editBirthDaySchema.safeParse({
+        day: formData.get('day'),
+        month: formData.get('month'),
+        year: formData.get('year')
+    })
+
+    if (!result.success) return { message: "Valeurs incorrectes" }
+
+    const {day, month, year} = result.data
+
+    const monthNumber = (months.indexOf(month) + 1).toString()
+
+    const fullDate = `${year}-${monthNumber}-${day}`
+
+    await query('UPDATE person SET birthdate = $1 WHERE id = $2',
+        [fullDate, session.id]
+    )
 }

@@ -9,7 +9,7 @@ export const SelectGroup = Group
 
 export const SelectTrigger: React.FC<React.ComponentProps<typeof SelectPrimitive.Trigger>> = ({ children, className }) => {
     return (
-        <Trigger className={cn("outline-none p-2 flex justify-between items-center max-w-fit min-w-[150px] shadow rounded", className)}>
+        <Trigger className={cn("flex justify-between items-center w-[150px] p-2 shadow rounded", className)}>
             {children}
             <Icon>
                 <ChevronDown size={15}/>
@@ -21,7 +21,7 @@ export const SelectTrigger: React.FC<React.ComponentProps<typeof SelectPrimitive
 export const SelectContent: React.FC<React.ComponentProps<typeof SelectPrimitive.Content>> = ({ children, className }) => {
     return (
         <Portal>
-            <Content position="popper" className={cn("bg-white text-black mt-1 shadow w-[150px] p-1 rounded", className)}>
+            <Content position="popper" className={cn("w-[150px] shadow rounded bg-white text-black mt-1 p-1 ", className)}>
                 {children}
             </Content>
         </Portal>

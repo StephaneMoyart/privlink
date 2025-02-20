@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from "@/lib/cn"
+import { days, months } from "@/lib/consts"
 import { formatCalendarDate } from "@/lib/format-calendar-date"
 import { ArrowLeft, ArrowRight, ChevronDown } from "lucide-react"
 import { useState } from "react"
@@ -11,9 +12,6 @@ type DatePickerProps = {
 
 export const DatePicker: React.FC<DatePickerProps> = ({ dateName }) => {
     const [isVisible, setIsVisible] = useState(false)
-
-    const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
-    const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
 
     const now = new Date()
 
