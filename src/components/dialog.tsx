@@ -1,3 +1,4 @@
+import { cn } from "@/lib/cn";
 import { X } from "lucide-react";
 import { Dialog as DialogPrimitive } from "radix-ui";
 
@@ -19,9 +20,9 @@ export const DialogContent: React.FC<React.ComponentProps<typeof DialogPrimitive
 	)
 }
 
-export const DialogTitle: React.FC<React.ComponentProps<typeof DialogPrimitive.Title>> = ({ children }) => {
+export const DialogTitle: React.FC<React.ComponentProps<typeof DialogPrimitive.Title>> = ({ children, className }) => {
 	return(
-		<Title className="text-xl py-4">
+		<Title className={cn("text-xl py-4", className)}>
 			{ children }
 		</Title>
 	)

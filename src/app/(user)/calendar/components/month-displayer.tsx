@@ -7,6 +7,9 @@ import { useState } from "react"
 import { EventCard } from "@/feats/event-card/event-card"
 import { EventT } from "@/data/get-events"
 import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
+import { Button } from "@/components/button"
+import Link from "next/link"
+import { UserAvatar } from "@/components/user-avatar"
 
 type MonthDisplayerProps = {
     events: EventT[]
@@ -124,22 +127,43 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                                     </div>
                                 ))}
 
-                                {dayBirthdays.map(birthday => (
-                                    <div key={birthday.id} className="mb-1">
-                                        <Dialog>
-                                            <DialogTrigger className="flex items-center gap-2 bg-yellow-300 px-1 rounded cursor-pointer w-full truncate">
-                                                <Cake size={20}/>
-                                                {birthday.firstname}
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogTitle>
-                                                    Anniversaire de
-                                                </DialogTitle>
-                                                test
-                                            </DialogContent>
-                                        </Dialog>
-                                    </div>
-                                ))}
+                                {dayBirthdays.map(contact => {
+                                    const age = currentYear - new Date(contact.birthdate).getFullYear()
+
+                                    return (
+                                        <div key={contact.id} className="mb-1">
+                                            <Dialog>
+                                                <DialogTrigger className="flex items-center gap-2 bg-yellow-300 px-1 rounded cursor-pointer w-full truncate">
+                                                    <Cake size={20}/>
+                                                    {contact.firstname} {contact.lastname}
+                                                </DialogTrigger>
+                                                <DialogContent>
+                                                    <DialogTitle className="flex items-center gap-2">
+                                                        <p>Anniversaire de {contact.firstname} {contact.lastname}</p>
+                                                        <UserAvatar
+                                                            className="h-10 w-10 rounded-full"
+                                                            avatar={contact.avatar}
+                                                            height={40}
+                                                            width={40}
+                                                        />
+                                                    </DialogTitle>
+                                                    <div className="flex flex-col gap-4">
+                                                        <div className="flex gap-2">
+                                                            <Cake/>
+                                                            <p>{contact.firstname} fêtera ses {age} ans</p>
+                                                        </div>
+
+                                                        <Button asChild>
+                                                            <Link href={'/conversations'}>
+                                                                Envoyer un message
+                                                            </Link>
+                                                        </Button>
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     )
