@@ -2,17 +2,19 @@
 
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/dialog"
 import { cn } from "@/lib/cn"
-import { ArrowLeft, ArrowRight } from "lucide-react"
+import { ArrowLeft, ArrowRight, Cake, Ticket } from "lucide-react"
 import { useState } from "react"
 import { EventCard } from "@/feats/event-card/event-card"
 import { EventT } from "@/data/get-events"
+import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
 
 type MonthDisplayerProps = {
     events: EventT[]
     sessionId: string
+    contactsWithBirthdays: UserBaseWithBirthday[]
 }
 
-export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionId }) => {
+export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionId, contactsWithBirthdays }) => {
 
     const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
     const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
@@ -55,6 +57,20 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
         })
     }
 
+    const getBirthdaysForDay = (day: number) => {
+        const calendarDay = new Date(currentYear, currentMonth, day + 1)
+        calendarDay.setHours(0, 0, 0, 0)
+
+        return contactsWithBirthdays.filter(contact => {
+            const birthDay = new Date(contact.birthdate)
+            birthDay.setHours(0, 0, 0, 0)
+
+            console.log(birthDay, calendarDay);
+
+            return birthDay.getDate() === calendarDay.getDate() && birthDay.getMonth() === calendarDay.getMonth()
+        })
+    }
+
     return (
         <div className="flex gap-2 flex-col items-center p-2 w-full border border-black/20 rounded-md shadow-black/20 shadow-sm">
             <div className="flex w-full justify-evenly gap-2 p-4">
@@ -82,6 +98,8 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                 {[...Array(firstDayOffset)].map((_, i) => <span key={`empty-${i}`}/>)}
                 {[...Array(daysInMonth)].map((_, i) => {
                     const dayEvents = getEventsForDay(i)
+                    const dayBirthdays = getBirthdaysForDay(i)
+
                     return (
                         <div
                             className="text-center bg-white"
@@ -92,7 +110,8 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                                 {dayEvents.map(event => (
                                     <div key={event.id} className="mb-1">
                                         <Dialog>
-                                            <DialogTrigger className="bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
+                                            <DialogTrigger className="flex gap-2 items-center bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
+                                                <Ticket size={20}/>
                                                 {event.title}
                                             </DialogTrigger>
                                             <DialogContent>
@@ -100,6 +119,23 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                                                     Details de l&apos;évenement
                                                 </DialogTitle>
                                                 <EventCard readOnly event={event} sessionId={sessionId}/>
+                                            </DialogContent>
+                                        </Dialog>
+                                    </div>
+                                ))}
+
+                                {dayBirthdays.map(birthday => (
+                                    <div key={birthday.id} className="mb-1">
+                                        <Dialog>
+                                            <DialogTrigger className="flex items-center gap-2 bg-yellow-300 px-1 rounded cursor-pointer w-full truncate">
+                                                <Cake size={20}/>
+                                                {birthday.firstname}
+                                            </DialogTrigger>
+                                            <DialogContent>
+                                                <DialogTitle>
+                                                    Anniversaire de
+                                                </DialogTitle>
+                                                test
                                             </DialogContent>
                                         </Dialog>
                                     </div>

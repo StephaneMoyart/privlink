@@ -16,7 +16,7 @@ export const EventCardSettings: React.FC<EventCardSettingsProps> = ({ eventId, i
     const [quitPending, setEventQuittingTransition] = useTransition()
 
     return (
-        <div className="w-18">
+        <div className="px-2">
             <Dropdown>
                 <DropdownTrigger>
                     <Ellipsis size={35} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>

@@ -6,13 +6,15 @@ import { DisplaySelector } from "./display-selector"
 import { MonthDisplayer } from "./month-displayer"
 import { WeekDisplayer } from "./week-displayer"
 import { EventT } from "@/data/get-events"
+import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
 
 type DisplayWrapperProps = {
     events: EventT[]
     sessionId: string
+    contactsWithBirthdays: UserBaseWithBirthday[]
 }
 
-export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events, sessionId }) => {
+export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events, sessionId, contactsWithBirthdays }) => {
     const [display, setDisplay] = useState("month")
 
     return (
@@ -20,7 +22,7 @@ export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events, sessionI
             <DisplaySelector setDisplay={setDisplay}/>
             { display === "day" && <DayDisplayer /> }
             { display === "week" && <WeekDisplayer /> }
-            { display === "month" && <MonthDisplayer events={events} sessionId={sessionId}/> }
+            { display === "month" && <MonthDisplayer events={events} sessionId={sessionId} contactsWithBirthdays={contactsWithBirthdays} /> }
         </div>
     )
 }

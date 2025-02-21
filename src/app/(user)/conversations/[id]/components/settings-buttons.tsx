@@ -16,7 +16,7 @@ export const MessageSettings: React.FC<MessageSettingsProps> = ({ messageId, set
     const [pendingDelete, startDeleteTransition] = useTransition()
 
     return (
-        <div className="relative w-18 p-2">
+        <div className="px-2">
             <Dropdown>
                 <DropdownTrigger>
                     <Ellipsis size={35} className="not-hover:opacity-75 not-hover:scale-80 transition-all cursor-pointer"/>

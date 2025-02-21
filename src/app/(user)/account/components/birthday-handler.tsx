@@ -6,7 +6,11 @@ import { Pencil } from "lucide-react"
 import { useActionState, useState } from "react"
 import { editBirthdayAction } from "../account.actions"
 
-export const BirthdayHandler = ({ birthday }) => {
+type BirthdayHandlerProps = {
+    birthday: string | null
+}
+
+export const BirthdayHandler: React.FC<BirthdayHandlerProps> = ({ birthday }) => {
     const [isEditing, setIsEditing] = useState(false)
     const [selectedDay, setSelectedDay ] = useState<string>("")
     const [selectedMonth, setSelectedMonth ] = useState<string>("")
