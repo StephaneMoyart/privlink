@@ -20,7 +20,7 @@ export const DisplayWrapper: React.FC<DisplayWrapperProps> = ({ events, sessionI
     return (
         <div className="flex flex-col gap-2 h-full">
             <DisplaySelector setDisplay={setDisplay}/>
-            { display === "day" && <DayDisplayer /> }
+            { display === "day" && <DayDisplayer events={events} /> }
             { display === "week" && <WeekDisplayer /> }
             { display === "month" && <MonthDisplayer events={events} sessionId={sessionId} contactsWithBirthdays={contactsWithBirthdays} /> }
         </div>
