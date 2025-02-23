@@ -5,8 +5,10 @@ import { getInvitationsCount } from "@/data/get-invitation-count"
 import { InvitationCountDisplayer } from "@/feats/invitation-count-displayer/invitation-count-displayer"
 
 const Page = async () => {
-    const contacts = await getContacts()
-    const count = await getInvitationsCount()
+    const [contacts, count] = await Promise.all([
+        getContacts(),
+        getInvitationsCount()
+    ])
 
     return (
         <div className="flex flex-col gap-4">

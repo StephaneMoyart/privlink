@@ -10,10 +10,11 @@ import { countNewMessages, getSessionConversations } from "./conversations.data"
 
 const Page = async () => {
     const session = await getSession()
-    const conversations = await getSessionConversations()
-    console.log(conversations);
 
-    const newMessagesCounts = await countNewMessages()
+    const [conversations, newMessagesCounts] = await Promise.all([
+        getSessionConversations(),
+        countNewMessages()
+    ])
 
     const getCount = (id: string) => {
         const result = newMessagesCounts.filter(count => count.conversation_id === id)

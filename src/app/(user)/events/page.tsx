@@ -9,7 +9,6 @@ import { countEventsInvitations } from "@/data/count-events-invitations"
 const Page = async () => {
     const session = await getSession()
     const events = await getEvents()
-    console.log(events);
 
     const invitationsCount = await countEventsInvitations()
 
