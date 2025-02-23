@@ -4,10 +4,11 @@ import { getSession } from "@/auth/session"
 import { getContactsBirthdays } from "@/data/get-contacts-birthdays"
 
 const Page = async () => {
-    const session = await getSession()
-    const events = await getEvents()
-    const contactsWithBirthdays = await getContactsBirthdays()
-
+    const [session, events, contactsWithBirthdays] = await Promise.all([
+        getSession(),
+        getEvents(),
+        getContactsBirthdays()
+    ])
 
     return (
         <div className="h-full">
