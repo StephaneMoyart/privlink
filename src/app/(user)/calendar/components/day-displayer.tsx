@@ -72,10 +72,12 @@ export const DayDisplayer: React.FC<DayDisplayerProps> = ({ events }) => {
 
                 }}/>
             </div>
-            <div className="relative h-[1440px] w-full bg-red-300">
+            <div className="relative h-[1440px] w-full">
                 {eventsDisplayer.map((event, index) => (
-                    <div key={index} className="border border-white absolute left-0 w-full flex items-center justify-center" style={{ top: `${event.startTime}px`, height: `${event.totalTime}px`, width: `${100 / nbOfEvents}%`, left: `${(100 / nbOfEvents)* index}%` }}>
-                        {event.title}
+                    <div key={index} className="absolute w-full flex p-[2px]" style={{ top: `${event.startTime}px`, height: `${event.totalTime}px`, width: `${100 / nbOfEvents}%`, left: `${(100 / nbOfEvents)* index}%` }}>
+                        <div className="flex justify-center items-center bg-blue-300 h-full w-full rounded">
+                            {event.title}
+                        </div>
                     </div>
                 ))}
             </div>

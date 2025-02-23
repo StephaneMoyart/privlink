@@ -1,15 +1,13 @@
 'use client'
 
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/dialog"
 import { cn } from "@/lib/cn"
-import { ArrowLeft, ArrowRight, Cake, Ticket } from "lucide-react"
+import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
-import { EventCard } from "@/feats/event-card/event-card"
 import { EventT } from "@/data/get-events"
 import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
-import { Button } from "@/components/button"
-import Link from "next/link"
-import { UserAvatar } from "@/components/user-avatar"
+import { days, months } from "@/lib/consts"
+import { EventDialog } from "./event-dialog"
+import { BirthdayDialog } from "./birthday-dialog"
 
 type MonthDisplayerProps = {
     events: EventT[]
@@ -18,10 +16,6 @@ type MonthDisplayerProps = {
 }
 
 export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionId, contactsWithBirthdays }) => {
-
-    const days = ["Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"]
-    const months = ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre", "Novembre", "Decembre"]
-
     const now = new Date()
 
     const [currentMonth, setCurrentMonth] = useState(now.getMonth())
@@ -112,58 +106,13 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
                                     <div key={event.id} className="mb-1">
-                                        <Dialog>
-                                            <DialogTrigger className="flex gap-2 items-center bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
-                                                <Ticket size={20}/>
-                                                {event.title}
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogTitle>
-                                                    Details de l&apos;évenement
-                                                </DialogTitle>
-                                                <EventCard readOnly event={event} sessionId={sessionId}/>
-                                            </DialogContent>
-                                        </Dialog>
+                                        <EventDialog event={event} sessionId={sessionId} />
                                     </div>
                                 ))}
 
-                                {dayBirthdays.map(contact => {
-                                    const age = currentYear - new Date(contact.birthdate).getFullYear()
-
-                                    return (
-                                        <div key={contact.id} className="mb-1">
-                                            <Dialog>
-                                                <DialogTrigger className="flex items-center gap-2 bg-yellow-300 px-1 rounded cursor-pointer w-full truncate">
-                                                    <Cake size={20}/>
-                                                    {contact.firstname} {contact.lastname}
-                                                </DialogTrigger>
-                                                <DialogContent>
-                                                    <DialogTitle className="flex items-center gap-2">
-                                                        <p>Anniversaire de {contact.firstname} {contact.lastname}</p>
-                                                        <UserAvatar
-                                                            className="h-10 w-10 rounded-full"
-                                                            avatar={contact.avatar}
-                                                            height={40}
-                                                            width={40}
-                                                        />
-                                                    </DialogTitle>
-                                                    <div className="flex flex-col gap-4">
-                                                        <div className="flex gap-2">
-                                                            <Cake/>
-                                                            <p>{contact.firstname} fêtera ses {age} ans</p>
-                                                        </div>
-
-                                                        <Button asChild>
-                                                            <Link href={'/conversations'}>
-                                                                Envoyer un message
-                                                            </Link>
-                                                        </Button>
-                                                    </div>
-                                                </DialogContent>
-                                            </Dialog>
-                                        </div>
-                                    )
-                                })}
+                                {dayBirthdays.map(contact => (
+                                    <BirthdayDialog key={contact.id} currentYear={currentYear} contact={contact} />
+                                ))}
                             </div>
                         </div>
                     )
