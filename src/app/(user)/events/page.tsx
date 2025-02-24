@@ -8,9 +8,11 @@ import { countEventsInvitations } from "@/data/count-events-invitations"
 
 const Page = async () => {
     const session = await getSession()
-    const events = await getEvents()
 
-    const invitationsCount = await countEventsInvitations()
+    const [events, invitationsCount] = await Promise.all([
+        getEvents(),
+        countEventsInvitations()
+    ])
 
     return (
         <div className="w-full flex p-2 flex-col gap-4">
