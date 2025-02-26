@@ -1,8 +1,24 @@
-import { Calendar, House, LinkIcon, LogOut, MessageSquare, Ticket } from "lucide-react"
+import { Calendar, House, LinkIcon, LogOut, LucideProps, MessageSquare, Ticket } from "lucide-react"
 import { redirect } from "next/navigation"
 import { deleteSession } from "@/auth/session"
 import { SessionAvatar } from "@/auth/session-avatar"
 import Link from "next/link"
+import { ForwardRefExoticComponent, RefAttributes } from "react"
+
+type ItemProps = {
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
+    text: string
+    href: string
+}
+
+const Item: React.FC<ItemProps> = ({icon: Icon, text, href}) => {
+    return (
+        <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href={href}>
+            <Icon/>
+            <p className="max-md:hidden">{text}</p>
+        </Link>
+    )
+}
 
 export default function UserLayout({children}: {children: React.ReactNode}) {
     return (
@@ -13,26 +29,11 @@ export default function UserLayout({children}: {children: React.ReactNode}) {
                         <SessionAvatar className="h-10 w-10 md:h-15 md:w-15 rounded-full not-hover:opacity-90" height={60} width={60}/>
                     </Link>
 
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href="/dashboard">
-                        <House />
-                        <p className="max-md:hidden">Dashboard</p>
-                    </Link>
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href="/conversations">
-                        <MessageSquare />
-                        <p className="max-md:hidden">Conversations</p>
-                    </Link>
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href="/calendar">
-                        <Calendar />
-                        <p className="max-md:hidden">Calendrier</p>
-                    </Link>
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href="/events">
-                        <Ticket />
-                        <p className="max-md:hidden">Evenements</p>
-                    </Link>
-                    <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href="/contacts">
-                        <LinkIcon />
-                        <p className="max-md:hidden">Links</p>
-                    </Link>
+                    <Item icon={House} text={"Dashboard"} href="/dashboard"/>
+                    <Item icon={MessageSquare} text={"Conversations"} href="/conversations"/>
+                    <Item icon={Calendar} text={"Calendrier"} href="/calendar"/>
+                    <Item icon={Ticket} text={"Evenements"} href="events"/>
+                    <Item icon={LinkIcon} text={"Links"} href="contacts"/>
                 </div>
 
                 <button
