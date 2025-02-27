@@ -32,8 +32,8 @@ export default function UserLayout({children}: {children: React.ReactNode}) {
                     <Item icon={House} text={"Dashboard"} href="/dashboard"/>
                     <Item icon={MessageSquare} text={"Conversations"} href="/conversations"/>
                     <Item icon={Calendar} text={"Calendrier"} href="/calendar"/>
-                    <Item icon={Ticket} text={"Evenements"} href="events"/>
-                    <Item icon={LinkIcon} text={"Links"} href="contacts"/>
+                    <Item icon={Ticket} text={"Evenements"} href="/events"/>
+                    <Item icon={LinkIcon} text={"Links"} href="/contacts"/>
                 </div>
 
                 <button
