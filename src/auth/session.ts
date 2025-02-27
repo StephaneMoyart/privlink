@@ -2,9 +2,9 @@ import "server-only"
 
 import { SignJWT } from "jose"
 import { cookies } from "next/headers"
-import { decrypt } from "./decrypt"
 import { redirect } from "next/navigation"
 import { query } from "@/db/db"
+import { jwtVerify } from "jose"
 
 type SessionPayload = {
     userId: string
@@ -44,6 +44,13 @@ export async function createSession(userId: string) {
     })
 }
 
+export async function decrypt(session: string | undefined = "") {
+        const { payload } = await jwtVerify(session, encodedKey, {
+            algorithms: ["HS256"],
+        })
+        return payload
+}
+
 export async function getSession() {
     const cookieStore = await cookies()
     const sessionCookie = cookieStore.get("session")
@@ -63,7 +70,6 @@ export async function getSession() {
         ...user[0]
     }
 }
-
 
 export async function deleteSession() {
     const cookieStore = await cookies()

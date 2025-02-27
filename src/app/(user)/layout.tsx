@@ -13,7 +13,7 @@ type ItemProps = {
 
 const Item: React.FC<ItemProps> = ({icon: Icon, text, href}) => {
     return (
-        <Link className="flex w-full items-center pl-4 gap-4 h-12 md:hover:bg-black/20" href={href}>
+        <Link className="flex w-full items-center pl-4 gap-4 h-12 hover:bg-stone-200" href={href}>
             <Icon/>
             <p className="max-md:hidden">{text}</p>
         </Link>

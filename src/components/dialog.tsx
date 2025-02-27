@@ -10,13 +10,13 @@ export const DialogContent: React.FC<React.ComponentProps<typeof DialogPrimitive
 	return (
 		<Portal>
 			<Overlay className="fixed inset-0 backdrop-blur-xs"/>
-				<Content className="fixed p-8 top-1/2 left-1/2 -translate-[50%] shadow-lg overflow-hidden bg-white rounded-lg max-w-[90%]">
+			<Content className="fixed top-1/2 left-1/2 -translate-1/2 p-8 shadow-lg overflow-auto bg-white rounded-lg w-fit max-w-[90%]">
 				<div className="absolute top-0 left-0 h-1 bg-stone-950 w-full"/>
-					<Close className="p-2 absolute top-3 right-2 rounded text-stone-950 hover:bg-stone-100">
-						<X size={20}/>
-					</Close>
-					{children}
-				</Content>
+				<Close className="p-2 absolute top-3 right-2 rounded text-stone-950 hover:bg-stone-100">
+					<X size={20}/>
+				</Close>
+				{children}
+			</Content>
 		</Portal>
 	)
 }

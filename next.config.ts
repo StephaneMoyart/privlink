@@ -8,4 +8,10 @@ const nextConfig: NextConfig = {
   },
 };
 
+module.exports = {
+  experimental: {
+    nodeMiddleware: true,
+  },
+};
+
 export default nextConfig;

@@ -1,6 +1,6 @@
 import { cookies } from "next/headers"
 import { NextRequest, NextResponse } from "next/server"
-import { decrypt } from "./auth/decrypt"
+import { decrypt } from "./auth/session"
 
 const protectedRoutes = ["/dashboard"]
 const publicRoutes = ["/", '/signin', '/signup']
@@ -23,4 +23,8 @@ export default async function middleware(req: NextRequest) {
     }
 
     return NextResponse.next()
+}
+
+export const config = {
+    runtime: 'nodejs',
 }
