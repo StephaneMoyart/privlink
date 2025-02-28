@@ -41,7 +41,7 @@ const Page = async () => {
                             {members.map((member) => (
                                 <UserAvatar
                                     key={member.id}
-                                    className="w-15 h-15 rounded-full overflow-hidden"
+                                    className="w-15 h-15 rounded-full overflow-hidden border-3 border-white"
                                     width={60}
                                     height={60}
                                     avatar={member.avatar}
