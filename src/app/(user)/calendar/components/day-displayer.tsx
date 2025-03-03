@@ -1,13 +1,15 @@
-import { EventT } from "@/data/get-events"
 import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
+import { useCalendarContext } from "../context/calendar-context"
 
-type DayDisplayerProps = {
-    events: EventT[]
-}
+// type DayDisplayerProps = {
+//     events: EventT[]
+// }
 
-export const DayDisplayer: React.FC<DayDisplayerProps> = ({ events }) => {
+export const DayDisplayer = () => {
+    const { events } = useCalendarContext()
+
     const [currentDay, setCurrentDay] = useState(new Date())
 
     const prevDay = () => setCurrentDay(prev => {

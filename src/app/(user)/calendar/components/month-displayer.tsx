@@ -3,19 +3,20 @@
 import { cn } from "@/lib/cn"
 import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
-import { EventT } from "@/data/get-events"
-import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
 import { days, months } from "@/lib/consts"
 import { EventDialog } from "./event-dialog"
 import { BirthdayDialog } from "./birthday-dialog"
+import { useCalendarContext } from "../context/calendar-context"
 
-type MonthDisplayerProps = {
-    events: EventT[]
-    sessionId: string
-    contactsWithBirthdays: UserBaseWithBirthday[]
-}
+// type MonthDisplayerProps = {
+//     events: EventT[]
+//     sessionId: string
+//     contactsWithBirthdays: UserBaseWithBirthday[]
+// }
 
-export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionId, contactsWithBirthdays }) => {
+export const MonthDisplayer = () => {
+    const { events, contactsWithBirthdays } = useCalendarContext()
+
     const now = new Date()
 
     const [currentMonth, setCurrentMonth] = useState(now.getMonth())
@@ -106,7 +107,7 @@ export const MonthDisplayer: React.FC<MonthDisplayerProps> = ({ events, sessionI
                             <div className="p-1 h-[90px] overflow-y-auto ">
                                 {dayEvents.map(event => (
                                     <div key={event.id} className="mb-1">
-                                        <EventDialog event={event} sessionId={sessionId} />
+                                        <EventDialog event={event} />
                                     </div>
                                 ))}
 

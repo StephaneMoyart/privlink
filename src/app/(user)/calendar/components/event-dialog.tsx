@@ -2,13 +2,15 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/
 import { EventT } from "@/data/get-events"
 import { EventCard } from "@/feats/event-card/event-card"
 import { Ticket } from "lucide-react"
+import { useCalendarContext } from "../context/calendar-context"
 
 type EventDialogProps = {
     event: EventT
-    sessionId: string
 }
 
-export const EventDialog: React.FC<EventDialogProps> = ({ event, sessionId}) => {
+export const EventDialog: React.FC<EventDialogProps> = ({ event }) => {
+    const { id } = useCalendarContext()
+
     return (
         <Dialog>
             <DialogTrigger className="flex gap-2 items-center bg-blue-300 px-1 rounded cursor-pointer w-full truncate">
@@ -19,7 +21,7 @@ export const EventDialog: React.FC<EventDialogProps> = ({ event, sessionId}) => 
                 <DialogTitle>
                     Details de l&apos;évenement
                 </DialogTitle>
-                <EventCard readOnly event={event} sessionId={sessionId}/>
+                <EventCard readOnly event={event} sessionId={id}/>
             </DialogContent>
         </Dialog>
     )
