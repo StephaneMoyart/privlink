@@ -3,15 +3,14 @@ import { Loader } from "./loader"
 import { Slot } from "@radix-ui/react-slot"
 
 const colorVariants: Record<string, string> = {
-    dark: "bg-zinc-950 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700",
-    zinc: "bg-zinc-500 hover:bg-zinc-600 border-zinc-400 hover:border-zinc-500",
-    blue: "bg-blue-500 hover:bg-blue-600 border-blue-400 hover:border-blue-500",
-    red: "bg-red-500 hover:bg-red-600 border-red-400 hover:border-red-500",
-    green: "bg-green-700 hover:bg-green-800 border-green-600 hover:border-green-700",
-    yellow: "bg-yellow-500 hover:bg-yellow-600 border-yellow-400 hover:border-yellow-500",
-    purple: "bg-purple-500 hover:bg-purple-600 border-purple-400 hover:border-purple-500",
-    orange: "bg-orange-700 hover:bg-orange-800 border-orange-600 hover:border-orange-700",
-    pink: "bg-pink-500 hover:bg-pink-600 border-pink-400 hover:border-pink-500"
+    stone: "bg-linear-to-b from-stone-800 to-stone-950 shadow shadow-stone-950 border-stone-950 hover:from-stone-700 hover:to-stone-800 hover:shadow-stone-800 hover:border-stone-800",
+    blue: "bg-linear-to-b from-blue-600 to-blue-700 shadow shadow-blue-800 border-blue-700 hover:from-blue-700 hover:to-blue-800 hover:shadow-blue-900 hover:border-blue-800",
+    red: "bg-linear-to-b from-red-600 to-red-700 shadow shadow-red-800 border-red-700 hover:from-red-700 hover:to-red-800 hover:shadow-red-900 hover:border-red-800",
+    green: "bg-linear-to-b from-green-600 to-green-700 shadow shadow-green-800 border-green-700 hover:from-green-700 hover:to-green-800 hover:shadow-green-900 hover:border-green-800",
+    yellow: "bg-linear-to-b from-yellow-600 to-yellow-700 shadow shadow-yellow-800 border-yellow-700 hover:from-yellow-700 hover:to-yellow-800 hover:shadow-yellow-900 hover:border-yellow-800",
+    purple: "bg-linear-to-b from-purple-600 to-purple-700 shadow shadow-purple-800 border-purple-700 hover:from-purple-700 hover:to-purple-800 hover:shadow-purple-900 hover:border-purple-800",
+    orange: "bg-linear-to-b from-orange-600 to-orange-700 shadow shadow-orange-800 border-orange-700 hover:from-orange-700 hover:to-orange-800 hover:shadow-orange-900 hover:border-orange-800",
+    pink: "bg-linear-to-b from-pink-600 to-pink-700 shadow shadow-pink-800 border-pink-700 hover:from-pink-700 hover:to-pink-800 hover:shadow-pink-900 hover:border-pink-800",
 }
 
 type BaseButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -26,7 +25,7 @@ type ButtonWithNone = BaseButtonProps & { asChild?: false; pending?: false }
 type ButtonProps = ButtonWithPending | ButtonWithAsChild | ButtonWithNone;
 
 export const Button: React.FC<ButtonProps> = ({
-    color = "dark",
+    color = "stone",
     icon = false,
     pending = false,
     asChild = false,
