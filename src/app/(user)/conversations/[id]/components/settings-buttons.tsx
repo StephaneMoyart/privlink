@@ -7,7 +7,6 @@ import { Button } from "@/components/button"
 import { Dropdown, DropdownContent, DropdownTrigger } from "@/components/dropdown"
 
 type MessageSettingsProps = {
-    conversationId: string
     messageId: string
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }

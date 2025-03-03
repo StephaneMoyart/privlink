@@ -8,12 +8,6 @@ import { EventDialog } from "./event-dialog"
 import { BirthdayDialog } from "./birthday-dialog"
 import { useCalendarContext } from "../context/calendar-context"
 
-// type MonthDisplayerProps = {
-//     events: EventT[]
-//     sessionId: string
-//     contactsWithBirthdays: UserBaseWithBirthday[]
-// }
-
 export const MonthDisplayer = () => {
     const { events, contactsWithBirthdays } = useCalendarContext()
 

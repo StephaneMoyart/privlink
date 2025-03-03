@@ -49,7 +49,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
             </OptionsBar>
             <div className="flex flex-col h-full overflow-y-scroll gap-4">
                 {messages.map(message => (
-                    <MessageCard key={message.id} message={message} conversationId={id} sessionId={session.id}/>
+                    <MessageCard key={message.id} message={message} sessionId={session.id}/>
                 ))}
             </div>
             <NewMessageForm conversationId={id}/>

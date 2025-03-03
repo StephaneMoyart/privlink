@@ -9,11 +9,10 @@ import { SelectConversationMessage } from "../conversation.data"
 
 type MessageCardProps = {
     message: SelectConversationMessage
-    conversationId: string
     sessionId: string
 }
 
-export const MessageCard: React.FC<MessageCardProps> = ({ message, conversationId, sessionId }) => {
+export const MessageCard: React.FC<MessageCardProps> = ({ message, sessionId }) => {
     const { id, author, content, created_at } = message
     const { firstname, lastname, avatar, id: authorId } = author
 
@@ -50,7 +49,7 @@ export const MessageCard: React.FC<MessageCardProps> = ({ message, conversationI
             </div>
             <div>
                 {isOwned &&
-                    <MessageSettings conversationId={conversationId} messageId={id} setIsEditing={setIsEditing}/>
+                    <MessageSettings messageId={id} setIsEditing={setIsEditing}/>
                 }
             </div>
         </div>

@@ -3,10 +3,6 @@ import { ArrowLeft, ArrowRight } from "lucide-react"
 import { useState } from "react"
 import { useCalendarContext } from "../context/calendar-context"
 
-// type DayDisplayerProps = {
-//     events: EventT[]
-// }
-
 export const DayDisplayer = () => {
     const { events } = useCalendarContext()
 
