@@ -30,6 +30,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     if (!members.some(member => member.id === session.id)) return redirect('/conversations')
     // //shield
 
+    const conversationWith = members.filter(member => member.id !== session.id)
+
     return (
         <div className="h-full flex flex-col  gap-4 justify-between">
             <OptionsBar className="flex justify-between">
@@ -40,7 +42,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 </Button>
 
                 <p className="text-lg font-semibold">
-                    { title ? title : `${members[0].firstname} ${members[0].lastname}` }
+                    { title ? title : `${conversationWith[0].firstname} ${conversationWith[0].lastname}` }
                 </p>
 
                 {multi ? <QuitConversation conversationId={id}/> : <span></span> }
