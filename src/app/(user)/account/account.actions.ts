@@ -70,4 +70,6 @@ export const editBirthdayAction = async (prevState: unknown, formData: FormData)
     await query('UPDATE person SET birthdate = $1 WHERE id = $2',
         [fullDate, session.id]
     )
+
+    return { message: "birthday updated"}
 }

@@ -3,7 +3,7 @@
 import { DayOfBirth, MonthOfBirth, YearOfBirth } from "@/components/birthday-picker"
 import { Button } from "@/components/button"
 import { Pencil } from "lucide-react"
-import { useActionState, useState } from "react"
+import { useActionState, useEffect, useState } from "react"
 import { editBirthdayAction } from "../account.actions"
 
 type BirthdayHandlerProps = {
@@ -16,7 +16,11 @@ export const BirthdayHandler: React.FC<BirthdayHandlerProps> = ({ birthday }) =>
     const [selectedMonth, setSelectedMonth ] = useState<string>("")
     const [selectedYear, setSelectedYear ] = useState<string>("")
 
-    const [, action, pending] = useActionState(editBirthdayAction, null)
+    const [state, action, pending] = useActionState(editBirthdayAction, null)
+
+    useEffect(() => {
+        if (state?.message === "birthday updated") setIsEditing(false)
+    }, [state])
 
     return (
         <div className="flex">
