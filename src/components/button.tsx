@@ -38,7 +38,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
         <Comp
             className={cn(
-                "flex items-center justify-center px-4 py-2 text-white cursor-pointer shadow rounded-md border-2 transition duration-300",
+                "flex items-center justify-center px-4 py-2 text-white cursor-pointer shadow rounded-md border transition duration-300",
                 colorVariants[color],
                 icon && "px-2 aspect-square",
                 className
