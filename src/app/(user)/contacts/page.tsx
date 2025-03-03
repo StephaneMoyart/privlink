@@ -13,7 +13,7 @@ const Page = async () => {
     return (
         <div className="flex flex-col gap-4">
             <div className="flex md:items-center max-md:flex-col-reverse gap-4 justify-between w-full">
-                <SearchUserForm/>
+                <SearchUserForm contacts={contacts}/>
                 <InvitationCountDisplayer count={count} href={'/contacts/invitations'}/>
             </div>
             <div className="max-md:grid max-md:grid-cols-2 max-md:justify-center flex flex-wrap gap-4">

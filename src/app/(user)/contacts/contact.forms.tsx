@@ -7,7 +7,11 @@ import { UserAvatar } from "@/components/user-avatar"
 import { Button } from "@/components/button"
 import { UserBase } from "@/data/get-events"
 
-export const SearchUserForm = () => {
+type SearchUserFormProps = {
+    contacts: UserBase[]
+}
+
+export const SearchUserForm: React.FC<SearchUserFormProps> = ({ contacts }) => {
     const [query, setQuery] = useState<string>('')
     const [queryResult, setQueryResult] = useState<UserBase[]>([])
     const [isSearchVisible, setIsSearchVisible] = useState<boolean>(true)
@@ -28,8 +32,8 @@ export const SearchUserForm = () => {
             return
         }
 
-        getUserByQueryAction(debouncedValue).then(setQueryResult)
-    }, [debouncedValue, setQueryResult])
+        getUserByQueryAction(debouncedValue, contacts).then(setQueryResult)
+    }, [debouncedValue, setQueryResult, contacts])
 
     const [, action, pending] = useActionState(() => sendContactInvitationAction(invitedUserId), null)
 

@@ -4,9 +4,9 @@ import { getSession } from "@/auth/session"
 import { UserBase } from "@/data/get-events"
 import { query } from "@/db/db"
 
-export const getUserByQueryAction = async (q: string) => {
+export const getUserByQueryAction = async (q: string, contacts: UserBase[]) => {
     // shield
-    await getSession()
+    const session = await getSession()
     // end shield
 
     const keywords = q.split(" ").filter(keyword => keyword.trim().length > 0)
@@ -15,7 +15,8 @@ export const getUserByQueryAction = async (q: string) => {
     const params = keywords.map(keyword => `%${keyword}%`)
 
     const users: UserBase[] = await query(`SELECT id, firstname, lastname, avatar FROM person WHERE ${conditions}`, params)
-    return users
+    return users.filter(user => (user.id !== session.id) && contacts.every(contact => user.id !== contact.id))
+
 }
 
 export const sendContactInvitationAction = async (invitedUserId: string) => {
