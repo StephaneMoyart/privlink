@@ -2,6 +2,7 @@
 
 import { getSession } from "@/auth/session"
 import { pool } from "@/db/db"
+import { redirect } from "next/navigation"
 import { z } from "zod"
 
 const createGroupConversationSchema = z.object({
@@ -12,7 +13,6 @@ export const createGroupConversationAction = async (members: string[], previousS
     //shield
     const session = await getSession()
     //end shield
-    console.log(members);
 
     const result = createGroupConversationSchema.safeParse({
         title: formData.get('title')
@@ -26,8 +26,6 @@ export const createGroupConversationAction = async (members: string[], previousS
 
     const client = await pool.connect()
 
-
-    //add same conv check
     try {
         await client.query('BEGIN')
 
@@ -37,6 +35,8 @@ export const createGroupConversationAction = async (members: string[], previousS
         await Promise.all(allMembers.map(member => client.query('INSERT INTO conversation_member (conversation_id, member_id) VALUES ($1, $2)', [conversationId, member])))
 
         await client.query('COMMIT')
+
+        return redirect(`/conversations/${conversationId}`)
     } catch (err) {
         await client.query('ROLLBACK')
         throw err
