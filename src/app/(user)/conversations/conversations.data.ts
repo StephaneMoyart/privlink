@@ -38,7 +38,7 @@ export const getSessionConversations = async () => {
 export const countNewMessages = async () => {
     const session = await getSession()
 
-    return await query<NewMessagesCount>('SELECT c.id as conversation_id, COALESCE(count(cm.id), 0)::integer AS last_seen_number FROM conversation c LEFT JOIN conversation_last_seen cls ON c.id = cls.conversation_id LEFT JOIN conversation_message cm ON cm.conversation_id = c.id AND cls.date < cm.created_at WHERE cls.member_id = $1 GROUP BY c.id',
+    return await query<NewMessagesCount>('SELECT c.id as conversation_id, COALESCE(count(cm.id), 0)::integer AS last_seen_number FROM conversation c LEFT JOIN conversation_last_seen cls ON c.id = cls.conversation_id AND cls.member_id = $1 LEFT JOIN conversation_message cm ON cm.conversation_id = c.id AND COALESCE(cls.date, \'1970-01-01\') < cm.created_at GROUP BY c.id',
         [session.id]
     )
 }
