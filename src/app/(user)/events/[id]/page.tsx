@@ -1,5 +1,5 @@
 import { getParticipativeListsWithItems } from "./event.data"
-import { CreateEventListForm } from "./event.forms"
+import { AddEventItemForm, CreateEventListForm } from "./event.forms"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -19,6 +19,7 @@ const Page: React.FC<PageProps> = async ({params}) => {
             {participativeLists.map(list => (
                 <div key={list.id}>
                     <p>{list.title}</p>
+                    <AddEventItemForm listId={list.id}/>
                 </div>
             ))}
         </div>
