@@ -28,7 +28,9 @@ const Page = async () => {
             </div>
 
             {events.map(event => (
-                <EventCard key={event.id} event={event} sessionId={session.id}/>
+                <Link key={event.id} href={`/events/${event.id}`}>
+                    <EventCard event={event} sessionId={session.id}/>
+                </Link>
             ))}
         </div>
     )
