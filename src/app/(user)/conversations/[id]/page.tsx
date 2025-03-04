@@ -2,7 +2,7 @@ import { NewMessageForm } from "./conversation.forms"
 import { MessageCard } from "./components/message-card"
 import { getSession } from "@/auth/session"
 import { OptionsBar } from "@/components/options-bar"
-import { ArrowLeft } from "lucide-react"
+import { ArrowDown, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/button"
 import Link from "next/link"
 import { QuitConversation } from "./components/quit-conversation"
@@ -48,9 +48,18 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 {multi ? <QuitConversation conversationId={id}/> : <span></span> }
             </OptionsBar>
             <div className="flex flex-col h-full overflow-y-scroll gap-4">
-                {messages.map(message => (
-                    <MessageCard key={message.id} message={message} sessionId={session.id}/>
-                ))}
+                {messages.length > 0
+                    ?
+                    messages.map(message => (
+                        <MessageCard key={message.id} message={message} sessionId={session.id}/>
+                    ))
+                    :
+                    <div className="flex flex-col gap-2 justify-center items-center w-full h-full">
+                        <p>Aucun message dans cette conversation.</p>
+                        <p>Dites quelque chose à {multi ? "vos contacts :" : `${conversationWith[0].firstname} :` }</p>
+                        <ArrowDown size={40}/>
+                    </div>
+                }
             </div>
             <NewMessageForm conversationId={id}/>
             <LastSeenActualizer conversationId={id}/>
