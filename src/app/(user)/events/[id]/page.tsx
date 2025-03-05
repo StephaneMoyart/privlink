@@ -23,7 +23,7 @@ const Page: React.FC<PageProps> = async ({params}) => {
                     <AddEventItemForm listId={list.id}/>
                     <div>
                         {list.items.map((item, index) => (
-                            <ListItemCard key={index} item={item}/>
+                            <ListItemCard key={index} item={item} />
                         ))}
                     </div>
                 </div>
