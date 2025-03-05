@@ -46,10 +46,13 @@ export const addEventItemAction = async (listId: string, prevState: unknown, for
 }
 
 export const updateHandledByAction = async (listItemId: string, handledBy: string | null) => {
+    console.log('batman');
+
     //shield
     const session = await getSession()
-    //end shield
     if (handledBy && handledBy !== session.id) return
+    //end shield
+
     if (handledBy === session.id) {
         await query('UPDATE event_list_item eli SET handled_by = null where eli.id = $1', [listItemId])
         return
