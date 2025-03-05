@@ -16,13 +16,13 @@ export const CreateEventListForm: React.FC<CreateEventListFormProps> = ({ eventI
     const [, action, pending] = useActionState(createEventListAction.bind(null, eventId), null)
 
     return (
-        <form action={action} className="flex">
+        <form action={action} className="flex gap-2">
             <InputWLabel name={"title"} label={"nom de la liste"}/>
             <Button
                 pending={pending}
                 disabled={pending}
             >
-                Créer
+                +
             </Button>
         </form>
     )
@@ -32,7 +32,7 @@ export const AddEventItemForm: React.FC<AddEventItemFormProps> = ({ listId }) =>
     const [, action, pending] = useActionState(addEventItemAction.bind(null, listId), null)
 
     return (
-        <form action={action} className="flex">
+        <form action={action} className="flex gap-2">
             <InputWLabel name={`${listId}itemTitle`} label={"Ajouter un item"}/>
             <Button
                 pending={pending}

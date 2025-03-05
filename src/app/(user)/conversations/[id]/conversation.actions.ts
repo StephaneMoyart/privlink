@@ -29,9 +29,21 @@ export const newMessageAction = async (conversationId: string, prev:unknown, for
     try {
         await client.query('BEGIN')
 
-        await client.query('INSERT INTO conversation_message (conversation_id, author_id, content) VALUES ($1, $2, $3)', [conversationId, session.id, content])
-        await client.query('UPDATE conversation SET updated_at = DEFAULT, last_author = $1 WHERE id = $2' , [session.id, conversationId])
-        await client.query('INSERT INTO conversation_last_seen (conversation_id, member_id) VALUES ($1, $2) ON CONFLICT (conversation_id, member_id) DO UPDATE SET date = DEFAULT', [conversationId, session.id])
+        await client.query(`
+            INSERT INTO conversation_message (conversation_id, author_id, content)
+            VALUES ($1, $2, $3)
+        `, [conversationId, session.id, content])
+        await client.query(`
+            UPDATE conversation
+            SET updated_at = DEFAULT, last_author = $1
+            WHERE id = $2
+        `, [session.id, conversationId])
+        await client.query(`
+            INSERT INTO conversation_last_seen (conversation_id, member_id)
+            VALUES ($1, $2)
+            ON CONFLICT (conversation_id, member_id)
+            DO UPDATE SET date = DEFAULT
+        `, [conversationId, session.id])
 
         await client.query('COMMIT')
     } catch(err) {
@@ -51,7 +63,11 @@ export const deleteMessageAction = async (messageId: string) => {
     const session = await getSession()
     // end shield
 
-    await query('DELETE FROM conversation_message WHERE id = $1 AND author_id = $2', [messageId, session.id])
+    await query(`
+        DELETE FROM conversation_message
+        WHERE id = $1
+        AND author_id = $2
+    `, [messageId, session.id])
 
     revalidatePath('')
 }
@@ -69,7 +85,12 @@ export const editMessageAction = async (messageId: string, prev: unknown, formDa
 
     const { content } = result.data
 
-    await query('UPDATE conversation_message SET content = $1 WHERE id = $2 AND author_id = $3', [content, messageId, session.id])
+    await query(`
+        UPDATE conversation_message
+        SET content = $1
+        WHERE id = $2
+        AND author_id = $3
+    `, [content, messageId, session.id])
 
     revalidatePath('')
 
@@ -81,7 +102,11 @@ export const quitConversationAction = async (conversationId: string) => {
     const session = await getSession()
     //end shield
 
-    await query('DELETE FROM conversation_member WHERE conversation_id = $1 AND member_id = $2', [conversationId, session.id])
+    await query(`
+        DELETE FROM conversation_member
+        WHERE conversation_id = $1
+        AND member_id = $2
+    `, [conversationId, session.id])
 
     redirect('/conversations')
 }

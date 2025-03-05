@@ -27,11 +27,13 @@ export const ListCard: React.FC<ListCardProps> = ({ list, sessionId }) => {
                     </Button>
                 </div>
             </div>
-            <div className="p-2">
-                {list.items.map((item, index) => (
-                    <ListItemCard key={index} item={item} sessionId={sessionId}/>
-                ))}
-            </div>
+            {list.items.length > 0 &&
+                <div className="p-2">
+                    {list.items.map((item, index) => (
+                        <ListItemCard key={index} item={item} sessionId={sessionId}/>
+                    ))}
+                </div>
+            }
         </div>
     )
 }

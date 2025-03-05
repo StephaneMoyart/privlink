@@ -43,7 +43,11 @@ export const changeAvatarAction = async (formData: FormData) => {
     const fileBuffer = Buffer.from(await file.arrayBuffer())
     fs.writeFileSync(filePath, fileBuffer)
 
-    await query('UPDATE person p SET avatar = $1 WHERE p.id = $2', [avatarUrl, session.id])
+    await query(`
+        UPDATE person p
+        SET avatar = $1
+        WHERE p.id = $2
+    `, [avatarUrl, session.id])
 
     revalidatePath('')
 }
@@ -67,9 +71,11 @@ export const editBirthdayAction = async (prevState: unknown, formData: FormData)
 
     const fullDate = `${year}-${monthNumber}-${day}`
 
-    await query('UPDATE person SET birthdate = $1 WHERE id = $2',
-        [fullDate, session.id]
-    )
+    await query(`
+        UPDATE person
+        SET birthdate = $1
+        WHERE id = $2
+    `, [fullDate, session.id])
 
     return { message: "birthday updated"}
 }

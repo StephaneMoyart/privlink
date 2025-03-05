@@ -13,9 +13,18 @@ export const deleteEventAction = async (eventId: string) => {
 
     try {
         await client.query('BEGIN')
-        await client.query('DELETE FROM event_invitation WHERE event_id = $1', [eventId])
-        await client.query('DELETE FROM event_participant WHERE event_id = $1', [eventId])
-        await client.query('DELETE FROM event WHERE id = $1', [eventId])
+        await client.query(`
+            DELETE FROM event_invitation
+            WHERE event_id = $1
+        `, [eventId])
+        await client.query(`
+            DELETE FROM event_participant
+            WHERE event_id = $1
+        `, [eventId])
+        await client.query(`
+            DELETE FROM event
+            WHERE id = $1
+        `, [eventId])
         await client.query('COMMIT')
     } catch(err) {
         await client.query('ROLLBACK')
@@ -32,9 +41,11 @@ export const quitEventAction = async (eventId: string) => {
     const session = await getSession()
     //end shield
 
-    await query('DELETE FROM event_participant WHERE event_id = $1 and participant_id = $2',
-        [eventId, session.id]
-    )
+    await query(`
+        DELETE FROM event_participant
+        WHERE event_id = $1
+        AND participant_id = $2
+    `, [eventId, session.id])
 
     revalidatePath('')
 }

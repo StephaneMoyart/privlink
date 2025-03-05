@@ -29,10 +29,18 @@ export const createGroupConversationAction = async (members: string[], previousS
     try {
         await client.query('BEGIN')
 
-        const createdConversation = await client.query('INSERT INTO conversation (multi, title) VALUES ($1, $2) RETURNING id',[true, title])
+        const createdConversation = await client.query(`
+            INSERT INTO conversation (multi, title)
+            VALUES ($1, $2)
+            RETURNING id
+        `, [true, title])
+
         const conversationId = createdConversation.rows[0].id
-        console.log(conversationId);
-        await Promise.all(allMembers.map(member => client.query('INSERT INTO conversation_member (conversation_id, member_id) VALUES ($1, $2)', [conversationId, member])))
+
+        await Promise.all(allMembers.map(member => client.query(`
+            INSERT INTO conversation_member (conversation_id, member_id)
+            VALUES ($1, $2)
+        `, [conversationId, member])))
 
         await client.query('COMMIT')
 

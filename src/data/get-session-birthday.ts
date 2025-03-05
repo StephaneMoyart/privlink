@@ -7,7 +7,11 @@ import { months } from '@/lib/consts'
 export const getSessionBirthday = async () => {
     const session = await getSession()
 
-    const birthday = await query('SELECT p.birthdate FROM person p WHERE id = $1', [session.id])
+    const birthday = await query(`
+        SELECT p.birthdate
+        FROM person p
+        WHERE id = $1
+    `, [session.id])
 
     const result = birthday[0].birthdate
 
