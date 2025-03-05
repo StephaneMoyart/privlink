@@ -77,3 +77,13 @@ export const deleteListItemAction = async (itemId: string) => {
 
     revalidatePath('')
 }
+
+export const deleteListAction = async (listId: string) => {
+    //Shield
+    await getSession()
+    //end Shield
+
+    await query('DELETE FROM event_list el WHERE el.id = $1', [listId])
+
+    revalidatePath('')
+}

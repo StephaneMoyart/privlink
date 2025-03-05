@@ -14,6 +14,7 @@ type ListItemCardProps = {
 export const ListItemCard: React.FC<ListItemCardProps> = ({ item, sessionId }) => {
     const [, startUpdateHandledByTransition] = useTransition()
     const [, startDeleteItemTransition] = useTransition()
+
     const handledBy = item.handled_by?.id ? item.handled_by.id : null
     const isDisabled = item.handled_by !== null && item.handled_by.id !== sessionId
 
