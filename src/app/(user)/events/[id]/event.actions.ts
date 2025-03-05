@@ -45,10 +45,15 @@ export const addEventItemAction = async (listId: string, prevState: unknown, for
     await query('INSERT INTO event_list_item (event_list_id, title) VALUES ($1, $2)', [listId, title])
 }
 
-export const updateHandledByAction = async (listItemId: string) => {
+export const updateHandledByAction = async (listItemId: string, handledBy: string | null) => {
     //shield
     const session = await getSession()
     //end shield
+    if (handledBy && handledBy !== session.id) return
+    if (handledBy === session.id) {
+        await query('UPDATE event_list_item eli SET handled_by = null where eli.id = $1', [listItemId])
+        return
+    }
 
     await query('UPDATE event_list_item eli SET handled_by = $1 WHERE eli.id = $2', [session.id, listItemId])
 }
