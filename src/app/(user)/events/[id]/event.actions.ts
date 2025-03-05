@@ -2,6 +2,7 @@
 
 import { getSession } from "@/auth/session"
 import { query } from "@/db/db"
+import { revalidatePath } from "next/cache"
 import { z } from "zod"
 
 const createEventListSchema = z.object({
@@ -27,6 +28,8 @@ export const createEventListAction = async (eventId: string, prevState: unknown,
 
     // todo check if has permission
     await query('INSERT INTO event_list (event_id, title) VALUES ($1, $2)', [eventId, title])
+
+    revalidatePath('')
 }
 
 export const addEventItemAction = async (listId: string, prevState: unknown, formData: FormData) => {
@@ -43,6 +46,8 @@ export const addEventItemAction = async (listId: string, prevState: unknown, for
     const { title } = result.data
 
     await query('INSERT INTO event_list_item (event_list_id, title) VALUES ($1, $2)', [listId, title])
+
+    revalidatePath('')
 }
 
 export const updateHandledByAction = async (listItemId: string, handledBy: string | null) => {
@@ -55,8 +60,10 @@ export const updateHandledByAction = async (listItemId: string, handledBy: strin
 
     if (handledBy === session.id) {
         await query('UPDATE event_list_item eli SET handled_by = null where eli.id = $1', [listItemId])
+        revalidatePath('')
         return
     }
 
     await query('UPDATE event_list_item eli SET handled_by = $1 WHERE eli.id = $2', [session.id, listItemId])
+    revalidatePath('')
 }

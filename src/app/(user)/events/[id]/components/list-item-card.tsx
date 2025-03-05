@@ -4,6 +4,7 @@ import { useTransition } from "react"
 import { ListItem } from "../event.data"
 import { updateHandledByAction } from "../event.actions"
 import { cn } from "@/lib/cn"
+import { UserAvatar } from "@/components/user-avatar"
 
 type ListItemCardProps = {
     item: ListItem
@@ -16,17 +17,21 @@ export const ListItemCard: React.FC<ListItemCardProps> = ({ item, sessionId }) =
     const isDisabled = item.handled_by !== null && item.handled_by.id !== sessionId
 
     return (
-        <>
+        <div className="flex gap-2">
             <p
                 className={cn(
-                    "bg-blue-300 w-fit",
+                    "w-fit",
+                    handledBy && "line-through",
                     !isDisabled && "cursor-pointer"
                 )}
                 onClick={() => !isDisabled && startTransition(() => updateHandledByAction(item.id, handledBy))}
             >
                 {item.title}
             </p>
-            <p>handled by {item.handled_by?.firstname}</p>
-        </>
+            {handledBy &&
+                <UserAvatar className="h-6 w-6 rounded-full" height={24} width={24} avatar={item.handled_by?.avatar}/>
+            }
+            <p className="bg-red-200">x</p>
+        </div>
     )
 }

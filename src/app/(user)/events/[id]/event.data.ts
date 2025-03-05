@@ -8,7 +8,7 @@ import { query } from "@/db/db"
     handled_by: UserBase | null
 }
 
-type ListT = {
+export type ListT = {
     id: string
     event_id: string
     title: string

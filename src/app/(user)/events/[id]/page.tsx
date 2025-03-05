@@ -1,7 +1,7 @@
 import { getSession } from "@/auth/session"
-import { ListItemCard } from "./components/list-item-card"
 import { getParticipativeListsWithItems } from "./event.data"
-import { AddEventItemForm, CreateEventListForm } from "./event.forms"
+import { CreateEventListForm } from "./event.forms"
+import { ListCard } from "./components/list-card"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -14,21 +14,13 @@ const Page: React.FC<PageProps> = async ({params}) => {
     const participativeLists = await getParticipativeListsWithItems(id)
 
     return (
-        <div>
+        <div className="flex flex-col gap-2">
             {id}
             <p>Créer une liste</p>
             <CreateEventListForm eventId={id}/>
 
             {participativeLists.map(list => (
-                <div key={list.id}>
-                    <p>{list.title}</p>
-                    <AddEventItemForm listId={list.id}/>
-                    <div>
-                        {list.items.map((item, index) => (
-                            <ListItemCard key={index} item={item} sessionId={session.id}/>
-                        ))}
-                    </div>
-                </div>
+                <ListCard key={list.id} list={list} sessionId={session.id}/>
             ))}
         </div>
     )
