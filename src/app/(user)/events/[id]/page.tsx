@@ -1,3 +1,4 @@
+import { ListItemCard } from "./components/list-item-card"
 import { getParticipativeListsWithItems } from "./event.data"
 import { AddEventItemForm, CreateEventListForm } from "./event.forms"
 
@@ -22,9 +23,7 @@ const Page: React.FC<PageProps> = async ({params}) => {
                     <AddEventItemForm listId={list.id}/>
                     <div>
                         {list.items.map((item, index) => (
-                            <p key={index}>
-                                {item.title}
-                            </p>
+                            <ListItemCard key={index} item={item}/>
                         ))}
                     </div>
                 </div>
