@@ -2,7 +2,7 @@
 
 import { useTransition } from "react"
 import { ListItem } from "../event.data"
-import { updateHandledByAction } from "../event.actions"
+import { deleteListItemAction, updateHandledByAction } from "../event.actions"
 import { cn } from "@/lib/cn"
 import { UserAvatar } from "@/components/user-avatar"
 
@@ -12,7 +12,8 @@ type ListItemCardProps = {
 }
 
 export const ListItemCard: React.FC<ListItemCardProps> = ({ item, sessionId }) => {
-    const [, startTransition] = useTransition()
+    const [, startUpdateHandledByTransition] = useTransition()
+    const [, startDeleteItemTransition] = useTransition()
     const handledBy = item.handled_by?.id ? item.handled_by.id : null
     const isDisabled = item.handled_by !== null && item.handled_by.id !== sessionId
 
@@ -24,14 +25,19 @@ export const ListItemCard: React.FC<ListItemCardProps> = ({ item, sessionId }) =
                     handledBy && "line-through",
                     !isDisabled && "cursor-pointer"
                 )}
-                onClick={() => !isDisabled && startTransition(() => updateHandledByAction(item.id, handledBy))}
+                onClick={() => !isDisabled && startUpdateHandledByTransition(() => updateHandledByAction(item.id, handledBy))}
             >
                 {item.title}
             </p>
             {handledBy &&
                 <UserAvatar className="h-6 w-6 rounded-full" height={24} width={24} avatar={item.handled_by?.avatar}/>
             }
-            <p className="bg-red-200">x</p>
+            <p
+                className="bg-red-200"
+                onClick={() => startDeleteItemTransition(() => deleteListItemAction(item.id))}
+            >
+                x
+            </p>
         </div>
     )
 }

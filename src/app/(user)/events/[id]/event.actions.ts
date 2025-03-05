@@ -67,3 +67,13 @@ export const updateHandledByAction = async (listItemId: string, handledBy: strin
     await query('UPDATE event_list_item eli SET handled_by = $1 WHERE eli.id = $2', [session.id, listItemId])
     revalidatePath('')
 }
+
+export const deleteListItemAction = async (itemId: string) => {
+    //Shield
+    await getSession()
+    //end shield
+
+    await query('DELETE FROM event_list_item eli WHERE eli.id = $1', [itemId])
+
+    revalidatePath('')
+}
