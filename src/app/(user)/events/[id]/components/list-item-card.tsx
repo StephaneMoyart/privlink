@@ -19,26 +19,32 @@ export const ListItemCard: React.FC<ListItemCardProps> = ({ item, sessionId }) =
     const isDisabled = item.handled_by !== null && item.handled_by.id !== sessionId
 
     return (
-        <div className="flex gap-2">
-            <p
-                className={cn(
-                    "w-fit",
-                    handledBy && "line-through",
-                    !isDisabled && "cursor-pointer"
+        <div className="flex justify-between gap-2">
+            <div
+                className={cn("flex gap-2 py-1 px-2 rounded-full",
+                    !handledBy && "hover:bg-stone-100",
+                    handledBy && "bg-green-100"
                 )}
-                onClick={() => !isDisabled && startUpdateHandledByTransition(() => updateHandledByAction(item.id, handledBy))}
             >
-                {item.title}
-            </p>
-            {handledBy &&
-                <UserAvatar className="h-6 w-6 rounded-full" height={24} width={24} avatar={item.handled_by?.avatar}/>
-            }
-            <p
-                className="bg-red-200"
+                <p
+                    className={cn(
+                        "w-fit",
+                        !isDisabled && "cursor-pointer"
+                    )}
+                    onClick={() => !isDisabled && startUpdateHandledByTransition(() => updateHandledByAction(item.id, handledBy))}
+                >
+                    {item.title}
+                </p>
+                {handledBy &&
+                    <UserAvatar className="h-6 w-6 rounded-full" height={24} width={24} avatar={item.handled_by?.avatar}/>
+                }
+            </div>
+            <button
+                className="flex justify-center items-center bg-red-100 p-1 h-full w-8 cursor-pointer rounded-full hover:bg-red-200"
                 onClick={() => startDeleteItemTransition(() => deleteListItemAction(item.id))}
             >
                 x
-            </p>
+            </button>
         </div>
     )
 }

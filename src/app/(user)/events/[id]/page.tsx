@@ -24,7 +24,6 @@ const Page: React.FC<PageProps> = async ({params}) => {
     const { id, title, description, start_date, end_date, is_full_day, creator, participants, invited_users } = event
     const date = handleEventDateDisplay(start_date, end_date, is_full_day)
 
-
     return (
         <div className="flex flex-col gap-2">
             <h1 className="font-semibold">{title}</h1>

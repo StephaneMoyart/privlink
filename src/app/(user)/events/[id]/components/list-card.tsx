@@ -28,7 +28,7 @@ export const ListCard: React.FC<ListCardProps> = ({ list, sessionId }) => {
                 </div>
             </div>
             {list.items.length > 0 &&
-                <div className="p-2">
+                <div className="flex flex-col gap-1 p-2">
                     {list.items.map((item, index) => (
                         <ListItemCard key={index} item={item} sessionId={sessionId}/>
                     ))}
