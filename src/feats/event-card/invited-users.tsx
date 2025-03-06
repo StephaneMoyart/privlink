@@ -13,14 +13,14 @@ export const InvitedUsers: React.FC<InvitedUsersProps> = ({ invitedUsers, sessio
                 <div className="flex items-center gap-2">
                     <p>En attente :</p>
                     <div className="flex -space-x-1">
-                        {invitedUsers.map(user => (
-                            <UserAvatar key={user.id} className="w-6 h-6 rounded-full" avatar={user.avatar} height={24} width={24}/>
+                        {invitedUsers.map(({id, avatar}) => (
+                            <UserAvatar key={id} className="w-6 h-6 rounded-full" avatar={avatar} height={24} width={24}/>
                         ))}
                     </div>
                     <div className="truncate">
-                        {invitedUsers.map((user, index) => (
-                            <span key={user.id}>
-                                {user.id === sessionId ? "Moi" : user.firstname}
+                        {invitedUsers.map(({id, firstname}, index) => (
+                            <span key={id}>
+                                {id === sessionId ? "Moi" : firstname}
                                 {index < invitedUsers.length - 1 && ", "}
                             </span>
                         ))}

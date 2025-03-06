@@ -6,17 +6,18 @@ type CreatorProps = Pick<EventT, 'creator'> & {
 }
 
 export const Creator: React.FC<CreatorProps> = ({ creator, sessionId }) => {
-    const isCreator = sessionId === creator.id
+    const { id, avatar, firstname, lastname } = creator
+    const isCreator = sessionId === id
 
     return (
         <div className="flex items-center gap-2">
             <p>Créé par :</p>
-            <UserAvatar className="w-6 h-6 rounded-full" avatar={creator.avatar} height={24} width={24}/>
+            <UserAvatar className="w-6 h-6 rounded-full" avatar={avatar} height={24} width={24}/>
             {isCreator
                 ?
                 <p>Moi</p>
                 :
-                <p>{creator.firstname} {creator.lastname}</p>
+                <p>{firstname} {lastname}</p>
             }
         </div>
     )

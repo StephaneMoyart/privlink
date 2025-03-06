@@ -13,14 +13,14 @@ export const Participants: React.FC<ParticipantsProps> = ({participants, session
                 <div className="flex items-center gap-2">
                     <p>Participants :</p>
                     <div className="flex -space-x-1">
-                        {participants.map(participant => (
-                            <UserAvatar key={participant.id} className="w-6 h-6 rounded-full" avatar={participant.avatar} height={24} width={24}/>
+                        {participants.map(({id, avatar}) => (
+                            <UserAvatar key={id} className="w-6 h-6 rounded-full" avatar={avatar} height={24} width={24}/>
                         ))}
                     </div>
                     <div className="truncate">
-                        {participants.map((participant, index) => (
+                        {participants.map(({id, firstname}, index) => (
                             <span key={index}>
-                                {(participant.id === sessionId) ? "Moi" : participant.firstname}
+                                {(id === sessionId) ? "Moi" : firstname}
                                 {index < participants.length - 1 && ", "}
                             </span>
                         ))}
