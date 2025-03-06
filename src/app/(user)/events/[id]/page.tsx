@@ -2,6 +2,7 @@ import { getSession } from "@/auth/session"
 import { getParticipativeListsWithItems } from "./event.data"
 import { CreateEventListForm } from "./event.forms"
 import { ListCard } from "./components/list-card"
+import { getEvent } from "@/data/get-event"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -10,6 +11,9 @@ type PageProps = {
 const Page: React.FC<PageProps> = async ({params}) => {
     const {id} = await params
     const session = await getSession()
+
+    const event = await getEvent(id)
+    console.log(event);
 
     const participativeLists = await getParticipativeListsWithItems(id)
 
