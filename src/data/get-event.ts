@@ -1,12 +1,13 @@
 import { getSession } from "@/auth/session"
 import { query } from "@/db/db"
+import { EventT } from "./get-events"
 
 export const getEvent = async (eventId: string) => {
     // shield
     await getSession()
     // end shield
 
-    return await query(`
+    const event = await query<EventT>(`
         SELECT
             e.*,
             json_build_object(
@@ -53,4 +54,6 @@ export const getEvent = async (eventId: string) => {
         WHERE e.id = $1
         GROUP BY e.id, cre.id, cre.firstname, cre.lastname, cre.avatar
     `, [eventId])
+
+    return event[0]
 }
