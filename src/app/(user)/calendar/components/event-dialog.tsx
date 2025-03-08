@@ -1,4 +1,4 @@
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/dialog"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/dialog"
 import { EventT } from "@/data/get-events"
 import { EventCard } from "@/feats/event-card/event-card"
 import { Ticket } from "lucide-react"
@@ -18,9 +18,10 @@ export const EventDialog: React.FC<EventDialogProps> = ({ event }) => {
                 {event.title}
             </DialogTrigger>
             <DialogContent>
-                <DialogTitle>
-                    Details de l&apos;évenement
-                </DialogTitle>
+                <DialogClose/>
+                <h2>
+                    details de l&apos;evenement
+                </h2>
                 <EventCard readOnly event={event} sessionId={id}/>
             </DialogContent>
         </Dialog>

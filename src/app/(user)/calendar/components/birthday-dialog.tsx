@@ -1,5 +1,5 @@
 import { Button } from "@/components/button"
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/dialog"
+import { Dialog, DialogClose, DialogContent, DialogTrigger } from "@/components/dialog"
 import { UserAvatar } from "@/components/user-avatar"
 import { UserBaseWithBirthday } from "@/data/get-contacts-birthdays"
 import { Cake } from "lucide-react"
@@ -21,7 +21,8 @@ export const BirthdayDialog: React.FC<BirthdayDialogProps> = ({ contact, current
                 {firstname} {lastname}
             </DialogTrigger>
             <DialogContent>
-                <DialogTitle className="flex items-center gap-2">
+                <DialogClose/>
+                <h2 className="flex items-center gap-2">
                     <p>Anniversaire de {firstname} {lastname}</p>
                     <UserAvatar
                         className="h-10 w-10 rounded-full"
@@ -29,7 +30,7 @@ export const BirthdayDialog: React.FC<BirthdayDialogProps> = ({ contact, current
                         height={40}
                         width={40}
                     />
-                </DialogTitle>
+                </h2>
                 <div className="flex flex-col gap-4">
                     <div className="flex gap-2">
                         <Cake/>

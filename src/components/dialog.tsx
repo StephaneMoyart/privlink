@@ -1,46 +1,93 @@
-import { cn } from "@/lib/cn";
-import { X } from "lucide-react";
-import { Dialog as DialogPrimitive } from "radix-ui";
+'use client'
 
-const { Root, Trigger, Portal, Overlay, Content, Title, Description, Close } = DialogPrimitive
+import { cn } from "@/lib/cn"
+import { X } from "lucide-react"
+import { createContext, use, useRef } from "react"
 
-export const Dialog = Root
-
-export const DialogContent: React.FC<React.ComponentProps<typeof DialogPrimitive.Content>> = ({ children }) => {
-	return (
-		<Portal>
-			<Overlay className="fixed inset-0 backdrop-blur-xs"/>
-			<Content className="fixed top-1/2 left-1/2 -translate-1/2 p-8 shadow-lg overflow-auto bg-white rounded-lg w-fit max-w-[90%]">
-				<div className="absolute top-0 left-0 h-1 bg-stone-950 w-full"/>
-				<Close className="p-2 absolute top-3 right-2 rounded text-stone-950 hover:bg-stone-100">
-					<X size={20}/>
-				</Close>
-				{children}
-			</Content>
-		</Portal>
-	)
+// Types
+type DialogContext = {
+    closeDialog: () => void
+    openDialog: () => void
+    dialogRef: React.RefObject<HTMLDialogElement | null>
 }
 
-export const DialogTitle: React.FC<React.ComponentProps<typeof DialogPrimitive.Title>> = ({ children, className }) => {
-	return(
-		<Title className={cn("text-xl py-4", className)}>
-			{ children }
-		</Title>
-	)
+type DialogProps = {
+    children: React.ReactNode
 }
 
-export const DialogTrigger: React.FC<React.ComponentProps<typeof DialogPrimitive.Trigger>> = ({ children, className }) => {
-	return (
-		<Trigger className={className}>
-			{ children }
-		</Trigger>
-	)
+type DialogContentProps = {
+    children: React.ReactNode
 }
 
-export const DialogDescription: React.FC<React.ComponentProps<typeof DialogPrimitive.Description>> = ({ children }) => {
-	return (
-		<Description>
-			{ children }
-		</Description>
-	)
+type DialogTriggerProps = React.ButtonHTMLAttributes<HTMLButtonElement>
+
+type DialogCloseProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+    iconSize?: number
+}
+
+// Creating context, checking it and rendering it through a hook
+const DialogContext = createContext<DialogContext | null>(null)
+
+const useDialogContext = () => {
+    const context = use(DialogContext)
+    if (!context) throw new Error("useDialogContext must be used within a DialogContext provider")
+    return context
+}
+
+// Components
+export const Dialog: React.FC<DialogProps> = ({ children }) => {
+    const dialogRef = useRef<HTMLDialogElement | null>(null)
+
+    return (
+        <DialogContext
+            value={{
+                closeDialog: () => dialogRef.current?.close(),
+                openDialog: () => dialogRef.current?.showModal(),
+                dialogRef
+            }}
+        >
+            {children}
+        </DialogContext>
+    )
+}
+
+// Components
+export const DialogContent: React.FC<DialogContentProps> = ({children}) => {
+    const { dialogRef } = useDialogContext()
+    const handleOutsideClick = (e: React.MouseEvent<HTMLDialogElement>) => e.target === dialogRef.current && dialogRef.current?.close()
+
+    return (
+        <dialog
+            className="m-auto p-6 pt-12 rounded shadow-lg backdrop:bg-black/25"
+            ref={dialogRef}
+            onClick={handleOutsideClick}
+        >
+            <div className="w-full h-full">
+                {children}
+            </div>
+        </dialog>
+    )
+}
+
+export const DialogClose: React.FC<DialogCloseProps> = ({ className, iconSize }) => {
+    const { closeDialog } = useDialogContext()
+
+    return (
+        <button
+            className={cn("absolute top-3 right-3 p-1 rounded hover:bg-stone-100", className)}
+            onClick={closeDialog}
+        >
+            <X size={iconSize}/>
+        </button>
+    )
+}
+
+export const DialogTrigger: React.FC<DialogTriggerProps> = ({children, className}) => {
+    const { openDialog } = useDialogContext()
+
+    return (
+        <button className={cn("", className)} onClick={openDialog}>
+            {children}
+        </button>
+    )
 }
