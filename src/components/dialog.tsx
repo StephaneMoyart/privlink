@@ -58,11 +58,11 @@ export const DialogContent: React.FC<DialogContentProps> = ({children}) => {
 
     return (
         <dialog
-            className="m-auto p-6 pt-12 rounded shadow-lg backdrop:bg-black/25"
+            className="m-auto shadow-lg backdrop:bg-black/25"
             ref={dialogRef}
             onClick={handleOutsideClick}
         >
-            <div className="w-full h-full">
+            <div className="w-full h-full p-6 pt-12">
                 {children}
             </div>
         </dialog>
