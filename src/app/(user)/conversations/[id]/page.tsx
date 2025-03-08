@@ -10,6 +10,7 @@ import { redirect } from "next/navigation"
 import { LastSeenActualizer } from "./components/last-seen-actualizer"
 import { SSEListener } from "@/feats/sse/sse-listener"
 import { getSelectedConversation } from "./conversation.data"
+import { EditConversationNameDialog } from "./components/edit-conversation-name-dialog"
 
 type PageProps = {
     params: Promise<{id: string}>
@@ -45,7 +46,11 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                     { title ? title : `${conversationWith[0].firstname} ${conversationWith[0].lastname}` }
                 </p>
 
-                {multi ? <QuitConversation conversationId={id}/> : <span></span> }
+                <div className="flex gap-2">
+                    <EditConversationNameDialog conversationId={id}/>
+                    {multi ? <QuitConversation conversationId={id}/> : <span></span> }
+                </div>
+
             </OptionsBar>
             <div className="flex flex-col h-full overflow-y-scroll gap-4">
                 {messages.length > 0

@@ -1,9 +1,10 @@
 'use client'
 
 import { useActionState, useEffect } from "react"
-import { editMessageAction, newMessageAction } from "./conversation.actions"
+import { editConversationNameAction, editMessageAction, newMessageAction } from "./conversation.actions"
 import { SendHorizontal } from "lucide-react"
 import { Button } from "@/components/button"
+import { InputWLabel } from "@/components/input-w-label"
 
 type NewMessageFormProps = {
     conversationId: string
@@ -13,6 +14,10 @@ type EditMessageFormProps = {
     content: string
     messageId: string
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+type EditConversationNameProps = {
+    conversationId: string
 }
 
 export const NewMessageForm: React.FC<NewMessageFormProps> = ({ conversationId }) => {
@@ -55,5 +60,18 @@ export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, messa
                     <SendHorizontal size={20}/>
                 </Button>
             </form>
+    )
+}
+
+export const EditConversationNameForm: React.FC<EditConversationNameProps> = ({ conversationId }) => {
+    const [, action, pending] = useActionState(editConversationNameAction.bind(null, conversationId), null)
+
+    return (
+        <form action={action}>
+            <InputWLabel name="newTitle" label="nouveau titre"/>
+            <Button pending={pending} disabled={pending}>
+                Envoyer le nouveau titre
+            </Button>
+        </form>
     )
 }

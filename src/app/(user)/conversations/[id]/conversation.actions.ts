@@ -11,6 +11,10 @@ const messageSchema = z.object({
     content: z.string().min(1)
 })
 
+const newTitleSchema = z.object({
+    newTitle: z.string().min(1)
+})
+
 export const newMessageAction = async (conversationId: string, prev:unknown, formData: FormData) => {
     // shield
     const session = await getSession()
@@ -109,4 +113,25 @@ export const quitConversationAction = async (conversationId: string) => {
     `, [conversationId, session.id])
 
     redirect('/conversations')
+}
+
+export const editConversationNameAction = async (conversationId: string, prevState: unknown, formData: FormData) => {
+    //shield
+    await getSession()
+    //end shield
+
+    const result = newTitleSchema.safeParse({
+        newTitle: formData.get('newTitle')
+    })
+
+    if (!result.success) return { success: false}
+
+    const { newTitle } = result.data
+
+    await query(`
+        UPDATE conversation c
+        SET title = $1
+        WHERE c.id = $2
+        AND multi = true
+    `, [newTitle, conversationId])
 }
