@@ -6,6 +6,7 @@ import { SendHorizontal } from "lucide-react"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
 import { SelectedConversation } from "./conversation.data"
+import { useDialogContext } from "@/components/dialog"
 
 type NewMessageFormProps = {
     conversationId: string
@@ -65,7 +66,13 @@ export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, messa
 }
 
 export const EditConversationNameForm: React.FC<EditConversationNameFormProps> = ({ conversationId }) => {
-    const [, action, pending] = useActionState(editConversationNameAction.bind(null, conversationId), null)
+    const [state, action, pending] = useActionState(editConversationNameAction.bind(null, conversationId), null)
+
+    const { closeDialog } = useDialogContext()
+
+    useEffect(() => {
+        if (state?.success) closeDialog()
+    }, [state?.success, closeDialog])
 
     return (
         <form className="space-y-2" action={action}>

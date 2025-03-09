@@ -140,4 +140,7 @@ export const editConversationNameAction = async (conversationId: string, prevSta
             AND member_role = 'admin'
         )
     `, [newTitle, conversationId, id])
+
+    revalidatePath('')
+    return { success: true }
 }

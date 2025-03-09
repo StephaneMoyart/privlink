@@ -28,7 +28,7 @@ type DialogCloseProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 // Creating context, checking it and rendering it through a hook
 const DialogContext = createContext<DialogContext | null>(null)
 
-const useDialogContext = () => {
+export const useDialogContext = () => {
     const context = use(DialogContext)
     if (!context) throw new Error("useDialogContext must be used within a DialogContext provider")
     return context
