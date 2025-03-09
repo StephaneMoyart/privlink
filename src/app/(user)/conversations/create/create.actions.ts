@@ -22,7 +22,17 @@ export const createGroupConversationAction = async (members: string[], previousS
 
     const { title } = result.data
 
-    const allMembers = [...members, session.id]
+    const allMembers = [
+        {
+            id: session.id,
+            role: 'admin'
+        }, ...members.map(member => (
+            {
+                id: member,
+                role: 'member'
+            }
+        ))
+    ]
 
     const client = await pool.connect()
 
@@ -38,9 +48,9 @@ export const createGroupConversationAction = async (members: string[], previousS
         const conversationId = createdConversation.rows[0].id
 
         await Promise.all(allMembers.map(member => client.query(`
-            INSERT INTO conversation_member (conversation_id, member_id)
-            VALUES ($1, $2)
-        `, [conversationId, member])))
+            INSERT INTO conversation_member (conversation_id, member_id, member_role)
+            VALUES ($1, $2, $3)
+        `, [conversationId, member.id, member.role ])))
 
         await client.query('COMMIT')
 

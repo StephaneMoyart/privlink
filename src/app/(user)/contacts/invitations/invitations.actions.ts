@@ -41,10 +41,10 @@ export const acceptContactInvitationAction = async (invitedByUserId: string, inv
             RETURNING id
         `)
         await client.query(`
-            INSERT INTO conversation_member (conversation_id, member_id)
+            INSERT INTO conversation_member (conversation_id, member_id, member_role)
             VALUES
-                ($1, $2),
-                ($1, $3)
+                ($1, $2, 'member'),
+                ($1, $3, 'member')
         `, [createdConversation.rows[0].id, session.id, invitedByUserId])
         await client.query(`
             INSERT INTO conversation_last_seen (conversation_id, member_id)

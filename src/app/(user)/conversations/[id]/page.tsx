@@ -47,7 +47,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 </p>
 
                 <div className="flex gap-2">
-                    <EditConversationNameDialog conversationId={id}/>
+                    <EditConversationNameDialog conversationId={id} />
                     {multi ? <QuitConversation conversationId={id}/> : <span></span> }
                 </div>
 

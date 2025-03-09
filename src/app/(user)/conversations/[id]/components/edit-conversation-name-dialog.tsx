@@ -2,9 +2,10 @@ import { Button } from "@/components/button"
 import { Dialog, DialogContent, DialogTrigger } from "@/components/dialog"
 import { Edit } from "lucide-react"
 import { EditConversationNameForm } from "../conversation.forms"
+import { SelectedConversation } from "../conversation.data"
 
 type EditConversationNameDialogProps = {
-    conversationId: string
+    conversationId: SelectedConversation['id']
 }
 
 export const EditConversationNameDialog: React.FC<EditConversationNameDialogProps> = ({ conversationId }) => {
@@ -16,7 +17,7 @@ export const EditConversationNameDialog: React.FC<EditConversationNameDialogProp
                 </DialogTrigger>
             </Button>
             <DialogContent>
-                <EditConversationNameForm conversationId={conversationId}/>
+                <EditConversationNameForm conversationId={conversationId} />
             </DialogContent>
         </Dialog>
     )

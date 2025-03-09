@@ -117,7 +117,7 @@ export const quitConversationAction = async (conversationId: string) => {
 
 export const editConversationNameAction = async (conversationId: string, prevState: unknown, formData: FormData) => {
     //shield
-    await getSession()
+    const { id } = await getSession()
     //end shield
 
     const result = newTitleSchema.safeParse({
@@ -133,5 +133,11 @@ export const editConversationNameAction = async (conversationId: string, prevSta
         SET title = $1
         WHERE c.id = $2
         AND multi = true
-    `, [newTitle, conversationId])
+        AND EXISTS (
+            SELECT 1 FROM conversation_member
+            WHERE conversation_id = c.id
+            AND member_id = $3
+            AND member_role = 'admin'
+        )
+    `, [newTitle, conversationId, id])
 }

@@ -5,6 +5,7 @@ import { editConversationNameAction, editMessageAction, newMessageAction } from 
 import { SendHorizontal } from "lucide-react"
 import { Button } from "@/components/button"
 import { InputWLabel } from "@/components/input-w-label"
+import { SelectedConversation } from "./conversation.data"
 
 type NewMessageFormProps = {
     conversationId: string
@@ -16,8 +17,8 @@ type EditMessageFormProps = {
     setIsEditing: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-type EditConversationNameProps = {
-    conversationId: string
+type EditConversationNameFormProps = {
+    conversationId: SelectedConversation['id']
 }
 
 export const NewMessageForm: React.FC<NewMessageFormProps> = ({ conversationId }) => {
@@ -63,11 +64,11 @@ export const EditMessageForm: React.FC<EditMessageFormProps> = ({ content, messa
     )
 }
 
-export const EditConversationNameForm: React.FC<EditConversationNameProps> = ({ conversationId }) => {
+export const EditConversationNameForm: React.FC<EditConversationNameFormProps> = ({ conversationId }) => {
     const [, action, pending] = useActionState(editConversationNameAction.bind(null, conversationId), null)
 
     return (
-        <form action={action}>
+        <form className="space-y-2" action={action}>
             <InputWLabel name="newTitle" label="nouveau titre"/>
             <Button pending={pending} disabled={pending}>
                 Envoyer le nouveau titre
