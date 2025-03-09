@@ -5,10 +5,10 @@ import { MessageSettings } from "./settings-buttons"
 import { useState } from "react"
 import { EditMessageForm } from "../conversation.forms"
 import { formatMessageDateAndTime } from "@/lib/format-message-date"
-import { SelectConversationMessage } from "../conversation.data"
+import { SelectedConversationMessage } from "../conversation.data"
 
 type MessageCardProps = {
-    message: SelectConversationMessage
+    message: SelectedConversationMessage
     sessionId: string
 }
 

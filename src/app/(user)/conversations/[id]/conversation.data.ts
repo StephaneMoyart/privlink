@@ -15,7 +15,7 @@ export type SelectedConversationMessage = {
     }
 }
 
-export type SelectedConversationMember = {
+type SelectedConversationMember = {
     id: string
     firstname: string
     lastname: string
