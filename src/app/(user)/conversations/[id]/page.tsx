@@ -21,6 +21,9 @@ const Page: React.FC<PageProps> = async ({ params }) => {
 
     const conversation = await getSelectedConversation(pId)
 
+    console.log(conversation);
+
+
     if (!conversation) return null
 
     const { messages, title, members, multi, id } = conversation[0]
@@ -32,6 +35,8 @@ const Page: React.FC<PageProps> = async ({ params }) => {
     // //shield
 
     const conversationWith = members.filter(member => member.id !== session.id)
+
+    const isAdmin = members.some(member => member.id === session.id && member.role === 'admin')
 
     return (
         <div className="h-full flex flex-col  gap-4 justify-between">
@@ -47,7 +52,7 @@ const Page: React.FC<PageProps> = async ({ params }) => {
                 </p>
 
                 <div className="flex gap-2">
-                    <EditConversationNameDialog conversationId={id} />
+                    {isAdmin && <EditConversationNameDialog conversationId={id} />}
                     {multi ? <QuitConversation conversationId={id}/> : <span></span> }
                 </div>
 

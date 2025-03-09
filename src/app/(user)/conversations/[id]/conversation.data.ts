@@ -3,7 +3,7 @@ import 'server-only'
 import { getSession } from "@/auth/session"
 import { query } from "@/db/db"
 
-export type SelectConversationMessage = {
+export type SelectedConversationMessage = {
     id: string
     content: string
     created_at: string
@@ -19,6 +19,7 @@ export type SelectedConversationMember = {
     id: string
     firstname: string
     lastname: string
+    role: 'admin' | 'member'
 }
 
 
@@ -27,7 +28,7 @@ export type SelectedConversation = {
     title: string
     multi: boolean
     members: SelectedConversationMember[]
-    messages: SelectConversationMessage[]
+    messages: SelectedConversationMessage[]
 }
 
 export const getSelectedConversation = async (conversationId: string) => {
@@ -43,7 +44,8 @@ export const getSelectedConversation = async (conversationId: string) => {
                 SELECT json_build_object(
                     'id', cm.member_id,
                     'firstname', p.firstname,
-                    'lastname', p.lastname
+                    'lastname', p.lastname,
+                    'role', cm.member_role
                 )
                 FROM conversation_member cm
                 JOIN person p
