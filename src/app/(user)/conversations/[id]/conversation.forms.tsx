@@ -9,7 +9,7 @@ import { SelectedConversation } from "./conversation.data"
 import { useDialogContext } from "@/components/dialog"
 
 type NewMessageFormProps = {
-    conversationId: string
+    conversationId: SelectedConversation['id']
 }
 
 type EditMessageFormProps = {
